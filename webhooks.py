@@ -17,8 +17,8 @@
 
 from sys import stderr, hexversion
 import logging
-#logging.basicConfig(stream=stderr)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(stream=stderr)
+#logging.basicConfig(level=logging.INFO)
 
 import hmac
 from hashlib import sha1
