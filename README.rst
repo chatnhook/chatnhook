@@ -60,8 +60,11 @@ You can configure what the application does by changing ``config.json``:
 
 Optional: Setup init script
 ===========================
-`sudo ./daemon.sh install`
-Congratulations! Everything is ready for your demos to run on demand!
+Run
+::
+    sudo ./daemon.sh install
+
+Congratulations! Everything is ready!
 
 
 Adding Hooks
