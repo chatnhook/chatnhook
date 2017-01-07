@@ -33,6 +33,7 @@ You can configure what the application does by changing ``config.json``:
         "return_scripts_info": true
         "hooks_path": "/.../hooks/",
         "telegram_token": "241059146:AAHcsVPudn1o_B8-RMSa1miNHUGcxQySPVQ",
+        "telegram_channel": "@share_itt",
         "server_url": "https://webhook.passman.cc",
         "notify_branches": ["master"]
     }
@@ -53,6 +54,7 @@ You can configure what the application does by changing ``config.json``:
 :hooks_path: Configures a path to import the hooks. If not set, it'll import
  the hooks from the default location (/.../python-github-webhooks/hooks)
 :telegram_token: Your bot's token. You can request a telegram API token from @BotFather
+:telegram_channel: The channel where to send the messages to
 :server_url: The url of the server. This is used for generating preview links
 :notify_branches: Pushes to those branches are send to telegram
 
