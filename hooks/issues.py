@@ -26,7 +26,6 @@ params = {
     'repository_name': payload['repository']['full_name'],
     'repository_link': payload['repository']['html_url'],
 }
-pprint(params)
 message = False
 if payload['action'] == 'opened':
     message = "[❓]({issue_link}) [{username}]({user_link}) opened new issue [#{issue_number} {issue_title}]({issue_link}) in [{repository_name}]({repository_link})"
