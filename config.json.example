@@ -1,0 +1,8 @@
+{
+    "github_ips_only": false,
+    "enforce_secret": "",
+    "return_scripts_info": true,
+     "telegram_token": "241059146:AAHcsVPudn1o_B8-RMSa1miNHUGcxQySPVQ",
+    "server_url": "https://webhook.passman.cc",
+    "notify_branches": ["master"]
+}

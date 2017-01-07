@@ -1,0 +1,4 @@
+Flask
+ipaddress
+requests
+python-telegram-bot
