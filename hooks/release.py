@@ -31,7 +31,7 @@ message = False
 if payload['action'] == 'published':
     message = "🚀 [{username}]({user_link}) added tag [{tag}]({tag_link}) to [{repository_name}]({repository_link})"
     message = message.format(**params)
-pprint(payload['action'])
+
 
 if (message):
     bot.send_message(message)
