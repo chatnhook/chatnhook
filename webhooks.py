@@ -17,8 +17,8 @@
 
 from sys import stderr, hexversion
 import logging
-logging.basicConfig(stream=stderr)
-# logging.basicConfig(level=logging.INFO)
+#logging.basicConfig(stream=stderr)
+logging.basicConfig(level=logging.INFO)
 
 import hmac
 from hashlib import sha1
@@ -109,8 +109,8 @@ def index():
 
     # Implement ping
     event = request.headers.get('X-GitHub-Event', 'ping')
-    if event == 'ping':
-        return dumps({'msg': 'pong'})
+    #if event == 'ping':
+        #return dumps({'msg': 'pong'})
 
     # Gather data
     try:
