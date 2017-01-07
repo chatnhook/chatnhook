@@ -58,6 +58,12 @@ You can configure what the application does by changing ``config.json``:
 :server_url: The url of the server. This is used for generating preview links
 :notify_branches: Pushes to those branches are send to telegram
 
+Optional: Setup init script
+===========================
+`sudo ./daemon.sh install`
+Congratulations! Everything is ready for your demos to run on demand!
+
+
 Adding Hooks
 ============
 
