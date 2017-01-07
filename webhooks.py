@@ -17,8 +17,8 @@
 
 from sys import stderr, hexversion
 import logging
-
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(stream=stderr)
+# logging.basicConfig(level=logging.INFO)
 
 import hmac
 from hashlib import sha1
@@ -51,9 +51,6 @@ def gh_api(url):
     if 'https://api.github.com/' not in url:
         url = 'https://api.github.com/' + url
 
-    pprint('=========== GH API Request ===========')
-    pprint(url)
-    pprint('======================================')
     response = urllib.urlopen(url)
     data = loads(response.read())
     return data
@@ -205,6 +202,7 @@ def index():
 
     # Remove temporal file
     remove(tmpfile)
+    remove(tmpconfigfile)
 
     info = config.get('return_scripts_info', False)
     if not info:
@@ -218,8 +216,6 @@ def index():
 @application.route('/redirect/<event>/<path:path>', methods=['GET'])
 def get_link_info(event, path):
     result = gh_api(path)
-
-    # pprint(result)
 
     meta_link = config['server_url'] + '/redirect/' + event + '/' + path
 
