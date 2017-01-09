@@ -20,7 +20,7 @@ params = {
     'username': payload['sender']['login'],
     'user_link': payload['sender']['html_url'],
     'issue_number': str(payload['issue']['number']),
-    'issue_link': config['server_url'] + '/redirect/' + sys.argv[2] + '/' + issue_link,
+    'issue_link': config['server_url'] + '/redirect/' + sys.argv[2] + '/' + issue_link + '?randomValue=3445',
     'issue_title': payload['issue']['title'],
     'body': payload['issue']['body'],
     'repository_name': payload['repository']['full_name'],

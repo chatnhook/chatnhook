@@ -31,7 +31,6 @@ message = False
 
 if payload['action'] == 'opened':
     message = "[⛓]({pull_request_link}) [{username}]({user_link}) opened new pull request [#{pull_request_number} {pull_request_title}]({pull_request_link}) in [{repository_name}]({repository_link})"
-    message += '```{body}```'
 
 if payload['action'] == 'closed' and payload['pull_request']['merged'] == True:
     message = "[⛓]({pull_request_link}) [{username}]({user_link}) merged pull request [#{pull_request_number} {pull_request_title}]({pull_request_link})"

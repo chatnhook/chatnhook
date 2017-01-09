@@ -17,8 +17,9 @@
 
 from sys import stderr, hexversion
 import logging
+
 logging.basicConfig(stream=stderr)
-#logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
 
 import hmac
 from hashlib import sha1
@@ -109,8 +110,8 @@ def index():
 
     # Implement ping
     event = request.headers.get('X-GitHub-Event', 'ping')
-    #if event == 'ping':
-        #return dumps({'msg': 'pong'})
+    # if event == 'ping':
+    # return dumps({'msg': 'pong'})
 
     # Gather data
     try:
@@ -243,15 +244,27 @@ def get_link_info(event, path):
         poster_image = result['user']['avatar_url']
         redirect = result['html_url']
 
-    if event == 'issues' or event == 'pull_request':
+    if event == 'pull_request_review_comment':
         s = result['url'].split('/')
         repo = s[4] + '/' + s[5]
-        meta_title = '{issue_title} · Issue #{issue_number} · {repo}'.format(
-            issue_title=result['title'], issue_number=str(result['number']), repo=repo)
+        meta_title = '{path}:{line} · {repo}'.format(path=result['path'], line=str(result['position']), repo=repo)
+        meta_summary = result['body'].split("\n")[0][0:100] + '...'
+        poster_image = result['user']['avatar_url']
+        redirect = result['html_url']
+
+    if event == 'issues' or event == 'pull_request':
+        type = 'Issue' if event == 'issues' else 'PR'
+        s = result['url'].split('/')
+        repo = s[4] + '/' + s[5]
+        meta_title = '{issue_title} · {type} #{issue_number} · {repo}'.format(
+            issue_title=result['title'], issue_number=str(result['number']), repo=repo, type=type)
 
         meta_summary = result['body'].split("\n")[0][0:100] + '...'
         poster_image = result['user']['avatar_url']
         redirect = result['html_url']
+        if result['state'] == 'closed':
+            render_template('redirect.html', meta_title=meta_title, meta_summary=meta_summary, meta_link=meta_link,
+                            poster_image=poster_image, redirect=redirect), 404
 
     if event == 'push' or event == 'release' or event == 'watch':
         redirect = 'https://github.com/' + path
