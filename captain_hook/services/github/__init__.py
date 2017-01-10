@@ -1,1 +1,1 @@
-from .github_service import GithubService
+from .github import GithubService
