@@ -1,7 +1,7 @@
-class IssueCommentProcessor:
+from ...base.processors.base import BaseProcessor
 
-    def __init__(self, event):
-        self.event = event
+
+class IssueCommentProcessor(BaseProcessor):
 
     def process(self):
         return self.event
