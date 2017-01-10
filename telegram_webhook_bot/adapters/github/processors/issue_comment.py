@@ -1,4 +1,4 @@
-from ...base.processors.base import BaseProcessor
+from ...base.processors import BaseProcessor
 
 
 class IssueCommentProcessor(BaseProcessor):
