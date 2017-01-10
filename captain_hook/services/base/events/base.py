@@ -1,4 +1,4 @@
-class BaseProcessor:
+class BaseEvent:
 
     def __init__(self, request, body, event):
         self.event = event

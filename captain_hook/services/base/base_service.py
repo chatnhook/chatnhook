@@ -3,7 +3,7 @@ import os
 from utils import strings
 
 
-class BaseAdapter:
+class BaseService:
 
     def __init__(self, request, body):
         self.request = request
@@ -14,7 +14,7 @@ class BaseAdapter:
 
     def get_processor_for_event(self, event):
         event_module = self._import_event_module(event)
-        event_processor_class_name = "{}Processor".format(
+        event_processor_class_name = "{}Event".format(
             strings.toCamelCase(event),
         )
         return getattr(event_module, event_processor_class_name)(
@@ -24,9 +24,9 @@ class BaseAdapter:
         )
 
     def _import_event_module(self, event):
-        package = "adapters.{}.processors".format(
+        package = "services.{}.events".format(
             strings.toSnakeCase(
-                self.__class__.__name__.split('Adapter')[0]
+                self.__class__.__name__.split('Service')[0]
             )
         )
         importlib.import_module(package)

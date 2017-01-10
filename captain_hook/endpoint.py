@@ -1,12 +1,12 @@
 import hug
 import utils
-from adapters.github import GithubAdapter
+from services.github import GithubService
 
-SERVICE_ADAPTERS = {
-    "github": GithubAdapter
+SERVICES = {
+    "github": GithubService
 }
 
 @hug.get('/{service}')
 @hug.post('/{service}')
 def receive_webhook(request, body, service: hug.types.text):
-    return SERVICE_ADAPTERS[service](request, body).execute()
+    return SERVICES[service](request, body).execute()

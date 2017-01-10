@@ -1,7 +1,7 @@
-from ..base import BaseAdapter
+from ..base import BaseService
 
 
-class GithubAdapter(BaseAdapter):
+class GithubService(BaseService):
 
     @property
     def event(self):
