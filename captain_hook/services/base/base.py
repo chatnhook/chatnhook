@@ -16,7 +16,11 @@ class BaseService:
             comm.communicate(message)
 
     def _get_event_processor(self, event):
-        event_module = self._import_event_module(event)
+        try:
+            event_module = self._import_event_module(event)
+        except ImportError:
+            print("Doesn't know how to handle {}".format(event))
+            
         event_processor_class_name = "{}Event".format(
             strings.toCamelCase(event),
         )
