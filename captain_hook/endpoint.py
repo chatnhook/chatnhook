@@ -1,6 +1,7 @@
 import hug
 import utils
 from services.github import GithubService
+from comms.telegram.bot import TelegramComm
 
 SERVICES = {
     "github": GithubService
@@ -9,4 +10,9 @@ SERVICES = {
 @hug.get('/{service}')
 @hug.post('/{service}')
 def receive_webhook(request, body, service: hug.types.text):
-    return SERVICES[service](request, body).execute()
+    return SERVICES[service](request, body, setup_comms()).execute()
+
+def setup_comms():
+    telegram = TelegramComm()
+    telegram.setup()
+    return [telegram]

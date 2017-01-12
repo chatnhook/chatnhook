@@ -5,14 +5,17 @@ from utils import strings
 
 class BaseService:
 
-    def __init__(self, request, body):
+    def __init__(self, request, body, comms):
         self.request = request
         self.body = body
+        self.comms = comms
 
     def execute(self):
-        return self.get_processor_for_event(self.event).process()
+        message = self._get_event_processor(self.event).process()
+        for comm in self.comms:
+            comm.communicate(message)
 
-    def get_processor_for_event(self, event):
+    def _get_event_processor(self, event):
         event_module = self._import_event_module(event)
         event_processor_class_name = "{}Event".format(
             strings.toCamelCase(event),
