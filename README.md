@@ -63,7 +63,7 @@ from ...base.events import BaseEvent
 class BarkEvent(BaseEvent):
 
     def process(self):
-        return str(self.event)
+        return {'default': str(self.event)}
 
 ```
 
