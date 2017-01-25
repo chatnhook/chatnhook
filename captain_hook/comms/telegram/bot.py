@@ -8,6 +8,9 @@ class TelegramComm(BaseComm):
         self.bot = telegram.Bot(self.config["token"])
 
     def communicate(self, message):
+        if not message:
+            return None
+            
         self.bot.sendMessage(
             chat_id=self.config["channel"],
             text=message,

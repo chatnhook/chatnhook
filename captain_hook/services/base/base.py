@@ -11,16 +11,18 @@ class BaseService:
         self.comms = comms
 
     def execute(self):
-        message = self._get_event_processor(self.event).process()
+        message_dict = self._get_event_processor(self.event).process()
         for comm in self.comms:
-            comm.communicate(message)
+            comm_name = comm.__class__.__name__.split('Service')[0]
+            default_message = message_dict.get('default', None)
+            comm.communicate(message_dict.get(comm_name, default_message))
 
     def _get_event_processor(self, event):
         try:
             event_module = self._import_event_module(event)
         except ImportError:
             print("Doesn't know how to handle {}".format(event))
-    
+
         event_processor_class_name = "{}Event".format(
             strings.toCamelCase(event),
         )
