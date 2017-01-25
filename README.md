@@ -2,7 +2,8 @@
 # Captain Hook
 
 A web server to receive webhooks from many online services and forward the information
-to many different messaging platforms, like Telegram or Slack.
+to many different messaging platforms, like Telegram or Slack, using a different
+template for each.
 
 A **service** represents any web service that sends a webhook.
 
@@ -67,5 +68,25 @@ class BarkEvent(BaseEvent):
 ```
 
 6. Modify the `process` method as desired. In the event class you have access
-   to the variables `self.event`, `self.body` and `self.request`. Whatever you return
-   in the process function is gonna be publish through the **comms**.
+   to the variables `self.event`, `self.body` and `self.request`. You need to return
+   a dict with **comm** names as keys, like `telegram`, and the values are the messages
+   each **comm** will publish for that event. If you want the same message for all **comms**
+   that do not have a specific one, use the `default` key.
+
+7. Finally, in `endpoint.py` you import your service and add it to the service
+dictionary, like this:
+
+```python
+from services.foobar import FoobarService
+
+SERVICES = {
+    "foobar": FoobarService
+}
+```
+
+NOTE: service discovery is going to become automatic and there will be a settings
+file to enable them soon.
+
+## Adding your comms
+
+**Work in progress.**
