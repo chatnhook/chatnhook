@@ -22,6 +22,14 @@ A **comm** is then used to publish information from this hook in messaging servi
 
 `hug -f captain_hook/endpoint.py`
 
+## Currently supported services and events
+
+- Github (WIP)
+
+## Currently supported comms to publish event information
+
+- Telegram (WIP)
+
 ## Adding your own service
 
 To add your own service you need to follow a few simple steps. Let's say, for example,
