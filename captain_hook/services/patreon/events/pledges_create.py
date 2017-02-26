@@ -18,7 +18,7 @@ class PledgesCreateEvent(BaseEvent):
         campaign = self.getDataForTypeAndId('campaign', reward['relationships']['campaign']['data']['id'])
 
         pledge_amount = '${:,.2f}'.format(self.body['data']['attributes']['amount_cents'] / 100)
-        message = '{patron} just pledged {amount} / month, gaining the {reward} reward. ({creator} at {campaign})'.format(
+        message = '{patron} just pledged *{amount}* / month, gaining the *{reward}* reward. ({creator} at {campaign})'.format(
             patron=patron['attributes']['full_name'],
             amount=pledge_amount,
             creator=creator['attributes']['full_name'],
