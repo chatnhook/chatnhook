@@ -20,9 +20,14 @@ def receive_webhook(service):
     services = find_services(config)
     comms = find_and_load_comms(config)
 
+    try:
+        body = json.loads(request.data)
+    except ValueError:
+        body = request.form
+
     return services[service](
         request,
-        json.loads(request.data),
+        body,
         comms,
         config["services"][service]
     ).execute()

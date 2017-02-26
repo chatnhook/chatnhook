@@ -12,4 +12,4 @@ class PingEvent(BaseEvent):
 
         message = "Webhook works for: {repo}".format(**params)
 
-        return {"telegram": str(message)}
+        return {"default": str(message)}

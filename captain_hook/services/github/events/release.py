@@ -18,4 +18,4 @@ class ReleaseEvent(BaseEvent):
             message = "🚀 [{username}]({user_link}) added tag [{tag}]({tag_link}) to [{repository_name}]({repository_link})"
             message = message.format(**params)
 
-        return {"telegram": str(message)}
+        return {"default": str(message)}

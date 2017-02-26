@@ -25,4 +25,4 @@ class CommitCommentEvent(BaseEvent):
             # message += '```{body}```'
             message = message.format(**params)
 
-        return {"telegram": str(message)}
+        return {"default": str(message)}

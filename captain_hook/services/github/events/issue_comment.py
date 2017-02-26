@@ -28,4 +28,4 @@ class IssueCommentEvent(BaseEvent):
             message = "[🗨]({comment_link}) [{username}]({user_link}) edited the comment on {issue_type} [#{issue_number} {issue_title}]({comment_link})"
             # message += '```{body}```'
             message = message.format(**params)
-        return {"telegram": str(message)}
+        return {"default": str(message)}

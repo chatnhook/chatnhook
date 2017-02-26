@@ -39,4 +39,4 @@ class PushEvent(BaseEvent):
             }
             message += "· [{commit_hash}]({commit_link}): {commit_message} \n".format(**args)
 
-        return {"telegram": str(message)}
+        return {"default": str(message)}

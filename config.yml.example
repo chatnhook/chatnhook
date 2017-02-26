@@ -1,0 +1,21 @@
+comms:
+  telegram:
+    enabled: true
+    token: "your_token_here"
+    channel: "@my_channel"
+  slack:
+    enabled: true
+    hook_url: "slack_webhook_here"
+
+services:
+  github:
+    enabled: true
+    notify_branches:
+      - master
+  docker:
+    enabled: true
+  patreon:
+    enabled: true
+  slack:
+    enabled: true
+    token: "your_outgoing_hook_token"

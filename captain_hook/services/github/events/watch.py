@@ -19,4 +19,4 @@ class WatchEvent(BaseEvent):
             message = "❤ [{username}]({user_link}) starred [{repository_name}]({repository_link})"
             message = message.format(**params)
 
-        return {"telegram": str(message)}
+        return {"default": str(message)}

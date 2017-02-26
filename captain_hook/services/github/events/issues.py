@@ -25,4 +25,4 @@ class IssuesEvent(BaseEvent):
 
         message = message.format(**params)
 
-        return {"telegram": str(message)}
+        return {"default": str(message)}

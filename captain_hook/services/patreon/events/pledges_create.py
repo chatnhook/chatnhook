@@ -27,4 +27,4 @@ class PledgesCreateEvent(BaseEvent):
         )
         # message = False
 
-        return {"telegram": message}
+        return {"default": message}
