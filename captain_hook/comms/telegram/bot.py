@@ -11,9 +11,8 @@ class TelegramComm(BaseComm):
     def communicate(self, message):
         if not message:
             return None
-
         self.bot.sendMessage(
-            chat_id=self.config["channel"],
-            text=message,
+            self.config["channel"],
+            message,
             parse_mode=telegram.ParseMode.HTML
         )

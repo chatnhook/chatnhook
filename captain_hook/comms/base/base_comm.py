@@ -1,15 +1,13 @@
 from __future__ import absolute_import
 import yaml
-from os.path import dirname, abspath, join
+from os.path import join
 from utils import strings
 
 
 class BaseComm:
 
-    CONFIG_FOLDER = dirname(dirname(dirname(dirname(abspath(__file__)))))
-
-    def __init__(self):
-        self.config = self._load_config()
+    def __init__(self, config):
+        self.config = config
 
     def setup(self):
         raise NotImplementedError

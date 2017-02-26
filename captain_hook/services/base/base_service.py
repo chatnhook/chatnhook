@@ -1,22 +1,21 @@
 from __future__ import absolute_import
 import importlib
-import os
 from utils import strings
 
 
 class BaseService:
 
-    def __init__(self, request, body, comms):
+    def __init__(self, request, body, comms, config):
         self.request = request
         self.body = body
         self.comms = comms
+        self.config = config
 
     def execute(self):
         message_dict = self._get_event_processor(self.event).process()
-        for comm in self.comms:
-            comm_name = comm.__class__.__name__.split('Service')[0]
+        for name, comm in self.comms.items():
             default_message = message_dict.get('default', None)
-            comm.communicate(message_dict.get(comm_name, default_message))
+            comm.communicate(message_dict.get(name, default_message))
         return "ok"
 
     def _get_event_processor(self, event):

@@ -1,29 +1,33 @@
 from __future__ import absolute_import
+from os.path import abspath
+from os.path import dirname
 from flask import Flask, request
-import utils
-from services.github import GithubService
-from comms.telegram.bot import TelegramComm
+import yaml
+import utils.config
+from services import find_services
+from comms import find_and_load_comms
 
-SERVICES = {
-    "github": GithubService
-}
+
+CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
 
 application = Flask(__name__)
 
 
 @application.route('/<service>', methods=['GET', 'POST'])
 def receive_webhook(service):
-    return SERVICES[service](
+    config = utils.config.load_config(CONFIG_FOLDER)
+    services = find_services(config)
+    comms = find_and_load_comms(config)
+
+    print services
+    print comms
+
+    return services[service](
         request,
         request.get_json(),
-        setup_comms()
+        comms,
+        config
     ).execute()
-
-
-def setup_comms():
-    telegram = TelegramComm()
-    telegram.setup()
-    return [telegram]
 
 
 if __name__ == '__main__':
