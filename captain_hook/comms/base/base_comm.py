@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import yaml
 from os.path import dirname, abspath, join
 from utils import strings
