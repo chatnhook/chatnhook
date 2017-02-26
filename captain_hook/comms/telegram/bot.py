@@ -14,5 +14,5 @@ class TelegramComm(BaseComm):
         self.bot.sendMessage(
             self.config["channel"],
             message,
-            parse_mode=telegram.ParseMode.HTML
+            parse_mode=telegram.ParseMode.MARKDOWN
         )
