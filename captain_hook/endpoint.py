@@ -6,7 +6,7 @@ import yaml
 import utils.config
 from services import find_services
 from comms import find_and_load_comms
-
+import pdb
 
 CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
 
@@ -19,9 +19,7 @@ def receive_webhook(service):
     services = find_services(config)
     comms = find_and_load_comms(config)
 
-    print services
-    print comms
-
+    pdb.set_trace()
     return services[service](
         request,
         request.get_json(),
