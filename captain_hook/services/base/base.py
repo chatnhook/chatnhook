@@ -17,6 +17,7 @@ class BaseService:
             comm_name = comm.__class__.__name__.split('Service')[0]
             default_message = message_dict.get('default', None)
             comm.communicate(message_dict.get(comm_name, default_message))
+        return "ok"
 
     def _get_event_processor(self, event):
         try:
