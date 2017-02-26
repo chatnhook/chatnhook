@@ -30,6 +30,7 @@ class BaseService:
         return getattr(event_module, event_processor_class_name)(
             request=self.request,
             body=self.body,
+            config=self.config,
             event=event
         )
 
