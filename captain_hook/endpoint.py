@@ -26,7 +26,7 @@ def receive_webhook(service):
         request,
         request.get_json(),
         comms,
-        config
+        config[service]
     ).execute()
 
 
