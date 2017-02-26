@@ -10,9 +10,14 @@ SERVICES = {
 
 application = Flask(__name__)
 
+
 @application.route('/<service>', methods=['GET', 'POST'])
 def receive_webhook(service):
-    return SERVICES[service](request, request.get_json(), setup_comms()).execute()
+    return SERVICES[service](
+        request,
+        request.get_json(),
+        setup_comms()
+    ).execute()
 
 
 def setup_comms():
