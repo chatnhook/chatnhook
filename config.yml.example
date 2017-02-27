@@ -29,3 +29,14 @@ services:
       - inspection.failed
     notify_branches:
       - master
+  travis:
+    enabled: true
+    notify_branches:
+      - master
+    results:
+      - Passed
+      - Fixed
+      - Broken
+      - Failed
+      - Still Failing
+      - Errored
