@@ -3,7 +3,5 @@ from ..base import BaseService
 
 
 class SlackService(BaseService):
-
-    @property
-    def event(self):
+    def get_event(self, request, body):
         return 'message'
