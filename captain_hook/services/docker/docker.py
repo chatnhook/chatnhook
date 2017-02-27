@@ -3,7 +3,5 @@ from ..base import BaseService
 
 
 class DockerService(BaseService):
-
-    @property
-    def event(self):
-        return 'push' #docker hub only has push event
+    def get_event(self, request, body):
+        return 'push'  # docker hub only has push event
