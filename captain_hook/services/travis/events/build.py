@@ -7,8 +7,8 @@ import datetime
 
 
 class BuildEvent(BaseEvent):
-    def process(self):
-        payload = json.loads(urllib.unquote(self.body['payload']))
+    def process(self, request, body):
+        payload = json.loads(urllib.unquote(body['payload']))
 
         if payload['result_message'] not in self.config['results']:
             return False
