@@ -4,8 +4,8 @@ import telegram
 from time import sleep
 import datetime
 
-class TelegramService(BaseService):
 
+class TelegramService(BaseService):
     def setup(self):
         print('init telegram service')
 
@@ -31,8 +31,7 @@ class TelegramService(BaseService):
                    ).strftime('%Y-%m-%d %H:%M:%S')
                    )
             print ("last_error_message : %s" % str(webhook.last_error_message))
-        #print (self.telegram_webhook.getWebhookInfo())
+            # print (self.telegram_webhook.getWebhookInfo())
 
-    @property
-    def event(self):
-        return 'message' #docker hub only has push event
+    def get_event(self, request, body):
+        return 'message'  # docker hub only has push event

@@ -3,11 +3,12 @@ from __future__ import absolute_import
 from ...base.events import BaseEvent
 import telegram
 import json
-class MessageEvent(BaseEvent):
 
-    def process(self):
+
+class MessageEvent(BaseEvent):
+    def process(self, request, body):
         print('Telegram webhook')
-        update = self.request.get_json(force=True)
+        update = request.get_json(force=True)
         print update
         message = 'For a private message from: {username}: {message}'.format(
             username=update['message']['from']['username'],
