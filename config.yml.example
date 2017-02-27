@@ -19,3 +19,12 @@ services:
   slack:
     enabled: true
     token: "your_outgoing_hook_token"
+  scrutinizer:
+    enabled: true
+    events:
+      - inspection.created
+      - inspection.completed
+      - inspection.canceled
+      - inspection.failed
+    notify_branches:
+      - master
