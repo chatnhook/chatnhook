@@ -3,8 +3,6 @@ from ..base import BaseService
 
 
 class PagerdutyService(BaseService):
-
-    @property
-    def event(self):
-        event = self.body['messages'][0]['type']
-        return event.replace('.','_')
+    def get_event(self, request, body):
+        event = body['messages'][0]['type']
+        return event.replace('.', '_')
