@@ -3,7 +3,5 @@ from ..base import BaseService
 
 
 class ScrutinizerService(BaseService):
-
-    @property
-    def event(self):
-        return self.request.headers['X-Scrutinizer-Event'].replace('.', '_')
+    def get_event(self, request, body):
+        return request.headers['X-Scrutinizer-Event'].replace('.', '_')
