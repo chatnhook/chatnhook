@@ -10,6 +10,7 @@ comms:
 services:
   github:
     enabled: true
+    secret: ''
     notify_branches:
       - master
   docker:
