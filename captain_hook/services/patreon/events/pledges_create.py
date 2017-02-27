@@ -10,15 +10,16 @@ class PledgesCreateEvent(BaseEvent):
             if data['type'] == type and data['id'] == id:
                 return data
 
-    def process(self):
+    def process(self, request, body):
 
-        patron = self.getDataForTypeAndId('user', self.body['data']['relationships']['patron']['data']['id'])
-        reward = self.getDataForTypeAndId('reward', self.body['data']['relationships']['reward']['data']['id'])
-        creator = self.getDataForTypeAndId('user', self.body['data']['relationships']['creator']['data']['id'])
+        patron = self.getDataForTypeAndId('user', body['data']['relationships']['patron']['data']['id'])
+        reward = self.getDataForTypeAndId('reward', body['data']['relationships']['reward']['data']['id'])
+        creator = self.getDataForTypeAndId('user', body['data']['relationships']['creator']['data']['id'])
         campaign = self.getDataForTypeAndId('campaign', reward['relationships']['campaign']['data']['id'])
 
-        pledge_amount = '${:,.2f}'.format(self.body['data']['attributes']['amount_cents'] / 100)
-        message = '{patron} just pledged *{amount}* / month, gaining the *{reward}* reward. ({creator} at {campaign})'.format(
+        pledge_amount = '${:,.2f}'.format(body['data']['attributes']['amount_cents'] / 100)
+        message = '{patron} just pledged *{amount}* / month, gaining the *{reward}* reward. ({creator} at {campaign})'
+        message = message.format(
             patron=patron['attributes']['full_name'],
             amount=pledge_amount,
             creator=creator['attributes']['full_name'],

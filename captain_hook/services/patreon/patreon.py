@@ -3,7 +3,5 @@ from ..base import BaseService
 
 
 class PatreonService(BaseService):
-
-    @property
-    def event(self):
-        return self.request.headers['X-Patreon-Event'].replace(':','_')
+    def get_event(self, request, body):
+        return request.headers['X-Patreon-Event'].replace(':', '_')
