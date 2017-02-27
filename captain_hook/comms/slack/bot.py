@@ -9,7 +9,6 @@ class SlackComm(BaseComm):
         self.slack_bot = slackweb.Slack(url=self.config["hook_url"])
 
     def communicate(self, message):
-        print message
         if not message:
             return None
         self.slack_bot.notify(text=message)
