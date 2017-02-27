@@ -2,13 +2,11 @@ import os
 import importlib
 from os.path import dirname, abspath, isdir, join
 
-
 PATH = dirname(abspath(__file__))
 
 
 def find_and_load_comms(config):
     comms = get_base_comm_list()
-    comms = remove_disabled_comms(comms, config)
     comms = load_comms(comms, config)
     return dict(
         (service.__class__.__name__.split("Comm")[0].lower(), service)
@@ -27,20 +25,17 @@ def get_base_comm_list():
     return comms
 
 
-def remove_disabled_comms(comms, config):
-    for comm in comms:
-        if not config["comms"][comm].get("enabled"):
-            comms.remove(comm)
-    return comms
-
-
 def load_comms(comms, config):
     loaded_comms = []
     for comm in comms:
-        comm_config = config["comms"][comm]
-        comm = import_service_module(comm)(comm_config)
-        comm.setup()
-        loaded_comms.append(comm)
+        if not comm in config['comms']:
+            continue
+
+        if config["comms"][comm].get("enabled"):
+            comm_config = config["comms"][comm]
+            comm = import_service_module(comm)(comm_config)
+            comm.setup()
+            loaded_comms.append(comm)
     return loaded_comms
 
 
