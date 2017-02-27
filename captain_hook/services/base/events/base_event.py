@@ -1,10 +1,7 @@
 class BaseEvent:
 
-    def __init__(self, request, body, event, config):
-        self.event = event
-        self.body = body
-        self.request = request
+    def __init__(self, event, config):
         self.config = config
 
-    def process(self):
+    def process(self, request, body):
         raise NotImplementedError

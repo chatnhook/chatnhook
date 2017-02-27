@@ -5,24 +5,24 @@ from ...base.events import BaseEvent
 
 class PushEvent(BaseEvent):
 
-    def process(self):
+    def process(self, request, body):
         plural = 'changesets'
-        branch =  self.body['ref'].split('/')[2]
+        branch =  body['ref'].split('/')[2]
 
 
-        if branch not in self.config['notify_branches']:
+        if branch not in config['notify_branches']:
             return False
 
-        if len(self.body['commits']) == 1:
+        if len(body['commits']) == 1:
             plural = 'changeset'
         params = {
-            'username': self.body['sender']['login'],
-            'user_link': self.body['sender']['html_url'],
-            'commit_amount': len(self.body['commits']),
+            'username': body['sender']['login'],
+            'user_link': body['sender']['html_url'],
+            'commit_amount': len(body['commits']),
             'plural': plural,
-            'repository_name': self.body['repository']['full_name'],
-            'repository_link': self.body['repository']['html_url'],
-            'push_link': self.body['compare'],
+            'repository_name': body['repository']['full_name'],
+            'repository_link': body['repository']['html_url'],
+            'push_link': body['compare'],
             'ref': ref[2],
         }
 
@@ -31,7 +31,7 @@ class PushEvent(BaseEvent):
         # message += '```{body}```'
         message = message.format(**params)
 
-        for commit in self.body['commits']:
+        for commit in body['commits']:
             args = {
                 'commit_hash': str(commit['id'])[:7],
                 'commit_message': commit['message'].replace("\n\n", '\n'),

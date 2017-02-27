@@ -5,14 +5,17 @@ from utils import strings
 
 class BaseService:
 
-    def __init__(self, request, body, comms, config):
-        self.request = request
-        self.body = body
+    def __init__(self, config, comms):
         self.comms = comms
         self.config = config
 
-    def execute(self):
-        message_dict = self._get_event_processor(self.event).process()
+    def setup(self):
+        pass
+
+    def execute(self, request, body):
+        message_dict = self._get_event_processor(
+            self.get_event(request, body)
+        ).process(request, body)
         for name, comm in self.comms.items():
             default_message = message_dict.get('default', None)
             comm.communicate(message_dict.get(name, default_message))
@@ -28,8 +31,6 @@ class BaseService:
             strings.toCamelCase(event),
         )
         return getattr(event_module, event_processor_class_name)(
-            request=self.request,
-            body=self.body,
             config=self.config,
             event=event
         )

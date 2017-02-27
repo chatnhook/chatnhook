@@ -5,9 +5,9 @@ from ...base.events import BaseEvent
 
 class PingEvent(BaseEvent):
 
-    def process(self):
+    def process(self, request, body):
         params = {
-            'repo': self.body['repository']['full_name']
+            'repo': body['repository']['full_name']
         }
 
         message = "Webhook works for: {repo}".format(**params)

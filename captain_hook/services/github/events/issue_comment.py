@@ -5,26 +5,26 @@ from ...base.events import BaseEvent
 
 class IssueCommentEvent(BaseEvent):
 
-    def process(self):
+    def process(self, request, body):
         issue_type = 'issue'
-        if 'pull_request' in self.body['issue']:
+        if 'pull_request' in body['issue']:
             issue_type = 'pull request'
         params = {
-            'username': self.body['comment']['user']['login'],
-            'user_link': self.body['comment']['user']['html_url'],
-            'issue_number': str(self.body['issue']['number']),
-            'comment_link': self.body['comment']['html_url'],
-            'issue_title': self.body['issue']['title'],
+            'username': body['comment']['user']['login'],
+            'user_link': body['comment']['user']['html_url'],
+            'issue_number': str(body['issue']['number']),
+            'comment_link': body['comment']['html_url'],
+            'issue_title': body['issue']['title'],
             'issue_type': issue_type,
-            'body': str(self.body['comment']['body']).split("\n")[0] + '...',
+            'body': str(body['comment']['body']).split("\n")[0] + '...',
         }
 
-        if self.body['action'] == 'created':
+        if body['action'] == 'created':
             message = "[🗨]({comment_link}) [{username}]({user_link}) commented on {issue_type} [#{issue_number} {issue_title}]({comment_link})"
             # message += '```{body}```'
             message = message.format(**params)
 
-        if self.body['action'] == 'edited':
+        if body['action'] == 'edited':
             message = "[🗨]({comment_link}) [{username}]({user_link}) edited the comment on {issue_type} [#{issue_number} {issue_title}]({comment_link})"
             # message += '```{body}```'
             message = message.format(**params)

@@ -6,7 +6,19 @@ from os.path import dirname, abspath, isdir, join
 PATH = dirname(abspath(__file__))
 
 
-def find_services(config):
+def find_and_load_services(config, comms):
+    services = get_base_service_list(config)
+    services = dict(
+        (service, import_service_module(service))
+        for service in services
+    )
+    for name, service in services.items():
+        service_config = config["services"].get(name, {})
+        services[name] = service(service_config, comms)
+    return services
+
+
+def get_base_service_list(config):
     services = os.listdir(PATH)
     services.remove("__init__.py")
     services.remove("__init__.pyc")
@@ -15,13 +27,9 @@ def find_services(config):
         if not isdir(join(PATH, service)):
             services.remove(service)
     for service in services:
-        if not config["services"][service].get("enabled"):
+        if not config["services"].get(service, {}).get("enabled"):
             services.remove(service)
-    services = [import_service_module(service) for service in services]
-    return dict(
-        (service.__name__.split("Service")[0].lower(), service)
-        for service in services
-    )
+    return services
 
 
 def import_service_module(service):

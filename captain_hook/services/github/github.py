@@ -7,9 +7,10 @@ from sys import stderr, hexversion
 
 
 class GithubService(BaseService):
-    @property
-    def event(self):
-        if self.config['enforce_secret']:
+
+
+    def get_event(self, request, body):
+        if self.config.get('enforce_secret', False):
             header_signature = self.request.headers.get('X-Hub-Signature')
             if header_signature is None:
                 abort(403)
@@ -17,7 +18,7 @@ class GithubService(BaseService):
             if sha_name != 'sha1':
                 abort(501)
             # HMAC requires the key to be bytes, but data is string
-            mac = hmac.new(str(self.config['enforce_secret']), msg=self.request.data, digestmod=sha1)
+            mac = hmac.new(str(self.config['enforce_secret']), msg=request.data, digestmod=sha1)
 
             # Python prior to 2.7.7 does not have hmac.compare_digest
             if hexversion >= 0x020707F0:
@@ -30,4 +31,4 @@ class GithubService(BaseService):
                 if not str(mac.hexdigest()) == str(signature):
                     abort(403)
 
-        return self.request.headers['X-GITHUB-EVENT']
+        return request.headers['X-GITHUB-EVENT']

@@ -6,7 +6,7 @@ import datetime
 
 class TelegramService(BaseService):
 
-    def init_service(self):
+    def setup(self):
         print('init telegram service')
 
         cert = False
