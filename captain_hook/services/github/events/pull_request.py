@@ -11,8 +11,8 @@ class PullRequestEvent(GithubEvent):
             'https://api.github.com/', '')
 
         params = {
-            'username': body['pull_request']['user']['login'],
-            'user_link': body['pull_request']['user']['html_url'],
+            'username': body['sender']['login'],
+            'user_link': body['sender']['html_url'],
             'pull_request_number': str(body['pull_request']['number']),
             'pull_request_link': self.build_redirect_link('github', 'pull_request', pr_link),
             'pull_request_title': body['pull_request']['title'],
@@ -24,6 +24,11 @@ class PullRequestEvent(GithubEvent):
 
         if body['action'] == 'opened':
             message = "[⛓]({pull_request_link}) [{username}]({user_link}) opened new" \
+                      " pull request [#{pull_request_number} {pull_request_title}]({pull_request_link})" \
+                      " in [{repository_name}]({repository_link})"
+
+        if body['action'] == 'edited':
+            message = "[⛓]({pull_request_link}) [{username}]({user_link}) edited" \
                       " pull request [#{pull_request_number} {pull_request_title}]({pull_request_link})" \
                       " in [{repository_name}]({repository_link})"
 

@@ -25,6 +25,10 @@ class IssuesEvent(GithubEvent):
             message = "[❓]({issue_link}) [{username}]({user_link}) opened new issue [#{issue_number} " \
                       "{issue_title}]({issue_link}) in [{repository_name}]({repository_link})"
 
+        if body['action'] == 'edited':
+            message = "[❓]({issue_link}) [{username}]({user_link}) edited issue [#{issue_number} " \
+                      "{issue_title}]({issue_link}) in [{repository_name}]({repository_link})"
+
         if body['action'] == 'closed':
             message = "[❓]({issue_link}) [{username}]({user_link}) closed issue [#{issue_number} " \
                       "{issue_title}]({issue_link}) in [{repository_name}]({repository_link})"
