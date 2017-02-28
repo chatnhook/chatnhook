@@ -5,8 +5,9 @@ from ...base.events import BaseEvent
 
 class MessageEvent(BaseEvent):
     def process(self, request, body):
+        print body
         if self.config['token'] != body.get('token'):
-            return False
+            return {'default': False}
 
         message = '[slack] {domain}:#{channel} <{user}>: {text}'.format(
             domain=body.get('domain', type=str),

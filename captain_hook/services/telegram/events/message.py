@@ -8,10 +8,11 @@ import json
 class MessageEvent(BaseEvent):
     def process(self, request, body):
         print('Telegram webhook')
-        update = request.get_json(force=True)
-        print update
-        message = 'For a private message from: {username}: {message}'.format(
-            username=update['message']['from']['username'],
-            message=update['message']['text'],
-        )
+        update = request
+        print request
+        print body
+        # message = 'For a private message from: {username}: {message}'.format(
+        #     username=update['message']['from']['username'],
+        #     message=update['message']['text'],
+        # )
         return {"telegram": str('')}
