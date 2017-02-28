@@ -4,6 +4,7 @@ from utils import strings
 
 
 class BaseService:
+
     def __init__(self, config, comms):
         self.comms = comms
         self.config = config

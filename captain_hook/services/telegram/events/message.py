@@ -6,6 +6,7 @@ import json
 
 
 class MessageEvent(BaseEvent):
+
     def process(self, request, body):
         print('Telegram webhook')
         update = request

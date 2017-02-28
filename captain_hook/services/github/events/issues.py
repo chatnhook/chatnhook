@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from ...base.events import BaseEvent
+from . import GithubEvent
 
 
-class IssuesEvent(BaseEvent):
+class IssuesEvent(GithubEvent):
+
     def process(self, request, body):
 
-        issue_link = str(body['issue']['url']).replace('https://api.github.com/', '')
+        issue_link = str(body['issue']['url']).replace(
+            'https://api.github.com/', '')
 
         params = {
             'username': body['sender']['login'],

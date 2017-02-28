@@ -5,6 +5,7 @@ import requests
 
 
 class DiscordWebhook():
+
     def __init__(self, url):
         """
         Initialize a Discord Webhook object.
@@ -20,7 +21,8 @@ class DiscordWebhook():
         if isinstance(attachment, Attachment):
             self.attachments.append(attachment)
         else:
-            raise Exception('The attachment is not a correct attachment object')
+            raise Exception(
+                'The attachment is not a correct attachment object')
 
     def format(self):
         """
@@ -78,6 +80,7 @@ class DiscordWebhook():
 
 
 class Attachment(classmethod):
+
     def __init__(self, **args):
         """
         Initialize an Attachment object and fill the properties from given $args.
@@ -106,6 +109,7 @@ class Attachment(classmethod):
 
 
 class Field():
+
     def __init__(self, title='', value='', short=False):
         """
         Initialize a Field object.

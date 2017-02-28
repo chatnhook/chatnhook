@@ -7,6 +7,7 @@ import datetime
 
 
 class BuildEvent(BaseEvent):
+
     def process(self, request, body):
         payload = json.loads(urllib.unquote(body['payload']))
 
@@ -45,13 +46,16 @@ class BuildEvent(BaseEvent):
             build_url=payload['build_url'],
             commit=payload['commit'][0:7],
             compare_url=payload['compare_url'],
-            repository=payload['repository']['owner_name'] + '/' + payload['repository']['name'],
+            repository=payload['repository']['owner_name'] +
+            '/' + payload['repository']['name'],
             branch=payload['branch'],
             author=payload['committer_name'],
             result=payload['result_message'].lower(),
             duration=str(datetime.timedelta(seconds=payload['duration'])),
             pull_request_url=payload['state'],
-            pull_request='#' + str(payload['pull_request_number']) + ' ' + str(payload['pull_request_title']),
+            pull_request='#' +
+            str(payload['pull_request_number']) + ' ' +
+            str(payload['pull_request_title']),
         )
 
         return {'default': message}

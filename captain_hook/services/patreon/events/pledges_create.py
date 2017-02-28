@@ -4,6 +4,7 @@ from ...base.events import BaseEvent
 
 
 class PledgesCreateEvent(BaseEvent):
+
     def getDataForTypeAndId(self, type, id, body):
         included_data = body['included']
         for data in included_data:
@@ -12,12 +13,17 @@ class PledgesCreateEvent(BaseEvent):
 
     def process(self, request, body):
 
-        patron = self.getDataForTypeAndId('user', body['data']['relationships']['patron']['data']['id'], body)
-        reward = self.getDataForTypeAndId('reward', body['data']['relationships']['reward']['data']['id'], body)
-        creator = self.getDataForTypeAndId('user', body['data']['relationships']['creator']['data']['id'], body)
-        campaign = self.getDataForTypeAndId('campaign', reward['relationships']['campaign']['data']['id'], body)
+        patron = self.getDataForTypeAndId('user', body['data']['relationships'][
+                                          'patron']['data']['id'], body)
+        reward = self.getDataForTypeAndId('reward', body['data']['relationships'][
+                                          'reward']['data']['id'], body)
+        creator = self.getDataForTypeAndId('user', body['data']['relationships'][
+                                           'creator']['data']['id'], body)
+        campaign = self.getDataForTypeAndId('campaign', reward['relationships'][
+                                            'campaign']['data']['id'], body)
 
-        pledge_amount = '${:,.2f}'.format(body['data']['attributes']['amount_cents'] / 100)
+        pledge_amount = '${:,.2f}'.format(
+            body['data']['attributes']['amount_cents'] / 100)
         message = '{patron} just pledged *{amount}* / month, gaining the *{reward}* reward. ({creator} at {campaign})'
         message = message.format(
             patron=patron['attributes']['full_name'],

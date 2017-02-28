@@ -4,6 +4,7 @@ from ...base.events import BaseEvent
 
 
 class MessageEvent(BaseEvent):
+
     def process(self, request, body):
         print body
         if self.config['token'] != body.get('token'):
@@ -16,4 +17,4 @@ class MessageEvent(BaseEvent):
             text=body.get('text', type=str)
         )
 
-        return {"telegram": '\\'+message, "slack": message}
+        return {"telegram": '\\' + message, "slack": message}

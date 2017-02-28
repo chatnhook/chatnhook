@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from ...base.events import BaseEvent
+from . import GithubEvent
 
 
-class PingEvent(BaseEvent):
+class PingEvent(GithubEvent):
 
     def process(self, request, body):
         params = {

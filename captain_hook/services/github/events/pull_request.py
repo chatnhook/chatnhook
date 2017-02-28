@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from ...base.events import BaseEvent
+from . import GithubEvent
 
 
-class PullRequestEvent(BaseEvent):
+class PullRequestEvent(GithubEvent):
+
     def process(self, request, body):
 
-        pr_link = str(body['pull_request']['url']).replace('https://api.github.com/', '')
+        pr_link = str(body['pull_request']['url']).replace(
+            'https://api.github.com/', '')
 
         params = {
             'username': body['pull_request']['user']['login'],

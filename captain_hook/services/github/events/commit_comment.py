@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from ...base.events import BaseEvent
+from . import GithubEvent
 
 
-class CommitCommentEvent(BaseEvent):
+class CommitCommentEvent(GithubEvent):
+
     def process(self, request, body):
 
-        comment_api_link = str(body['comment']['url']).replace('https://api.github.com/', '')
+        comment_api_link = str(body['comment']['url']).replace(
+            'https://api.github.com/', '')
         params = {
             'username': body['comment']['user']['login'],
             'user_link': body['comment']['user']['html_url'],

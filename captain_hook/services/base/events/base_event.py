@@ -4,6 +4,7 @@ from json import loads
 
 
 class BaseEvent:
+
     def __init__(self, event, config):
         self.config = config
 
@@ -22,19 +23,6 @@ class BaseEvent:
 
     def build_redirect_link(self, service, event, url):
         # Append a random number as query param to disable caching
-        antiCache = str(randint(0, 999))
-        base = self.config['global_config']['boturl'] + '/redirect/'
-        url = base + service + '/' + event + '/' + url + '?' + antiCache
-        return url
-
-    # @TODO move this to a util lib in github service
-    def gh_api(self, url):
-        if 'https://api.github.com/' not in url:
-            url = 'https://api.github.com/' + url
-
-        response = requests.get(url=url)
-        try:
-            result = loads(response.text)
-        except TypeError:
-            result = False
-        return result
+        anti_cache = str(randint(0, 999))
+        base_url = "{}/redirect".format(self.config['general']['bot_url'])
+        return "{base_url}/{service}/{event}/{url}?{anti_cache}"

@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from ...base.events import BaseEvent
+from . import GithubEvent
 
 
-class PullRequestReviewCommentEvent(BaseEvent):
+class PullRequestReviewCommentEvent(GithubEvent):
+
     def process(self, request, body):
 
-        comment_api_link = str(body['comment']['url']).replace('https://api.github.com/', '')
+        comment_api_link = str(body['comment']['url']).replace(
+            'https://api.github.com/', '')
         params = {
             'username': body['comment']['user']['login'],
             'user_link': body['comment']['user']['html_url'],
@@ -41,7 +43,7 @@ class PullRequestReviewCommentEvent(BaseEvent):
 
         redirect = {
             'meta_title': '{path}:{line} · {repo}'.format(path=api_result['path'],
-                                                           line=str(api_result['position']), repo=repo),
+                                                          line=str(api_result['position']), repo=repo),
             'meta_summary': api_result['body'].split("\n")[0][0:100],
             'poster_image': api_result['user']['avatar_url'],
             'redirect': api_result['html_url'],

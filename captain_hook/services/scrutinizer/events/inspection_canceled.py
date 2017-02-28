@@ -4,6 +4,7 @@ from ...base.events import BaseEvent
 
 
 class InspectionCanceledEvent(BaseEvent):
+
     def process(self, request, body):
 
         if body['metadata']['branch'] not in self.config['notify_branches']:

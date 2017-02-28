@@ -12,4 +12,5 @@ class MattermostComm(BaseComm):
     def communicate(self, message):
         if not message:
             return None
-        self.mattermost_bot.send(message, channel=self.config['channel'], username=self.config['bot_name'])
+        self.mattermost_bot.send(message, channel=self.config[
+                                 'channel'], username=self.config['bot_name'])

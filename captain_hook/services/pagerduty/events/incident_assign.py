@@ -4,6 +4,7 @@ from ...base.events import BaseEvent
 
 
 class IncidentAssignEvent(BaseEvent):
+
     def process(self, request, body):
         message = False
         return {'default': message}

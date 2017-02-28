@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from ...base.events import BaseEvent
+from . import GithubEvent
 
 
-class WatchEvent(BaseEvent):
+class WatchEvent(GithubEvent):
+
     def process(self, request, body):
-        user_link = body['sender']['html_url'].replace('https://github.com/', '')
-        repo_link = body['repository']['html_url'].replace('https://github.com/', '')
+        user_link = body['sender']['html_url'].replace(
+            'https://github.com/', '')
+        repo_link = body['repository'][
+            'html_url'].replace('https://github.com/', '')
 
         params = {
             'username': body['sender']['login'],

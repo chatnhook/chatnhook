@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from ...base.events import BaseEvent
+from . import GithubEvent
 
 
-class PushEvent(BaseEvent):
+class PushEvent(GithubEvent):
+
     def process(self, request, body):
         plural = 'changesets'
         branch = body['ref'].split('/')[2]
@@ -15,8 +16,10 @@ class PushEvent(BaseEvent):
             plural = 'changeset'
 
         push_link = body['compare'].replace('https://github.com/', '')
-        user_link = body['sender']['html_url'].replace('https://github.com/', '')
-        repo_link = body['repository']['html_url'].replace('https://github.com/', '')
+        user_link = body['sender']['html_url'].replace(
+            'https://github.com/', '')
+        repo_link = body['repository'][
+            'html_url'].replace('https://github.com/', '')
 
         params = {
             'username': body['sender']['login'],
@@ -42,7 +45,8 @@ class PushEvent(BaseEvent):
                 'commit_message': commit['message'].replace("\n\n", '\n'),
                 'commit_link': commit.get('html_url', '')
             }
-            message += "· [{commit_hash}]({commit_link}): {commit_message} \n".format(**args)
+            message += "· [{commit_hash}]({commit_link}): {commit_message} \n".format(
+                **args)
 
         return {"default": str(message)}
 

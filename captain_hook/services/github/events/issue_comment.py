@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from ...base.events import BaseEvent
+from . import GithubEvent
 
 
-class IssueCommentEvent(BaseEvent):
+class IssueCommentEvent(GithubEvent):
+
     def process(self, request, body):
         issue_type = 'issue'
         if 'pull_request' in body['issue']:
             issue_type = 'pull request'
 
-        comment_api_link = str(body['comment']['url']).replace('https://api.github.com/', '')
+        comment_api_link = str(body['comment']['url']).replace(
+            'https://api.github.com/', '')
 
         params = {
             'username': body['comment']['user']['login'],

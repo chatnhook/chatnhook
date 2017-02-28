@@ -4,6 +4,7 @@ from ...base.events import BaseEvent
 
 
 class InspectionCompletedEvent(BaseEvent):
+
     def process(self, request, body):
 
         if body['metadata']['branch'] not in self.config['notify_branches']:
@@ -24,7 +25,8 @@ class InspectionCompletedEvent(BaseEvent):
         message = message.format(
             inspection=inspection,
             inspection_url=inspection_link,
-            repository=body['_embedded']['repository']['login'] + '/' + body['_embedded']['repository']['name'],
+            repository=body['_embedded']['repository'][
+                'login'] + '/' + body['_embedded']['repository']['name'],
             branch=body['metadata']['branch'],
             commit=commit,
             commit_msg=body['metadata']['title']
