@@ -4,7 +4,6 @@ from . import GithubEvent
 
 
 class CommitCommentEvent(GithubEvent):
-
     def process(self, request, body):
 
         comment_api_link = str(body['comment']['url']).replace(
@@ -36,13 +35,16 @@ class CommitCommentEvent(GithubEvent):
         status_code = 200
         if not api_result:
             status_code = 404
-
+        s = api_result['url'].split('/')
+        repo = s[4] + '/' + s[5]
+        title = '{username} commented on commit `{commit}` · {repo}'
         redirect = {
-            'meta_title': '',
-            'meta_summary': '',
-            'meta_link': '',
-            'poster_image': '',
-            'redirect': 'https://github.com/' + params,
+            'meta_title': title.format(username=api_result['user']['login'],
+                                       commit=api_result['commit_id'][:7],
+                                       repo=repo),
+            'meta_summary': api_result['body'].split("\n")[0][0:100],
+            'poster_image': api_result['user']['avatar_url'],
+            'redirect': api_result['html_url'],
             'status_code': status_code,
         }
         return redirect
