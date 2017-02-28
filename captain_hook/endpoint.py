@@ -47,6 +47,8 @@ def redirect(service, event, path):
     if service not in get_services():
         return 'Service not found'
     result = get_services()[service].redirect(request, event, path)
+    if not result:
+        return ""
 
     data = {
         'meta_title': result.get('meta_title', '').decode("utf8"),

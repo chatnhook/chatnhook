@@ -22,7 +22,9 @@ class BaseService:
         return "ok"
 
     def redirect(self, request, event, params):
-
+        if not self.config.get('redirect', False):
+            return False
+            
         redirect_params = self._get_event_processor(
             event=event
         ).get_redirect(request, event, params)
