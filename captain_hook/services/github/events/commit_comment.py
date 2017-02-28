@@ -19,8 +19,7 @@ class CommitCommentEvent(GithubEvent):
 
         message = False
         if body['action'] == 'created':
-            message = "[🗨]({commit_comment_link}) [{username}]({user_link}) " \
-                      "commented on [{commit_hash}]({commit_comment_link})"
+            message = "[🗨]({commit_comment_link}) [{username}]({user_link}) commented on [{commit_hash}]({commit_comment_link})"
             # message += '```{body}```'
             message = message.format(**params)
 

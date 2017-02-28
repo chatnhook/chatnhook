@@ -22,6 +22,7 @@ class BaseService:
         return "ok"
 
     def redirect(self, request, event, params):
+        print self.config
         if not self.config.get('redirect', False):
             return False
             

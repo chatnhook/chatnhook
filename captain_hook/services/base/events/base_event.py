@@ -23,4 +23,10 @@ class BaseEvent:
         # Append a random number as query param to disable caching
         anti_cache = str(randint(0, 999))
         base_url = "{}/redirect".format(self.config['general']['bot_url'])
-        return "{base_url}/{service}/{event}/{url}?{anti_cache}"
+        return "{base_url}/{service}/{event}/{url}?{anti_cache}".format(
+            base_url=base_url,
+            service=service,
+            event=event,
+            url=url,
+            anti_cache=anti_cache
+        )

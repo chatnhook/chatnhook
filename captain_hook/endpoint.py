@@ -53,7 +53,7 @@ def redirect(service, event, path):
     data = {
         'meta_title': result.get('meta_title', '').decode("utf8"),
         'meta_summary': result.get('meta_summary', '').decode("utf8"),
-        'meta_link': config['global']['boturl'] + '/' + request.path,
+        'meta_link': config['general']['bot_url'] + '/' + request.path,
         'poster_image': result.get('poster_image', '').decode("utf8"),
         'redirect': result.get('redirect', '')
     }
