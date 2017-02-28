@@ -7,8 +7,6 @@ from sys import stderr, hexversion
 
 
 class GithubService(BaseService):
-
-
     def get_event(self, request, body):
         if self.config.get('enforce_secret', False):
             header_signature = self.request.headers.get('X-Hub-Signature')

@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>{{ meta_title }}</title>
+    <meta content="@github" name="twitter:site"/>
+    <meta content="summary" name="twitter:card"/>
+    <meta content="{{ meta_title }}"
+          name="twitter:title"/>
+     <meta content="{{ poster_image }}"
+           name="twitter:image:src"/>
+    <meta content="{{ meta_summary }}" name="twitter:description"/>
+    <meta content="GitHub" property="og:site_name"/>
+    <meta content="object" property="og:type"/>
+    <meta content="{{ meta_title }}"
+          property="og:title"/>
+    <meta content="{{ meta_link }}"
+          property="og:url"/>
+    <meta content="{{ poster_image }}"
+           property="og:image"/>
+    <meta content="{{ meta_summary }}" property="og:description"/>
+    <script>
+        window.location = "{{ redirect }}";
+    </script>
+</head>
+<body>
+    <a href="{{ redirect }}" rel="noreferrer">Click here if you're not redirected</a>
+</body>
+</html>

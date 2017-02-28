@@ -10,9 +10,9 @@ class WatchEvent(BaseEvent):
 
         params = {
             'username': body['sender']['login'],
-            'user_link': body['sender']['html_url'],
+            'user_link': self.build_redirect_link('github', 'release', user_link),
             'repository_name': body['repository']['full_name'],
-            'repository_link': body['repository']['html_url'],
+            'repository_link': self.build_redirect_link('github', 'release', repo_link),
         }
         message = False
         if body['action'] == 'started':
@@ -20,3 +20,13 @@ class WatchEvent(BaseEvent):
             message = message.format(**params)
 
         return {"default": str(message)}
+
+    def get_redirect(self, request, event, params):
+        redirect = {
+            'meta_title': '',
+            'meta_summary': '',
+            'poster_image': '',
+            'redirect': 'https://github.com/' + params,
+            'status_code': 404
+        }
+        return redirect

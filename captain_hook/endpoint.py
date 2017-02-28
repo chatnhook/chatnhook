@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from os.path import abspath
 from os.path import dirname
-from flask import Flask, request, g
+from flask import Flask, request, g, render_template
 import yaml
 import utils.config
 from services import find_and_load_services
@@ -40,6 +41,24 @@ def receive_webhook(service):
         return 'Service not found'
 
     return get_services()[service].execute(request, body)
+
+
+@application.route('/redirect/<service>/<event>', methods=['GET'], defaults={'params': None})
+@application.route('/redirect/<service>/<event>/<path:path>', methods=['GET'])
+def redirect(service, event, path):
+    if service not in get_services():
+        return 'Service not found'
+    result = get_services()[service].redirect(request, event, path)
+
+    data = {
+        'meta_title': result.get('meta_title', '').decode("utf8"),
+        'meta_summary': result.get('meta_summary', '').decode("utf8"),
+        'meta_link': config['global']['boturl'] + '/' + request.path,
+        'poster_image': result.get('poster_image', '').decode("utf8"),
+        'redirect': result.get('redirect', '')
+    }
+
+    return render_template('redirect.html', **data), result.get('status_code', 200)
 
 
 @application.before_first_request

@@ -4,7 +4,6 @@ from utils import strings
 
 
 class BaseService:
-
     def __init__(self, config, comms):
         self.comms = comms
         self.config = config
@@ -20,6 +19,14 @@ class BaseService:
             default_message = message_dict.get('default', None)
             comm.communicate(message_dict.get(name, default_message))
         return "ok"
+
+    def redirect(self, request, event, params):
+
+        redirect_params = self._get_event_processor(
+            event=event
+        ).get_redirect(request, event, params)
+
+        return redirect_params
 
     def _get_event_processor(self, event):
         try:
