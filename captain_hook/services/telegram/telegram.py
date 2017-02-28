@@ -21,22 +21,7 @@ class TelegramService(BaseService):
         self.telegram_webhook.setWebhook(webhook_url='')
         sleep(0.1)
         updates = []
-
-        headers = {'content-type': 'application/json'}
-        url = 'http://192.168.3.45:8080/api/v2/event/log'
-
-        data = {
-            "url": 'https://requestb.in/12bdpal1',  # webhook_url,
-            "certificate": cert,
-            "max_connections": 100,
-            "allowed_updates": updates
-        }
-
-        base_url = 'https://api.telegram.org/bot'
-        base_url = str(base_url) + str(self.config['token'])
-        print requests.post(base_url + '/setWebhook', data=data)
-
-        # self.telegram_webhook.setWebhook(webhook_url=webhook_url, certificate=cert, allowed_updates=updates)
+        self.telegram_webhook.setWebhook(webhook_url=webhook_url, certificate=cert, allowed_updates=updates)
         webhook = self.telegram_webhook.getWebhookInfo()
         print webhook
         print ("Webhook settings: \n")
@@ -53,4 +38,4 @@ class TelegramService(BaseService):
             # print (self.telegram_webhook.getWebhookInfo())
 
     def get_event(self, request, body):
-        return request.get_json(force=True).keys()[0]
+        return 'message'

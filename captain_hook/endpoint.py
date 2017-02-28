@@ -35,6 +35,10 @@ def receive_webhook(service):
         body = json.loads(request.data)
     except ValueError:
         body = request.form
+
+    if service not in get_services():
+        return 'Service not found'
+
     return get_services()[service].execute(request, body)
 
 
