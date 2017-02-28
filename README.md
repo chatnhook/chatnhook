@@ -24,11 +24,20 @@ A **comm** is then used to publish information from this hook in messaging servi
 
 ## Currently supported services and events
 
-- Github (WIP)
+- Github
+- Docker
+- Pagerduty
+- Patreon
+- Scrutinizer
+- Slack
+- Travis
 
 ## Currently supported comms to publish event information
 
-- Telegram (WIP)
+- Telegram
+- Slack
+- Discord
+- Mattermost
 
 ## Adding your own service
 
