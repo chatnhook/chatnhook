@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 import yaml
 from os.path import join
-from utils import strings
 
 
 class BaseComm:

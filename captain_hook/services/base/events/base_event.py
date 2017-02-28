@@ -1,6 +1,4 @@
 from random import randint
-import requests
-from json import loads
 
 
 class BaseEvent:

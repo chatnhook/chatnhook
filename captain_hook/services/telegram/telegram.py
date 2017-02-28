@@ -3,8 +3,6 @@ from ..base import BaseService
 import telegram
 from time import sleep
 import datetime
-import requests
-import json
 
 
 class TelegramService(BaseService):

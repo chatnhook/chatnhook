@@ -3,12 +3,10 @@ from __future__ import absolute_import
 from os.path import abspath
 from os.path import dirname
 from flask import Flask, request, g, render_template
-import yaml
 import utils.config
 from services import find_and_load_services
 from comms import find_and_load_comms
 import json
-import pdb
 
 CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
 config = utils.config.load_config(CONFIG_FOLDER)

@@ -3,7 +3,7 @@ from ..base import BaseService
 import hmac
 from hashlib import sha1
 from flask import abort
-from sys import stderr, hexversion
+from sys import hexversion
 
 
 class GithubService(BaseService):
