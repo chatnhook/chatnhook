@@ -1,4 +1,6 @@
 from ...base.events import BaseEvent
+import requests
+from json import loads
 
 
 class GithubEvent(BaseEvent):
