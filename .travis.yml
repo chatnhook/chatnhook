@@ -3,10 +3,11 @@ python:
    - "2.7"
    - "pypy"
 install:
-   pip install flake8
+  - pip install flake8
+  - pip install -r requirements.txt
 #before_script:
 script:
-   flake8 .
+   - flake8 .
 #script:
 #   coverage run --source=geojson setup.py test
 #after_success:
