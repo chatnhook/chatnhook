@@ -4,9 +4,12 @@ from ...base.events import BaseEvent
 
 
 class PushEvent(BaseEvent):
-
     def process(self, request, body):
         repo = body['repository']['repo_name']
+        tag = body.get('push_data').get('tag', '')
+        if tag:
+            tag = ':' + tag
+
         message = '[🐳] Docker image {repo}:{tag} updated'.format(
-            tag=body['push_data']['tag'], repo=repo)
+            tag=tag, repo=repo)
         return {"default": str(message)}
