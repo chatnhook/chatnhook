@@ -13,14 +13,14 @@ A **comm** is then used to publish information from this hook in messaging servi
 
 ## Dependencies
 
-- Python 3.6
+- Python 2.7
 
 `sudo pip install -r requirements.txt`
 
 
 ## Running
 
-`hug -f captain_hook/endpoint.py`
+`python captain_hook/endpoint.py`
 
 ## Currently supported services and events
 

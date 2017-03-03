@@ -1,26 +1,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from ...base.events import BaseEvent
+from . import PatreonEvent
 
 
-class PledgesCreateEvent(BaseEvent):
-
-    def getDataForTypeAndId(self, type, id, body):
-        included_data = body['included']
-        for data in included_data:
-            if data['type'] == type and data['id'] == id:
-                return data
-
+class PledgesCreateEvent(PatreonEvent):
     def process(self, request, body):
-
         patron = self.getDataForTypeAndId('user', body['data']['relationships'][
-                                          'patron']['data']['id'], body)
+            'patron']['data']['id'], body)
         reward = self.getDataForTypeAndId('reward', body['data']['relationships'][
-                                          'reward']['data']['id'], body)
+            'reward']['data']['id'], body)
         creator = self.getDataForTypeAndId('user', body['data']['relationships'][
-                                           'creator']['data']['id'], body)
+            'creator']['data']['id'], body)
         campaign = self.getDataForTypeAndId('campaign', reward['relationships'][
-                                            'campaign']['data']['id'], body)
+            'campaign']['data']['id'], body)
 
         pledge_amount = '${:,.2f}'.format(
             body['data']['attributes']['amount_cents'] / 100)
