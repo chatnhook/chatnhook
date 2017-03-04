@@ -24,7 +24,7 @@ class PledgesDeleteEvent(PatreonEvent):
 
         pledge_amount = '${:,.2f}'.format(
             body['data']['attributes']['amount_cents'] / 100)
-        message = '{patron} removed their pledge of *{amount}* ({creator} at {campaign})'
+        message = '{patron} removed their patreon pledge of *{amount}* ({creator} at {campaign})'
         message = message.format(
             patron=patron['attributes']['full_name'],
             amount=pledge_amount,
