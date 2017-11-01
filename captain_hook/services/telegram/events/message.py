@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from ...base.events import BaseEvent
-from pprint import pprint
-import json
+import threading
 import importlib
 from utils import strings
 
 class MessageEvent(BaseEvent):
     def process(self, request, body):
-        print('Telegram webhook')
         update = body
         commandResponse = ''
         if update.get('message', '') and update.get('message').get('text') == 'ping':
@@ -19,9 +17,10 @@ class MessageEvent(BaseEvent):
                 messageSplit = message[1:].split(' ')
                 command = messageSplit[0]
                 command_module = self.process_command(command)
-                commandResponse = command_module.run(messageSplit)
+                t = threading.Thread(target=command_module.run, args=(update.get('message'), self.config))
+                t.start()
 
-            return {"telegram": str(commandResponse)}
+            return {"telegram": str('')}
 
     def process_command(self, command):
         self._import_command_module(command)

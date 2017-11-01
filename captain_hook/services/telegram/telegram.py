@@ -4,7 +4,7 @@ import importlib
 import telegram
 from time import sleep
 import datetime
-
+from .events.message import MessageEvent
 
 class TelegramService(BaseService):
     def setup(self):
