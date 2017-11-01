@@ -6,7 +6,6 @@ import datetime
 
 
 class TelegramService(BaseService):
-
     def setup(self):
         print('init telegram service')
 
