@@ -13,14 +13,14 @@ from .events.message import MessageEvent
 class TelegramService(BaseService):
     def registerWebhook(self):
         self.telegram_webhook = telegram.Bot(self.config['token'])
-        # self.telegram_webhook.setWebhook(webhook_url='')
-        # sleep(0.1)
-        # updates = []
-        # self.telegram_webhook.get_updates()
-        # print('Registering telegram webhook url: %s' % self.webhook_url)
-        # self.telegram_webhook.setWebhook(
-        #     webhook_url=self.webhook_url, certificate=self.cert, allowed_updates=updates, max_connections=40)
-        # self.webhook = self.telegram_webhook.getWebhookInfo()
+        self.telegram_webhook.setWebhook(webhook_url='')
+        sleep(0.1)
+        updates = []
+        self.telegram_webhook.get_updates()
+        print('Registering telegram webhook url: %s' % self.webhook_url)
+        self.telegram_webhook.setWebhook(
+            webhook_url=self.webhook_url, certificate=self.cert, allowed_updates=updates, max_connections=40)
+        self.webhook = self.telegram_webhook.getWebhookInfo()
 
     def registerCommands(self):
         dir_path = os.path.dirname(os.path.realpath(__file__)) + '/commands'
