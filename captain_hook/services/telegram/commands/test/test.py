@@ -5,6 +5,9 @@ from time import sleep
 
 
 class TestCommand(BaseCommand):
-    def run(self, message, config):
+    def run(self, messageObj, config):
+        self.sendMessage(chat_id=messageObj.get('chat').get('id'),
+                         text='Sleeping for 5s then saying: test')
         sleep(5)
-        self.sendMessage(message.get('chat').get('id'), 'test')
+        self.sendMessage(chat_id=messageObj.get('chat').get('id'),
+                         text='test')

@@ -3,12 +3,12 @@ from __future__ import absolute_import
 from ...base.events import BaseEvent
 import threading
 import importlib
-from utils import strings
+from ....utils import strings
+
 
 class MessageEvent(BaseEvent):
     def process(self, request, body):
         update = body
-        commandResponse = ''
         if update.get('message', '') and update.get('message').get('text') == 'ping':
             return {"telegram": str('Pong!')}
         else:
@@ -16,14 +16,21 @@ class MessageEvent(BaseEvent):
             if message and message[0][0] == '/':
                 messageSplit = message[1:].split(' ')
                 command = messageSplit[0]
-                command_module = self.process_command(command)
-                t = threading.Thread(target=command_module.run, args=(update.get('message'), self.config))
-                t.start()
-
+                messageSplit.pop(0)
+                update['message']['command'] = command
+                update['message']['args'] = messageSplit
+                if command == 'base':
+                    return {'telegram': ''}
+                try:
+                    command_module = self.process_command(command)
+                    t = threading.Thread(target=command_module.run, args=(update.get('message'), self.config))
+                    t.start()
+                except ImportError:
+                    print("Don't know how to handle telegram command {}".format(command))
+                    return {"telegram": str('')}
             return {"telegram": str('')}
 
     def process_command(self, command):
-        self._import_command_module(command)
         try:
             command_module = self._import_command_module(command)
         except ImportError:
