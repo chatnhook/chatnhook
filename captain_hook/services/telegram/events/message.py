@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from ...base.events import BaseEvent
 import threading
 import importlib
-from ....utils import strings
+from utils import strings
 
 
 class MessageEvent(BaseEvent):

@@ -6,37 +6,42 @@ from time import sleep
 import datetime
 from .events.message import MessageEvent
 
+
 class TelegramService(BaseService):
-    def setup(self):
-        print('init telegram service')
-
-        cert = False
-        if self.config['server_cert']:
-            cert = open(self.config['server_cert'], 'rb')
-
-        webhook_url = 'https://%s:%s/telegram' % (
-            self.config['hostname'], self.config['port'])
-        print('Registering telegram webhook url: %s' % webhook_url)
+    def registerWebhook(self):
         self.telegram_webhook = telegram.Bot(self.config['token'])
         self.telegram_webhook.setWebhook(webhook_url='')
         sleep(0.1)
         updates = []
         self.telegram_webhook.get_updates()
+        print('Registering telegram webhook url: %s' % self.webhook_url)
         self.telegram_webhook.setWebhook(
-            webhook_url=webhook_url, certificate=cert, allowed_updates=updates, max_connections= 40)
-        webhook = self.telegram_webhook.getWebhookInfo()
-        print ("Webhook settings: \n")
-        print ("URL : %s" % webhook.url)
-        print ("has_custom_certificate : %s" %
-               str(webhook.has_custom_certificate))
+            webhook_url=self.webhook_url, certificate=self.cert, allowed_updates=updates, max_connections=40)
+        self.webhook = self.telegram_webhook.getWebhookInfo()
 
-        if webhook.last_error_date:
+    def setup(self):
+        print('init telegram service')
+
+        self.cert = False
+        if self.config['server_cert']:
+            self.cert = open(self.config['server_cert'], 'rb')
+        self.webhook = False
+        self.webhook_url = 'https://%s:%s/telegram' % (
+            self.config['hostname'], self.config['port'])
+
+        try:
+            self.registerWebhook()
+        except telegram.error.RetryAfter:
+            # @todo continues checking
+            pass
+
+        if self.webhook and self.webhook.last_error_date:
             print ("last_error_date : %s" %
                    datetime.datetime.fromtimestamp(
-                       int(webhook.last_error_date)
+                       int(self.webhook.last_error_date)
                    ).strftime('%Y-%m-%d %H:%M:%S')
                    )
-            print ("last_error_message : %s" % str(webhook.last_error_message))
+            print ("last_error_message : %s" % str(self.webhook.last_error_message))
             # print (self.telegram_webhook.getWebhookInfo())
 
     def get_event(self, request, body):

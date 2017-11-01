@@ -61,11 +61,16 @@ def redirect(service, event, path):
     return render_template('redirect.html', **data), result.get('status_code', 200)
 
 
-@application.before_first_request
-def setup_services():
-    for service in get_services().itervalues():
-        service.setup()
+# @application.before_first_request
+# def setup_services():
+#
+
+def init_serviceses():
+    with application.app_context():
+        for service in get_services().itervalues():
+            service.setup()
 
 
 if __name__ == '__main__':
+    init_serviceses()
     application.run(debug=True, host='0.0.0.0')
