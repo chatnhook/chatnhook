@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 from ..base import BaseService
+import importlib
 import telegram
 from time import sleep
 import datetime
@@ -38,7 +39,5 @@ class TelegramService(BaseService):
             # print (self.telegram_webhook.getWebhookInfo())
 
     def get_event(self, request, body):
-        if 'edited_message' in body:
-            return 'edited_message'
-        else:
+        if 'message' in body:
             return 'message'
