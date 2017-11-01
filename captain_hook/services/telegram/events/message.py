@@ -4,6 +4,7 @@ from ...base.events import BaseEvent
 import threading
 import importlib
 from utils import strings
+from pprint import pprint
 
 
 class MessageEvent(BaseEvent):
@@ -15,6 +16,8 @@ class MessageEvent(BaseEvent):
             message = update.get('message', '').get('text')
             if message and message[0][0] == '/':
                 messageSplit = message[1:].split(' ')
+                if '@' in messageSplit[0]:
+                    messageSplit = messageSplit[0].split('@')
                 command = messageSplit[0]
                 messageSplit.pop(0)
                 update['message']['command'] = command

@@ -8,8 +8,8 @@ from pprint import pprint
 
 class RandomCommand(BaseCommand):
     def run(self, messageObj, config):
-        pprint(messageObj)
         message = ' '.join(messageObj.get('args'))
+        pprint(message)
         usage = 'Usage: /random answer1, answer2, answer 3'
         if not message or message == '':
             msg = usage
