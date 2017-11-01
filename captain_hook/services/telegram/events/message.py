@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from ...base.events import BaseEvent
-
+from pprint import pprint
 
 class MessageEvent(BaseEvent):
-
     def process(self, request, body):
         print('Telegram webhook')
-        update = request
-        print request
-        print body
-        # message = 'For a private message from: {username}: {message}'.format(
-        #     username=update['message']['from']['username'],
-        #     message=update['message']['text'],
-        # )
-        return {"telegram": str('')}
+        update = body
+
+        if update.get('message').get('text') == 'ping':
+            return {"telegram": str('Pong!')}
+        else:
+            return {"telegram": str('Pong!')}

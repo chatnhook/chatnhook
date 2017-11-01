@@ -24,7 +24,6 @@ class TelegramService(BaseService):
         self.telegram_webhook.setWebhook(
             webhook_url=webhook_url, certificate=cert, allowed_updates=updates)
         webhook = self.telegram_webhook.getWebhookInfo()
-        print webhook
         print ("Webhook settings: \n")
         print ("URL : %s" % webhook.url)
         print ("has_custom_certificate : %s" %
