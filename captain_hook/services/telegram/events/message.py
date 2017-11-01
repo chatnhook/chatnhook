@@ -7,7 +7,7 @@ class MessageEvent(BaseEvent):
     def process(self, request, body):
         print('Telegram webhook')
         update = body
-        # print json.dumps(body)
+        print json.dumps(body)
         if update.get('message', '') and update.get('message').get('text') == 'ping':
             return {"telegram": str('Pong!')}
         else:

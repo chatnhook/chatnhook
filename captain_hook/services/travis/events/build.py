@@ -11,13 +11,11 @@ class BuildEvent(BaseEvent):
 
     def process(self, request, body):
         payload = json.loads(urllib.unquote(body['payload']))
-        print payload['branch']
-        print payload['result_message']
-        # if payload['result_message'] not in self.config['results']:
-        #     return False
-        #
-        # if payload['branch'] not in self.config['notify_branches']:
-        #     return False
+        if payload['result_message'] not in self.config['results']:
+            return False
+
+        if payload['branch'] not in self.config['notify_branches']:
+            return False
 
         message = 'Build [{build_number}]({build_url}) -  [{commit}]({compare_url}) of' \
                   ' {repository}@{branch} by {author} {result} in {duration}'
