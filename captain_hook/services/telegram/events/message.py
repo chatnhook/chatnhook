@@ -26,14 +26,16 @@ class MessageEvent(BaseEvent):
                     return {'telegram': ''}
                 try:
                     command_module = self.process_command(command)
-                    t = threading.Thread(target=command_module.run, args=(update.get('message'), self.config))
-                    t.start()
+                    if command_module:
+                        t = threading.Thread(target=command_module.run, args=(update.get('message'), self.config))
+                        t.start()
                 except ImportError:
                     print("Don't know how to handle telegram command {}".format(command))
                     return {"telegram": str('')}
             return {"telegram": str('')}
 
     def process_command(self, command):
+        command_module = False
         try:
             command_module = self._import_command_module(command)
         except ImportError:
@@ -42,9 +44,11 @@ class MessageEvent(BaseEvent):
         command_processor_class_name = "{}Command".format(
             strings.toCamelCase(command),
         )
-        return getattr(command_module, command_processor_class_name)(
-            config=self.config,
-        )
+        if command_module:
+            return getattr(command_module, command_processor_class_name)(
+                config=self.config,
+            )
+        return False
 
     def _import_command_module(self, command):
         package = "services.telegram.commands.{}.{}".format(

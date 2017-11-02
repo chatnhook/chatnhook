@@ -13,10 +13,13 @@ from .events.message import MessageEvent
 class TelegramService(BaseService):
     def registerWebhook(self):
         self.telegram_webhook = telegram.Bot(self.config['token'])
+        print('Unregistered telegram webhook url')
         self.telegram_webhook.setWebhook(webhook_url='')
-        sleep(0.1)
+        sleep(1)
+        print('Cleaning updates')
         updates = []
         self.telegram_webhook.get_updates()
+        sleep(1)
         print('Registering telegram webhook url: %s' % self.webhook_url)
         self.telegram_webhook.setWebhook(
             webhook_url=self.webhook_url, certificate=self.cert, allowed_updates=updates, max_connections=40)
