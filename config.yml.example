@@ -21,6 +21,10 @@ services:
     secret: ''
     notify_branches:
       - master
+    notify_events: # If you omit this, then all events will be allowed
+      - push
+      - commit_commment
+      - watch
   docker:
     enabled: true
   patreon:
