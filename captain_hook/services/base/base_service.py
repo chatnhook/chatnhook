@@ -14,6 +14,9 @@ class BaseService:
 
     def execute(self, request, body, bot_stats):
         event = self.get_event(request, body)
+        if self.config.get('notify_events'):
+            if event not in self.config.get('notify_events'):
+                return 'Event disabled'
         message_dict = self._get_event_processor(event)
         bot_stats.count_webhook(request.path[1:], event)
         if message_dict:
