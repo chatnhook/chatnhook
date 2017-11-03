@@ -12,12 +12,13 @@ class BaseService:
     def setup(self):
         pass
 
-    def execute(self, request, body):
-        message_dict = self._get_event_processor(
-            self.get_event(request, body)
-        ).process(request, body)
+    def execute(self, request, body, bot_stats):
+        event = self.get_event(request, body)
+        message_dict = self._get_event_processor(event).process(request, body)
+        bot_stats.count_webhook(request.path[1:], event)
         for name, comm in self.comms.items():
             default_message = message_dict.get('default', None)
+            bot_stats.count_message(name)
             comm.communicate(message_dict.get(name, default_message))
         return "ok"
 
