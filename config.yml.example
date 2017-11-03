@@ -50,3 +50,16 @@ services:
       - Errored
   pagerduty:
     enabled: true
+  telegram:
+    enabled: true
+    server_key: '' # Only when using a custom ssl cert
+    server_cert: '' # Only when using a custom ssl cert
+    hostname: 'webhook.mydomain.com'
+    port: 443
+    token: "xxxx:xxxx"
+    plugins:
+      giphy:
+        apiKey: 'xxxx'
+stats:
+  enabled: true
+  api_key: '1234'

@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 from os.path import abspath
 from os.path import dirname
-from flask import Flask, request, g, render_template, jsonify
+from flask import Flask, request, g, render_template, jsonify, abort
 import utils.config
 from services import find_and_load_services
 from comms import find_and_load_comms
@@ -65,7 +65,22 @@ def redirect(service, event, path):
 
 @application.route('/stats', methods=['GET'])
 def getstats():
-	return jsonify(bot_stats.get_stats())
+	enabled = False
+	if config.get('stats') and config.get('stats').get('enabled') is True:
+		if config.get('stats').get('api_key'):
+			key = config.get('stats').get('api_key')
+			submitted_key = request.args.get('api_key')
+			if key == submitted_key:
+				enabled = True
+		else:
+			enabled = True
+
+		if enabled:
+			return jsonify(bot_stats.get_stats())
+		else:
+			abort(403)
+	else:
+		abort(404)
 
 
 def init_serviceses():
