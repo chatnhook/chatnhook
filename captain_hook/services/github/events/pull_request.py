@@ -59,7 +59,14 @@ class PullRequestEvent(GithubEvent):
 		api_result = self.gh_api(params)
 		status_code = 200
 		if not api_result:
-			status_code = 404
+			return {
+				'status_code': 404
+			}
+
+		if "message" in api_result and ("Not" in api_result['message'] or "rate limit" in api_result['message']):
+			return {
+				'status_code': 404
+			}
 		s = api_result['url'].split('/')
 		repo = s[4] + '/' + s[5]
 		if api_result['state'] == 'closed':

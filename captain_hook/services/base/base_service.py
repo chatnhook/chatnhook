@@ -16,7 +16,7 @@ class BaseService:
         event = self.get_event(request, body)
         if self.config.get('notify_events'):
             if event not in self.config.get('notify_events'):
-                return 'Event disabled'
+                return 'Event disa'
         message_dict = self._get_event_processor(event)
         bot_stats.count_webhook(request.path[1:], event)
         if message_dict:
@@ -43,6 +43,8 @@ class BaseService:
 
     def _get_event_processor(self, event):
         event_module = False
+        if not event:
+            return False
         try:
             event_module = self._import_event_module(event)
         except ImportError:
