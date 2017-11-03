@@ -82,7 +82,7 @@ def getstats():
 		if enabled:
 			return jsonify(bot_stats.get_stats())
 		else:
-			abort(403)
+			abort(404)
 	else:
 		abort(404)
 
