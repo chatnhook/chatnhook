@@ -40,7 +40,11 @@ def receive_webhook(service):
 
 	if service not in get_services():
 		return 'Service not found'
-	return get_services()[service].execute(request, body, bot_stats)
+	result = get_services()[service].execute(request, body, bot_stats)
+	if result:
+		return result
+	else:
+		return 'Error during processing. See log for more info'
 
 
 @application.route('/redirect/<service>/<event>', methods=['GET'], defaults={'params': None})
