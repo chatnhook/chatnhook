@@ -5,4 +5,5 @@ __pycache__
 comms.yml
 config.yml
 server.key
-server.crthook-bot.log
+server.crt
+hook-bot.log
