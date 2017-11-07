@@ -40,7 +40,7 @@ function daemon(){
     export PYTHONPATH="${PYTHONPATH}:/usr/local/lib/python2.7/dist-packages:${SCRIPTPATH}"
 	while (true);
 	do
-		python $SCRIPTPATH/captain_hook/endpoint.py
+		python $SCRIPTPATH/captain_hook/endpoint.py | tee $LOG_PATH
 		sleep 2
 	done
 }

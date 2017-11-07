@@ -1,1 +1,1 @@
-LOG_PATH=/var/log/hook-bot.log
+LOG_PATH=hook-bot.log
