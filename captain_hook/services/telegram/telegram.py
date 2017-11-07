@@ -14,7 +14,7 @@ class TelegramService(BaseService):
     def registerWebhook(self):
         self.telegram_webhook = telegram.Bot(self.config['token'])
         print('Unregistered telegram webhook url')
-        self.telegram_webhook.setWebhook(webhook_url='')
+        self.telegram_webhook.setWebhook(url='')
         sleep(1)
         print('Cleaning updates')
         updates = []
@@ -22,7 +22,7 @@ class TelegramService(BaseService):
         sleep(1)
         print('Registering telegram webhook url: %s' % self.webhook_url)
         self.telegram_webhook.setWebhook(
-            webhook_url=self.webhook_url, certificate=self.cert, allowed_updates=updates, max_connections=40)
+            url=self.webhook_url, certificate=self.cert, allowed_updates=updates, max_connections=40)
         self.webhook = self.telegram_webhook.getWebhookInfo()
 
     def registerCommands(self):
