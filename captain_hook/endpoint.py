@@ -25,7 +25,6 @@ wz.setLevel(logging.INFO)
 log = logging.getLogger('hookbot')
 logging.getLogger().setLevel(logging.DEBUG)
 
-
 fh = logging.FileHandler('hookbot.log')
 fh.setLevel(logging.DEBUG)
 
@@ -91,6 +90,11 @@ def redirect(service, event, path):
 	}
 
 	return render_template('redirect.html', **data), result.get('status_code', 200)
+
+
+@application.route('/favicon.ico', methods=['GET'])
+def favIcon():
+	return ''
 
 
 @application.route('/stats', methods=['GET'])
