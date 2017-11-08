@@ -11,8 +11,7 @@ class StartCommand(BaseCommand):
 		return "You just ran it!"
 
 	def run(self, messageObj, config):
-		msg = 'Welcome to this bot!'
-		self.sendMessage(chat_id=messageObj.get('chat').get('id'), text=msg.format())
+		msg = 'Welcome to this bot!\n'
 		dir_path = os.path.dirname(os.path.realpath(os.path.dirname(__file__)))
 		command_list = os.walk(dir_path).next()[1]
 		del command_list[command_list.index('base')]
@@ -26,7 +25,7 @@ class StartCommand(BaseCommand):
 				help_string = 'No help available'
 
 			commands.append('/{} - {}'.format(command, help_string))
-		msg = 'Available commands:\n ' + '\n'.join(commands)
+		msg += 'Available commands:\n ' + '\n'.join(commands)
 		self.sendMessage(parse_mode='HTML', chat_id=messageObj.get('chat').get('id'), text=msg)
 
 	def process_command(self, command):
