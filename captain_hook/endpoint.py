@@ -41,88 +41,88 @@ log.addHandler(fh)
 
 
 def get_services():
-	services = getattr(g, "_services", None)
-	if services is None:
-		services = g._services = find_and_load_services(config, get_comms())
-	return services
+    services = getattr(g, "_services", None)
+    if services is None:
+        services = g._services = find_and_load_services(config, get_comms())
+    return services
 
 
 def get_comms():
-	comms = getattr(g, "_comms", None)
-	if comms is None:
-		comms = g._comms = find_and_load_comms(config)
-	return comms
+    comms = getattr(g, "_comms", None)
+    if comms is None:
+        comms = g._comms = find_and_load_comms(config)
+    return comms
 
 
 @application.route('/<service>', methods=['GET', 'POST'])
 def receive_webhook(service):
-	try:
-		body = json.loads(request.data)
-	except ValueError:
-		body = request.form
+    try:
+        body = json.loads(request.data)
+    except ValueError:
+        body = request.form
 
-	if service not in get_services():
-		log.error('Service {} not found'.format(service))
-		return 'Service not found'
-	result = get_services()[service].execute(request, body, bot_stats)
-	if result:
-		return result
-	else:
-		return 'Error during processing. See log for more info'
+    if service not in get_services():
+        log.error('Service {} not found'.format(service))
+        return 'Service not found'
+    result = get_services()[service].execute(request, body, bot_stats)
+    if result:
+        return result
+    else:
+        return 'Error during processing. See log for more info'
 
 
 @application.route('/redirect/<service>/<event>', methods=['GET'], defaults={'params': None})
 @application.route('/redirect/<service>/<event>/<path:path>', methods=['GET'])
 def redirect(service, event, path):
-	if service not in get_services():
-		log.error('Service {} not found'.format(service))
-		return 'Service not found'
-	result = get_services()[service].redirect(request, event, path)
-	if not result:
-		return ""
-	bot_stats.count_redirect(service)
-	data = {
-		'meta_title': result.get('meta_title', '').decode("utf8"),
-		'meta_summary': result.get('meta_summary', '').decode("utf8"),
-		'meta_link': config['general']['bot_url'] + '/' + request.path,
-		'poster_image': result.get('poster_image', '').decode("utf8"),
-		'redirect': result.get('redirect', '')
-	}
+    if service not in get_services():
+        log.error('Service {} not found'.format(service))
+        return 'Service not found'
+    result = get_services()[service].redirect(request, event, path)
+    if not result:
+        return ""
+    bot_stats.count_redirect(service)
+    data = {
+        'meta_title': result.get('meta_title', '').decode("utf8"),
+        'meta_summary': result.get('meta_summary', '').decode("utf8"),
+        'meta_link': config['general']['bot_url'] + '/' + request.path,
+        'poster_image': result.get('poster_image', '').decode("utf8"),
+        'redirect': result.get('redirect', '')
+    }
 
-	return render_template('redirect.html', **data), result.get('status_code', 200)
+    return render_template('redirect.html', **data), result.get('status_code', 200)
 
 
 @application.route('/favicon.ico', methods=['GET'])
 def favIcon():
-	return ''
+    return ''
 
 
 @application.route('/stats', methods=['GET'])
 def getstats():
-	enabled = False
-	if config.get('stats') and config.get('stats').get('enabled') is True:
-		if config.get('stats').get('api_key'):
-			key = config.get('stats').get('api_key')
-			submitted_key = request.args.get('api_key')
-			if key == submitted_key:
-				enabled = True
-		else:
-			enabled = True
+    enabled = False
+    if config.get('stats', {}).get('enabled') is True:
+        if config.get('stats').get('api_key'):
+            key = config.get('stats').get('api_key')
+            submitted_key = request.args.get('api_key')
+            if key == submitted_key:
+                enabled = True
+        else:
+            enabled = True
 
-		if enabled:
-			return jsonify(bot_stats.get_stats())
-		else:
-			abort(404)
-	else:
-		abort(404)
+        if enabled:
+            return jsonify(bot_stats.get_stats())
+        else:
+            abort(404)
+    else:
+        abort(404)
 
 
 def init_serviceses():
-	with application.app_context():
-		for service in get_services().itervalues():
-			service.setup()
+    with application.app_context():
+        for service in get_services().itervalues():
+            service.setup()
 
 
 if __name__ == '__main__':
-	init_serviceses()
-	application.run(debug=True, host='0.0.0.0')
+    init_serviceses()
+    application.run(debug=True, host='0.0.0.0')
