@@ -7,8 +7,11 @@ import telegram
 
 
 class SlapCommand(BaseCommand):
-    def run(self, messageObj, config):
-        self.sendMessage(chat_id=messageObj.get('chat').get('id'),
-                         text='*Slaps {name} with a large trout'.format(name=', '.join(messageObj.get('args'))),
-                         parse_mode=telegram.ParseMode.HTML
-                         )
+	def get_description(self):
+		return "I smell fish..."
+
+	def run(self, messageObj, config):
+		self.sendMessage(chat_id=messageObj.get('chat').get('id'),
+						 text='*Slaps {name} with a large trout'.format(name=', '.join(messageObj.get('args'))),
+						 parse_mode=telegram.ParseMode.HTML
+						 )
