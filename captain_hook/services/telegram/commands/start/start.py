@@ -26,7 +26,7 @@ class StartCommand(BaseCommand):
 
             commands.append('/{} - {}'.format(command, help_string))
         msg += 'Available commands:\n ' + '\n'.join(commands)
-        self.sendMessage(parse_mode='HTML', chat_id=messageObj.get('chat').get('id'), text=msg)
+        self.send_message(parse_mode='HTML', chat_id=messageObj.get('chat').get('id'), text=msg)
 
     def process_command(self, command):
         command_module = self._import_command_module(command)

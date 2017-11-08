@@ -19,5 +19,5 @@ class GiphyCommand(BaseCommand):
         r = requests.get(url)
         data = r.json()
         data = data.get('data')
-        self.sendDocument(chat_id=messageObj.get('chat').get('id'),
+        self.send_document(chat_id=messageObj.get('chat').get('id'),
                           document=data.get('image_original_url'))

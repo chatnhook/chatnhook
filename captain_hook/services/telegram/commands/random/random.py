@@ -24,5 +24,5 @@ class RandomCommand(BaseCommand):
                 answer = random.choice(answers)
                 msg = 'You rolled: ' + answer
 
-        self.sendMessage(chat_id=messageObj.get('chat').get('id'),
-                         text=msg.format())
+        self.send_message(chat_id=messageObj.get('chat').get('id'),
+						  text=msg.format())

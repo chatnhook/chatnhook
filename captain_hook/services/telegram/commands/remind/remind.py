@@ -8,8 +8,8 @@ import re
 
 def sendReminder(bot, message, reminder):
     msg = 'Hey {user_name}, this is a reminder for:\n' + reminder
-    bot.sendMessage(chat_id=message.get('chat').get('id'),
-                    text=msg.format(
+    bot.send_message(chat_id=message.get('chat').get('id'),
+                     text=msg.format(
                         user_name=message.get('from').get('first_name')))
 
 
@@ -59,6 +59,6 @@ class RemindCommand(BaseCommand):
         else:
             msg = 'Usage: /remind <text> <1d|2h|43m|3s>'
 
-        self.sendMessage(chat_id=messageObj.get('chat').get('id'),
-                         text=msg.format(user_name=messageObj.get('from').get('first_name'))
-                         )
+        self.send_message(chat_id=messageObj.get('chat').get('id'),
+                          text=msg.format(user_name=messageObj.get('from').get('first_name'))
+                          )

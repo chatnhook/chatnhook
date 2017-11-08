@@ -12,17 +12,17 @@ class BaseCommand:
     def run(self, messageObj, config):
         raise NotImplementedError
 
-    def sendMessage(self, chat_id,
-                    text,
-                    parse_mode=telegram.ParseMode.MARKDOWN,
-                    disable_web_page_preview=None,
-                    disable_notification=False,
-                    reply_to_message_id=None,
-                    reply_markup=None,
-                    timeout=None,
-                    **kwargs):
+    def send_message(self, chat_id,
+                     text,
+                     parse_mode=telegram.ParseMode.MARKDOWN,
+                     disable_web_page_preview=None,
+                     disable_notification=False,
+                     reply_to_message_id=None,
+                     reply_markup=None,
+                     timeout=None,
+                     **kwargs):
         try:
-            self.telegram_bot.sendMessage(
+            self.telegram_bot.send_message(
                 chat_id,
                 text,
                 parse_mode,
@@ -36,17 +36,17 @@ class BaseCommand:
         except telegram.error.RetryAfter:
             pass
 
-    def sendPhoto(self, chat_id,
-                  photo='',
-                  **kwargs):
+    def send_photo(self, chat_id,
+                   photo='',
+                   **kwargs):
         try:
             self.telegram_bot.send_photo(chat_id=chat_id, photo=photo, **kwargs)
         except telegram.error.RetryAfter:
             pass
 
-    def sendDocument(self, chat_id,
-                     document='',
-                     **kwargs):
+    def send_document(self, chat_id,
+                      document='',
+                      **kwargs):
         try:
             self.telegram_bot.send_document(chat_id=chat_id, document=document, **kwargs)
         except telegram.error.RetryAfter:

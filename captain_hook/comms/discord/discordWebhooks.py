@@ -12,7 +12,7 @@ class DiscordWebhook():
         """
         self.url = url
 
-    def addAttachment(self, attachment):
+    def add_attachment(self, attachment):
         """
         Add a specified Attachment to self.attachments for later usage.
         @param {Attachment} attachment - The Attachment object to append.
