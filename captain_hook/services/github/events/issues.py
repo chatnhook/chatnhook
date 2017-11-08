@@ -19,7 +19,7 @@ class IssuesEvent(GithubEvent):
 			'user_link': body['sender']['html_url'],
 			'issue_number': str(body['issue']['number']),
 			'issue_link': self.build_redirect_link('github', 'issues', issue_link),
-			'issue_title': body['issue']['title'],
+			'issue_title': body['issue']['title'].encode('utf-8'),
 			'body': body['issue']['body'],
 			'repository_name': body['repository']['full_name'],
 			'repository_link': body['repository']['html_url'],
@@ -58,7 +58,7 @@ class IssuesEvent(GithubEvent):
 
 		redirect = {
 			'meta_title': '{issue_title} · Issue #{issue_number} · {repo}'.format(
-				issue_title=api_result['title'], issue_number=str(api_result['number']), repo=repo),
+				issue_title=api_result['title'].encode('utf-8'), issue_number=str(api_result['number']), repo=repo),
 			'meta_summary': api_result['body'].split("\n")[0][0:100],
 			'poster_image': api_result['user']['avatar_url'],
 			'redirect': api_result['html_url'],

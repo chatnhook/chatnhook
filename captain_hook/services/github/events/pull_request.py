@@ -20,8 +20,8 @@ class PullRequestEvent(GithubEvent):
 			'user_link': body['sender']['html_url'],
 			'pull_request_number': str(body['pull_request']['number']),
 			'pull_request_link': self.build_redirect_link('github', 'pull_request', pr_link),
-			'pull_request_title': body['pull_request']['title'],
-			'body': str(body['pull_request']['body']).strip(),
+			'pull_request_title': body['pull_request']['title'].encode('utf-8'),
+			'body': str(body['pull_request']['body']).encode('utf-8').strip(),
 			'repository_name': body['repository']['full_name'],
 			'repository_link': body['repository']['html_url'],
 		}
@@ -74,7 +74,7 @@ class PullRequestEvent(GithubEvent):
 
 		redirect = {
 			'meta_title': '{issue_title} · PR #{issue_number} · {repo}'.format(
-				issue_title=api_result['title'], issue_number=str(api_result['number']), repo=repo),
+				issue_title=api_result['title'].encode('utf-8'), issue_number=str(api_result['number']), repo=repo),
 			'meta_summary': api_result['body'].split("\n")[0][0:100],
 			'poster_image': api_result['user']['avatar_url'],
 			'redirect': api_result['html_url'],

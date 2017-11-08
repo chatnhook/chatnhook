@@ -21,7 +21,7 @@ class IssueCommentEvent(GithubEvent):
 			'user_link': body['comment']['user']['html_url'],
 			'issue_number': str(body['issue']['number']),
 			'comment_link': self.build_redirect_link('github', 'issue_comment', comment_api_link),
-			'issue_title': body['issue']['title'],
+			'issue_title': body['issue']['title'].encode('utf-8'),
 			'issue_type': issue_type,
 			'body': str(body['comment']['body']).split("\n")[0] + '...',
 		}
@@ -55,7 +55,7 @@ class IssueCommentEvent(GithubEvent):
 		repo = s[4] + '/' + s[5]
 		redirect = {
 			'meta_title': '{username} replied · {issue_title} · {issue_type} #{issue_number} · {repo}'.format(
-				issue_title=issue['title'], issue_number=str(issue['number']), repo=repo,
+				issue_title=issue['title'].encode('utf-8'), issue_number=str(issue['number']), repo=repo,
 				username=api_result['user']['login'],
 				issue_type=issue_type),
 			'meta_summary': api_result['body'].split("\n")[0][0:100],
