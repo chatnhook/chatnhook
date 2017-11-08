@@ -22,16 +22,17 @@ class BaseCommand:
                     timeout=None,
                     **kwargs):
         try:
-            self.telegram_bot.sendMessage(chat_id,
-                                          text,
-                                          parse_mode,
-                                          disable_web_page_preview,
-                                          disable_notification,
-                                          reply_to_message_id,
-                                          reply_markup,
-                                          timeout,
-                                          **kwargs
-                                          )
+            self.telegram_bot.sendMessage(
+                chat_id,
+                text,
+                parse_mode,
+                disable_web_page_preview,
+                disable_notification,
+                reply_to_message_id,
+                reply_markup,
+                timeout,
+                **kwargs
+            )
         except telegram.error.RetryAfter:
             pass
 
