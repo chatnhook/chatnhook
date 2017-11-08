@@ -5,7 +5,6 @@ import requests
 
 
 class DiscordWebhook():
-
     def __init__(self, url):
         """
         Initialize a Discord Webhook object.
@@ -80,7 +79,6 @@ class DiscordWebhook():
 
 
 class Attachment(classmethod):
-
     def __init__(self, **args):
         """
         Initialize an Attachment object and fill the properties from given $args.
@@ -109,7 +107,6 @@ class Attachment(classmethod):
 
 
 class Field():
-
     def __init__(self, title='', value='', short=False):
         """
         Initialize a Field object.

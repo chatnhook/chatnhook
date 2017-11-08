@@ -4,7 +4,6 @@ from ...base.events import BaseEvent
 
 
 class IncidentAssignEvent(BaseEvent):
-
     def process(self, request, body):
         payload = body['messages'][0]
         incident = payload['data']['incident']

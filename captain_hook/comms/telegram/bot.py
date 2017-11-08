@@ -4,7 +4,6 @@ from ..base.base_comm import BaseComm
 
 
 class TelegramComm(BaseComm):
-
     def setup(self):
         self.telegram_bot = telegram.Bot(self.config["token"])
 

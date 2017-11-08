@@ -8,7 +8,6 @@ from pprint import pprint
 
 
 class BuildEvent(BaseEvent):
-
     def process(self, request, body):
         payload = json.loads(urllib.unquote(body['payload']))
         if payload['result_message'] not in self.config['results']:
@@ -47,15 +46,15 @@ class BuildEvent(BaseEvent):
             commit=payload.get('commit')[0:7],
             compare_url=payload.get('compare_url'),
             repository=payload.get('repository').get('owner_name') +
-            '/' + payload.get('repository').get('name'),
+                       '/' + payload.get('repository').get('name'),
             branch=payload.get('branch'),
             author=payload.get('committer_name'),
             result=payload.get('result_message').lower(),
             duration=str(datetime.timedelta(seconds=payload.get('duration'))),
             pull_request_url=payload.get('state'),
             pull_request='#' +
-            str(payload.get('pull_request_number')) + ' ' +
-            str(payload.get('pull_request_title')),
+                         str(payload.get('pull_request_number')) + ' ' +
+                         str(payload.get('pull_request_title')),
         )
 
         return {'default': message}

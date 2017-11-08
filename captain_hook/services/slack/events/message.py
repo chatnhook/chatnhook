@@ -4,7 +4,6 @@ from ...base.events import BaseEvent
 
 
 class MessageEvent(BaseEvent):
-
     def process(self, request, body):
         if self.config['token'] != body.get('token'):
             return {'default': False}

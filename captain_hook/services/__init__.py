@@ -2,7 +2,6 @@ import os
 import importlib
 from os.path import dirname, abspath, isdir, join
 
-
 PATH = dirname(abspath(__file__))
 
 

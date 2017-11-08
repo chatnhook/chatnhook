@@ -4,7 +4,6 @@ from os.path import join
 
 
 class BaseComm:
-
     def __init__(self, config):
         self.config = config
 

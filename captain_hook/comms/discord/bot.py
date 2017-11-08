@@ -5,7 +5,6 @@ from .discordWebhooks import DiscordWebhook
 
 
 class DiscordComm(BaseComm):
-
     def setup(self):
         self.discord_bot = DiscordWebhook(url=self.config["hook_url"])
 

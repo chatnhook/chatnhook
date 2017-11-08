@@ -4,7 +4,6 @@ from ..base.base_comm import BaseComm
 
 
 class SlackComm(BaseComm):
-
     def setup(self):
         self.slack_bot = slackweb.Slack(url=self.config["hook_url"])
 
