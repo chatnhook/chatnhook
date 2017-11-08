@@ -1,3 +1,5 @@
+global:
+  boturl: "https://webhook.mydomain.com"
 comms:
   telegram:
     enabled: true
@@ -21,7 +23,10 @@ services:
     secret: ''
     notify_branches:
       - master
-    notify_events: # If you omit this, then all events will be allowed
+
+    disabled_events: # Allow all but those here
+      - create
+    notify_events: # Deny all but those here
       - push
       - commit_commment
       - watch

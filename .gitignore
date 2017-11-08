@@ -7,3 +7,4 @@ config.yml
 server.key
 server.crt
 hook-bot.log
+hookbot.log

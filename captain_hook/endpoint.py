@@ -7,6 +7,7 @@ import utils.config
 from services import find_and_load_services
 from comms import find_and_load_comms
 from stats.stats import BotStats
+import logging
 import json
 
 CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
@@ -15,6 +16,29 @@ config = utils.config.load_config(CONFIG_FOLDER)
 application = Flask(__name__)
 
 bot_stats = BotStats()
+
+formatter = logging.Formatter('%(created)s - %(name)s - %(levelname)s - %(message)s')
+
+wz = logging.getLogger('werkzeug')
+wz.setLevel(logging.INFO)
+
+log = logging.getLogger('hookbot')
+logging.getLogger().setLevel(logging.DEBUG)
+
+
+fh = logging.FileHandler('hookbot.log')
+fh.setLevel(logging.DEBUG)
+
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+
+wz.addHandler(fh)
+wz.addHandler(ch)
+
+ch.setFormatter(formatter)
+fh.setFormatter(formatter)
+log.addHandler(ch)
+log.addHandler(fh)
 
 
 def get_services():
@@ -39,6 +63,7 @@ def receive_webhook(service):
 		body = request.form
 
 	if service not in get_services():
+		log.error('Service {} not found'.format(service))
 		return 'Service not found'
 	result = get_services()[service].execute(request, body, bot_stats)
 	if result:
@@ -51,6 +76,7 @@ def receive_webhook(service):
 @application.route('/redirect/<service>/<event>/<path:path>', methods=['GET'])
 def redirect(service, event, path):
 	if service not in get_services():
+		log.error('Service {} not found'.format(service))
 		return 'Service not found'
 	result = get_services()[service].redirect(request, event, path)
 	if not result:
