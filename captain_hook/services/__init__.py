@@ -13,7 +13,7 @@ def find_and_load_services(config, comms):
     )
     for name, service in services.items():
         service_config = config["services"].get(name, {})
-        service_config['general'] = config['general']
+        service_config['global'] = config['global']
         services[name] = service(service_config, comms)
     return services
 
