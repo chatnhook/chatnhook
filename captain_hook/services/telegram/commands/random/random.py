@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from captain_hook.services.telegram.commands.base import BaseCommand
-from time import sleep
+from ..base import BaseCommand
 import random
 from pprint import pprint
 

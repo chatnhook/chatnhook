@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from captain_hook.services.telegram.commands.base import BaseCommand
+from ..base import BaseCommand
 import os
 import importlib
 from utils import strings

@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from captain_hook.services.telegram.commands.base import BaseCommand
-from pprint import pprint
+from ..base import BaseCommand
 from threading import Timer
 import re
 
 
 def sendReminder(bot, message, reminder):
     msg = 'Hey {user_name}, this is a reminder for:\n' + reminder
-    bot.send_message(chat_id=message.get('chat').get('id'),
-                     text=msg.format(
-                        user_name=message.get('from').get('first_name')))
+    bot.send_message(
+        chat_id=message.get('chat').get('id'),
+        text=msg.format(
+            user_name=message.get('from').get('first_name')))
 
 
 class RemindCommand(BaseCommand):

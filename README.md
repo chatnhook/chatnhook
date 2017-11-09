@@ -33,7 +33,7 @@ A **comm** is then used to publish information from this hook in messaging servi
 - Travis
 - Telegram (can be used as telegram bot)
 
-   
+
 ## Currently supported comms to publish event information
 
 - Telegram
