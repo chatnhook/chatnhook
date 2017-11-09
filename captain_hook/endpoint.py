@@ -22,6 +22,9 @@ formatter = logging.Formatter('%(created)s - %(name)s - %(levelname)s - %(messag
 wz = logging.getLogger('werkzeug')
 wz.setLevel(logging.INFO)
 
+wd = logging.getLogger('watchdog')
+wd.setLevel(logging.INFO)
+
 log = logging.getLogger('hookbot')
 logging.getLogger().setLevel(logging.DEBUG)
 

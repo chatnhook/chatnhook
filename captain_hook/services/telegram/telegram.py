@@ -63,5 +63,4 @@ class TelegramService(BaseService):
         # print (self.telegram_webhook.getWebhookInfo())
 
     def get_event(self, request, body):
-        if 'message' in body:
-            return 'message'
+        return next(iter(body))
