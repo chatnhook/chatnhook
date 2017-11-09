@@ -1,0 +1,74 @@
+global:
+  boturl: "https://webhook.mydomain.com"
+comms:
+  telegram:
+    enabled: true
+    token: "your_token_here"
+    channel: "@my_channel"
+  slack:
+    enabled: true
+    hook_url: "slack_webhook_here"
+  mattermost:
+    enabled: false
+    webhook_url: 'Mattermost_webhook_url'
+    channel: 'test'
+    bot_name: 'Passman Bot'
+  discord:
+    enabled: false
+    hook_url: 'https://discordapp.com/api/webhooks/....../......'
+    bot_name: 'Passman Bot'
+services:
+  github:
+    enabled: true
+    secret: ''
+    notify_branches:
+      - master
+
+    disabled_events: # Allow all but those here
+      - create
+    notify_events: # Deny all but those here
+      - push
+      - commit_commment
+      - watch
+  docker:
+    enabled: true
+  patreon:
+    enabled: true
+  slack:
+    enabled: true
+    token: "your_outgoing_hook_token"
+  scrutinizer:
+    enabled: true
+    events:
+      - inspection.created
+      - inspection.completed
+      - inspection.canceled
+      - inspection.failed
+    notify_branches:
+      - master
+  travis:
+    enabled: true
+    notify_branches:
+      - master
+    results:
+      - Passed
+      - Fixed
+      - Broken
+      - Failed
+      - Still Failing
+      - Errored
+  pagerduty:
+    enabled: true
+  telegram:
+    enabled: true
+    server_key: '' # Only when using a custom ssl cert
+    server_cert: '' # Only when using a custom ssl cert
+    hostname: 'webhook.mydomain.com'
+    port: 443
+    token: "xxxx:xxxx"
+    plugins:
+      giphy:
+        apiKey: 'xxxx'
+stats:
+  enabled: true
+  api_key: '1234'

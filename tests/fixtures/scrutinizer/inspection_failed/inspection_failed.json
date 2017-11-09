@@ -1,0 +1,260 @@
+
+{
+    "uuid": "edca47d3-a69d-40ec-8c7f-98f75ec2f859",
+    "state": "completed",
+    "created_at": "2017-03-03T01:13:23+0000",
+    "started_at": "2017-03-03T01:13:25+0000",
+    "finished_at": "2017-03-03T01:16:55+0000",
+    "metadata": {
+        "title": "[tx-robot] updated from transifex",
+        "branch": "master",
+        "source_reference": "9f2316d44b2cf28d6e6455f9a301a2002a1a3739"
+    },
+    "nb_artifacts": 0,
+    "build": {
+        "status": "passed"
+    },
+    "_links": {
+        "self": {
+            "href": "\/api\/repositories\/g\/nextcloud\/passman\/inspections\/edca47d3-a69d-40ec-8c7f-98f75ec2f859"
+        },
+        "repository": {
+            "href": "\/api\/repositories\/g\/nextcloud\/passman"
+        },
+        "artifacts": {
+            "href": "\/api\/repositories\/g\/nextcloud\/passman\/inspections\/edca47d3-a69d-40ec-8c7f-98f75ec2f859\/artifacts"
+        }
+    },
+    "_embedded": {
+        "repository": {
+            "type": "g",
+            "config": "filter:\r\n    excluded_paths:\r\n        - 'tests\/*'\r\n        - '*.min.js'\r\n        - '*\/vendor\/*'\r\nchecks:\n    php:\n        fix_php_opening_tag: false\n        remove_php_closing_tag: false\n        one_class_per_file: false\n        side_effects_or_types: false\n        no_mixed_inline_html: false\n        require_braces_around_control_structures: false\n        php5_style_constructor: false\n        no_global_keyword: true\n        avoid_usage_of_logical_operators: false\n        psr2_class_declaration: false\n        no_underscore_prefix_in_properties: false\n        no_underscore_prefix_in_methods: false\n        blank_line_after_namespace_declaration: false\n        single_namespace_per_use: false\n        psr2_switch_declaration: false\n        psr2_control_structure_declaration: false\n        avoid_superglobals: false\n        security_vulnerabilities: true\n        no_exit: false\n        uppercase_constants: true\n        phpunit_assertions: true\n    javascript: true\n\ncoding_style:\n    php:\n        indentation:\n            general:\n                use_tabs: true\n                size: 4\n            switch:\n                indent_case: true\n        spaces:\n            general:\n                linefeed_character: newline\n            before_parentheses:\n                function_declaration: false\n                closure_definition: false\n                function_call: false\n                if: true\n                for: true\n                while: true\n                switch: true\n                catch: true\n                array_initializer: false\n            around_operators:\n                assignment: true\n                logical: true\n                equality: true\n                relational: true\n                bitwise: true\n                additive: true\n                multiplicative: true\n                shift: true\n                unary_additive: false\n                concatenation: true\n                negation: false\n            before_left_brace:\n                class: true\n                function: true\n                if: true\n                else: true\n                for: true\n                while: true\n                do: true\n                switch: true\n                try: true\n                catch: true\n                finally: true\n            before_keywords:\n                else: true\n                while: true\n                catch: true\n                finally: true\n            within:\n                brackets: false\n                array_initializer: false\n                grouping: false\n                function_call: false\n                function_declaration: false\n                if: false\n                for: false\n                while: false\n                switch: false\n                catch: false\n                type_cast: false\n            ternary_operator:\n                before_condition: true\n                after_condition: true\n                before_alternative: true\n                after_alternative: true\n                in_short_version: false\n            other:\n                before_comma: false\n                after_comma: true\n                before_semicolon: false\n                after_semicolon: true\n                after_type_cast: true\n        braces:\n            classes_functions:\n                class: end-of-line\n                function: end-of-line\n                closure: end-of-line\n            if:\n                opening: end-of-line\n                always: true\n                else_on_new_line: false\n            for:\n                opening: end-of-line\n                always: true\n            while:\n                opening: end-of-line\n                always: true\n            do_while:\n                opening: end-of-line\n                always: true\n                while_on_new_line: false\n            switch:\n                opening: end-of-line\n            try:\n                opening: undefined\n                catch_on_new_line: false\n                finally_on_new_line: false\n        upper_lower_casing:\n            keywords:\n                general: lower\n            constants:\n                true_false_null: undefined\n\n",
+            "created_at": "2016-10-07T19:50:24+0000",
+            "private": false,
+            "default_branch": "master",
+            "applications": {
+                "master": {
+                    "index": {
+                        "source_reference": "9f2316d44b2cf28d6e6455f9a301a2002a1a3739",
+                        "id": 2084157,
+                        "branch_reference": "master",
+                        "created_at": "2017-03-03T01:16:48+0000",
+                        "outdated": false,
+                        "_links": {
+                            "issues": {
+                                "href": "\/api\/repositories\/g\/nextcloud\/passman\/indices\/2084157\/issues"
+                            }
+                        },
+                        "_embedded": {
+                            "project": {
+                                "type": "system",
+                                "identifier": "",
+                                "metric_values": {
+                                    "sa.rqd": 0,
+                                    "scrutinizer.test_coverage": 0.50460526315789,
+                                    "scrutinizer.quality": 8.0462592804112,
+                                    "scrutinizer.weight.very_good": 56.739,
+                                    "scrutinizer.weight.good": 17.7613,
+                                    "scrutinizer.weight.satisfactory": 8.5094,
+                                    "scrutinizer.weight.pass": 11.0223,
+                                    "scrutinizer.weight.critical": 5.968
+                                }
+                            }
+                        }
+                    },
+                    "build_status": {
+                        "status": "passed"
+                    }
+                },
+                "scrutinizer-patch-1": {
+                    "index": {
+                        "source_reference": "ae73bff5c4a8a1441c8509fb06fd2a94133b58f5",
+                        "id": 1400279,
+                        "branch_reference": "scrutinizer-patch-1",
+                        "created_at": "2016-10-07T23:16:52+0000",
+                        "outdated": false,
+                        "_links": {
+                            "issues": {
+                                "href": "\/api\/repositories\/g\/nextcloud\/passman\/indices\/1400279\/issues"
+                            }
+                        },
+                        "_embedded": {
+                            "project": {
+                                "type": "system",
+                                "identifier": "",
+                                "metric_values": {
+                                    "sa.rqd": 0,
+                                    "scrutinizer.quality": 8.0640732265446,
+                                    "scrutinizer.weight.very_good": 56.3692,
+                                    "scrutinizer.weight.good": 16.8574,
+                                    "scrutinizer.weight.satisfactory": 10.0686,
+                                    "scrutinizer.weight.pass": 11.8612,
+                                    "scrutinizer.weight.critical": 4.8436
+                                }
+                            }
+                        }
+                    },
+                    "build_status": {
+                        "status": "passed",
+                        "details": {
+                            "analysis": {
+                                "status": "passed"
+                            }
+                        }
+                    }
+                },
+                "phpunit": {
+                    "index": {
+                        "source_reference": "75f541e2c90b6a6211536c542bb9dc5bb5a5f66a",
+                        "id": 1437049,
+                        "branch_reference": "phpunit",
+                        "created_at": "2016-10-16T17:21:46+0000",
+                        "outdated": false,
+                        "_links": {
+                            "issues": {
+                                "href": "\/api\/repositories\/g\/nextcloud\/passman\/indices\/1437049\/issues"
+                            }
+                        },
+                        "_embedded": {
+                            "project": {
+                                "type": "system",
+                                "identifier": "",
+                                "metric_values": {
+                                    "sa.rqd": 0,
+                                    "scrutinizer.test_coverage": 0.94964028776978,
+                                    "scrutinizer.quality": 8.0987472365512,
+                                    "scrutinizer.weight.very_good": 56.7428,
+                                    "scrutinizer.weight.good": 17.465,
+                                    "scrutinizer.weight.satisfactory": 9.2115,
+                                    "scrutinizer.weight.pass": 11.8644,
+                                    "scrutinizer.weight.critical": 4.7163
+                                }
+                            }
+                        }
+                    },
+                    "build_status": {
+                        "status": "passed"
+                    }
+                },
+                "v2.1.0": {
+                    "index": {
+                        "source_reference": "2d458f0d8c6d03eb6048722e2041fb0747e50866",
+                        "id": 2012138,
+                        "branch_reference": "v2.1.0",
+                        "created_at": "2017-02-17T13:23:39+0000",
+                        "outdated": false,
+                        "_links": {
+                            "issues": {
+                                "href": "\/api\/repositories\/g\/nextcloud\/passman\/indices\/2012138\/issues"
+                            }
+                        },
+                        "_embedded": {
+                            "project": {
+                                "type": "system",
+                                "identifier": "",
+                                "metric_values": {
+                                    "sa.rqd": 0,
+                                    "scrutinizer.quality": 7.9662886913883,
+                                    "scrutinizer.weight.very_good": 56.8495,
+                                    "scrutinizer.weight.good": 16.304,
+                                    "scrutinizer.weight.satisfactory": 8.3972,
+                                    "scrutinizer.weight.pass": 11.8296,
+                                    "scrutinizer.weight.critical": 6.6197
+                                }
+                            }
+                        }
+                    },
+                    "build_status": {
+                        "status": "passed",
+                        "details": {
+                            "analysis": {
+                                "status": "passed"
+                            }
+                        }
+                    }
+                }
+            },
+            "development_report_settings": {
+                "enabled": true,
+                "weekday": 1,
+                "hour": 8,
+                "timezone": "UTC"
+            },
+            "branch_settings": {
+                "tracked_branches": [
+                    "master"
+                ]
+            },
+            "login": "nextcloud",
+            "name": "passman",
+            "_links": {
+                "self": {
+                    "href": "\/api\/repositories\/g\/nextcloud\/passman"
+                }
+            }
+        },
+        "head_index": {
+            "source_reference": "9f2316d44b2cf28d6e6455f9a301a2002a1a3739",
+            "id": 2084157,
+            "branch_reference": "master",
+            "created_at": "2017-03-03T01:16:48+0000",
+            "outdated": false,
+            "_links": {
+                "issues": {
+                    "href": "\/api\/repositories\/g\/nextcloud\/passman\/indices\/2084157\/issues"
+                }
+            },
+            "_embedded": {
+                "project": {
+                    "type": "system",
+                    "identifier": "",
+                    "metric_values": {
+                        "sa.rqd": 0,
+                        "scrutinizer.test_coverage": 0.50460526315789,
+                        "scrutinizer.quality": 8.0462592804112,
+                        "scrutinizer.weight.very_good": 56.739,
+                        "scrutinizer.weight.good": 17.7613,
+                        "scrutinizer.weight.satisfactory": 8.5094,
+                        "scrutinizer.weight.pass": 11.0223,
+                        "scrutinizer.weight.critical": 5.968
+                    }
+                }
+            }
+        },
+        "base_index": {
+            "source_reference": "adc5be9e6cec162a7df9aa3db6ecbf56ee312f77",
+            "id": 2082427,
+            "branch_reference": "master",
+            "created_at": "2017-03-02T17:05:01+0000",
+            "outdated": false,
+            "_links": {
+                "issues": {
+                    "href": "\/api\/repositories\/g\/nextcloud\/passman\/indices\/2082427\/issues"
+                }
+            },
+            "_embedded": {
+                "project": {
+                    "type": "system",
+                    "identifier": "",
+                    "metric_values": {
+                        "sa.rqd": 0,
+                        "scrutinizer.test_coverage": 0.50460526315789,
+                        "scrutinizer.quality": 8.0462592804112,
+                        "scrutinizer.weight.very_good": 56.739,
+                        "scrutinizer.weight.good": 17.7613,
+                        "scrutinizer.weight.satisfactory": 8.5094,
+                        "scrutinizer.weight.pass": 11.0223,
+                        "scrutinizer.weight.critical": 5.968
+                    }
+                }
+            }
+        },
+        "index_diff": {
+            "nb_new_issues": 0,
+            "nb_fixed_issues": 0,
+            "nb_added_elements": 0,
+            "nb_changed_elements": 0,
+            "nb_removed_elements": 0
+        }
+    }
+}

@@ -1,4 +1,6 @@
-Flask
-ipaddress
-requests
+setuptools
+flask
+pyyaml
 python-telegram-bot
+slackweb
+matterhook

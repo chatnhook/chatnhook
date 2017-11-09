@@ -1,1 +1,1 @@
-LOG_PATH=/var/log/github-telegram-bot.log
+LOG_PATH=hook-bot.log

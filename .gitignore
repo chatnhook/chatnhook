@@ -1,2 +1,10 @@
 .idea/
 config.json
+__pycache__
+*.pyc
+comms.yml
+config.yml
+server.key
+server.crt
+hook-bot.log
+hookbot.log

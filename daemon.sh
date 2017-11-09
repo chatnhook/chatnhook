@@ -25,14 +25,14 @@ source $SCRIPTPATH/daemon_config
 # Sets up the autostart features on rc.d and init.d to launch the daemon on boot
 function install_autostart() {
 	# Copy the script to the init scripts
-	cp $SCRIPTPATH/initd.sh /etc/init.d/github-telegram-bot
+	cp $SCRIPTPATH/initd.sh /etc/init.d/hook-bot
 
 	# Insert absolute path to this file
-	sed -i "s|DAEMON_PATH|$SCRIPT|g" /etc/init.d/github-telegram-bot
+	sed -i "s|DAEMON_PATH|$SCRIPT|g" /etc/init.d/hook-bot
 
 	# Enable rc.d autorun of the daemon
-	update-rc.d github-telegram-bot defaults
-	update-rc.d github-telegram-bot enable
+	update-rc.d hook-bot defaults
+	update-rc.d hook-bot enable
 }
 
 # Runs the actual daemon and restarts it in case it fails
@@ -40,15 +40,15 @@ function daemon(){
     export PYTHONPATH="${PYTHONPATH}:/usr/local/lib/python2.7/dist-packages:${SCRIPTPATH}"
 	while (true);
 	do
-		python $SCRIPTPATH/webhooks.py
+		python $SCRIPTPATH/captain_hook/endpoint.py | tee $LOG_PATH
 		sleep 2
 	done
 }
 
 # Deletes the autostart from rc levels and init script
 function remove_autostart() {
-	rm /etc/init.d/github-telegram-bot
-	update-rc.d github-telegram-bot remove
+	rm /etc/init.d/hook-bot
+	update-rc.d hook-bot remove
 }
 
 case "$1" in

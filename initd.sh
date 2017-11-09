@@ -1,12 +1,12 @@
 #!/bin/bash
 ### BEGIN INIT INFO
-# Provides:          demo_site
+# Provides:          hook-bot
 # Required-Start:	 mysql
 # Required-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Start demo docker daemon engine at boot time
-# Description:       Enable daemon functions (create docker instances, opening ports, ...)
+# Short-Description: Hook bot at boot time
+# Description:       Enable hook bot
 ### END INIT INFO
 
 # Daemon init script of the docker demo site
@@ -25,10 +25,10 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-NAME=github-telegram-bot
+NAME=hook-bot
 
 RUNDIR=/var/run
-PIDFILE=$RUNDIR/github-telegram-bot.pid
+PIDFILE=$RUNDIR/hook-bot.pid
 
 DAEMON=DAEMON_PATH
 DAEMON_ARGS="daemon pidfile $PIDFILE"
