@@ -8,3 +8,4 @@ server.key
 server.crt
 hook-bot.log
 hookbot.log
+daemon_config

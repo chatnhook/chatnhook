@@ -87,7 +87,7 @@ def redirect(service, event, path):
     data = {
         'meta_title': result.get('meta_title', '').decode("utf8"),
         'meta_summary': result.get('meta_summary', '').decode("utf8"),
-        'meta_link': config['general']['bot_url'] + '/' + request.path,
+        'meta_link': config['global']['bot_url'] + '/' + request.path,
         'poster_image': result.get('poster_image', '').decode("utf8"),
         'redirect': result.get('redirect', '')
     }
@@ -128,4 +128,4 @@ def init_serviceses():
 
 if __name__ == '__main__':
     init_serviceses()
-    application.run(debug=True, host='0.0.0.0')
+    application.run(debug=False, host='0.0.0.0')

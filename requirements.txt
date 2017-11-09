@@ -1,4 +1,5 @@
 setuptools
+wheel
 flask
 pyyaml
 python-telegram-bot
