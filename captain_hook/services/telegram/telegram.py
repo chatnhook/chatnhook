@@ -12,7 +12,7 @@ log = logging.getLogger('hookbot')
 
 
 class TelegramService(BaseService):
-    def registerWebhook(self):
+    def register_webhook(self):
         self.telegram_webhook = telegram.Bot(self.config['token'])
         log.info('Unregistered telegram webhook url')
         self.telegram_webhook.setWebhook(url='')
@@ -26,7 +26,7 @@ class TelegramService(BaseService):
             url=self.webhook_url, certificate=self.cert, allowed_updates=updates, max_connections=40)
         self.webhook = self.telegram_webhook.getWebhookInfo()
 
-    def registerCommands(self):
+    def register_commands(self):
         dir_path = os.path.dirname(os.path.realpath(__file__)) + '/commands'
         command_list = os.walk(dir_path).next()[1]
         del command_list[command_list.index('base')]
@@ -45,8 +45,8 @@ class TelegramService(BaseService):
             self.config['hostname'], self.config['port'])
 
         try:
-            self.registerWebhook()
-            self.registerCommands()
+            self.register_webhook()
+            self.register_commands()
         except telegram.error.RetryAfter as e:
             # @todo continues checking
             log.error('Error during signup at telegram')
@@ -60,7 +60,7 @@ class TelegramService(BaseService):
             # 	   ).strftime('%Y-%m-%d %H:%M:%S')
             # 	   )
             log.info("last_error_message : %s" % str(self.webhook.last_error_message))
-        # print (self.telegram_webhook.getWebhookInfo())
+            # print (self.telegram_webhook.getWebhookInfo())
 
     def get_event(self, request, body):
         return next(iter(body))
