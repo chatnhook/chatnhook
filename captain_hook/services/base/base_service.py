@@ -29,9 +29,9 @@ class BaseService:
             message_dict = message_dict.process(request, body)
             for name, comm in self.comms.items():
                 default_message = message_dict.get('default', None)
-                bot_stats.count_message(name)
                 message = message_dict.get(name, default_message)
                 if message:
+                    bot_stats.count_message(name)
                     comm.communicate(message)
             return "ok"
         else:

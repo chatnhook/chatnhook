@@ -6,7 +6,7 @@ from ...base.events import BaseEvent
 class PushEvent(BaseEvent):
     def process(self, request, body):
         repo = body['repository']['repo_name']
-        tag = body.get('push_data').get('tag', '')
+        tag = body.get('push_data', {}).get('tag', '')
         if tag:
             tag = ':' + tag
 
