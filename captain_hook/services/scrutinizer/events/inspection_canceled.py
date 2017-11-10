@@ -16,15 +16,16 @@ class InspectionCanceledEvent(BaseEvent):
         inspection_link = 'https://scrutinizer-ci.com' + body['_links']['self']['href'].replace(
             '/api/repositories', '')
         commit = body['metadata']['source_reference'][0:7].replace('[', '\[')
+        repo_link = body['_embedded']['repository']['login'] + '/' + \
+            body['_embedded']['repository']['name']
 
-        message = '❌ Inspection [{inspection}]({inspection_url}) *canceled* for {repository}@{branch}\n'.format(
-            inspection=inspection,
-            inspection_url=inspection_link,
-            repository=body['_embedded']['repository']['login'] + '/' + body['_embedded']['repository'][
-                'name'],
-            branch=body['metadata']['branch'],
-            commit=commit,
-            commit_msg=body['metadata']['title']
-        )
+        message = '❌ Inspection [{inspection}]({inspection_url})' \
+                  ' *canceled* for {repository}@{branch}\n'.format(
+                    inspection=inspection,
+                    inspection_url=inspection_link,
+                    repository=repo_link,
+                    branch=body['metadata']['branch'],
+                    commit=commit,
+                    commit_msg=body['metadata']['title'])
 
         return {"default": message}

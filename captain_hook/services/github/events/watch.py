@@ -3,9 +3,11 @@ from __future__ import absolute_import
 from . import GithubEvent
 
 """
-The WatchEvent is related to starring a repository, not watching. See this API blog post for an explanation.
+The WatchEvent is related to starring a repository, not watching.
+See this API blog post for an explanation.
 
-The event’s actor is the user who starred a repository, and the event’s repository is the repository that was starred.
+The event’s actor is the user who starred a repository, and the event’s
+repository is the repository that was starred.
 """
 
 

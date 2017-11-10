@@ -53,11 +53,13 @@ class IssueCommentEvent(GithubEvent):
         issue = self.gh_api(api_result['issue_url'])
         s = api_result['url'].split('/')
         repo = s[4] + '/' + s[5]
+        title = '{username} replied · {issue_title} · {issue_type} #{issue_number} · {repo}'.format(
+            issue_title=issue['title'].encode('utf-8'), issue_number=str(issue['number']),
+            repo=repo,
+            username=api_result['user']['login'],
+            issue_type=issue_type)
         redirect = {
-            'meta_title': '{username} replied · {issue_title} · {issue_type} #{issue_number} · {repo}'.format(
-                issue_title=issue['title'].encode('utf-8'), issue_number=str(issue['number']), repo=repo,
-                username=api_result['user']['login'],
-                issue_type=issue_type),
+            'meta_title': title,
             'meta_summary': api_result['body'].split("\n")[0][0:100],
             'poster_image': api_result['user']['avatar_url'],
             'redirect': api_result['html_url'],

@@ -26,12 +26,14 @@ class IssuesEvent(GithubEvent):
         }
         message = False
         if body['action'] == 'opened':
-            message = "[❓]({issue_link}) [{username}]({user_link}) opened new issue [#{issue_number} " \
-                      "{issue_title}]({issue_link}) in [{repository_name}]({repository_link})"
+            message = "[❓]({issue_link}) [{username}]({user_link}) " \
+                      "opened new issue [#{issue_number}{issue_title}]({issue_link}) " \
+                      "in [{repository_name}]({repository_link})"
 
         if body['action'] == 'reopened':
-            message = "[❓]({issue_link}) [{username}]({user_link}) reopened issue [#{issue_number} " \
-                      "{issue_title}]({issue_link}) in [{repository_name}]({repository_link})"
+            message = "[❓]({issue_link}) [{username}]({user_link}) " \
+                      "reopened issue [#{issue_number} {issue_title}]({issue_link}) " \
+                      "in [{repository_name}]({repository_link})"
 
         if body['action'] == 'edited':
             message = "[❓]({issue_link}) [{username}]({user_link}) edited issue [#{issue_number} " \
@@ -58,7 +60,9 @@ class IssuesEvent(GithubEvent):
 
         redirect = {
             'meta_title': '{issue_title} · Issue #{issue_number} · {repo}'.format(
-                issue_title=api_result['title'].encode('utf-8'), issue_number=str(api_result['number']), repo=repo),
+                issue_title=api_result['title'].encode('utf-8'),
+                issue_number=str(api_result['number']),
+                repo=repo),
             'meta_summary': api_result['body'].split("\n")[0][0:100],
             'poster_image': api_result['user']['avatar_url'],
             'redirect': api_result['html_url'],

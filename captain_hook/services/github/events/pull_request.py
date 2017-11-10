@@ -4,7 +4,7 @@ from . import GithubEvent
 
 """
 Triggered when a pull request is assigned, unassigned, labeled, unlabeled, opened,
-edited, closed, reopened, or synchronized. 
+edited, closed, reopened, or synchronized.
 Also triggered when a pull request review is requested, or when a review request is removed.
 """
 
@@ -29,26 +29,31 @@ class PullRequestEvent(GithubEvent):
 
         if body['action'] == 'opened':
             message = "[⛓]({pull_request_link}) [{username}]({user_link}) opened new" \
-                      " pull request [#{pull_request_number} {pull_request_title}]({pull_request_link})" \
+                      " pull request " \
+                      "[#{pull_request_number} {pull_request_title}]({pull_request_link})" \
                       " in [{repository_name}]({repository_link})"
 
         if body['action'] == 'reopened':
             message = "[⛓]({pull_request_link}) [{username}]({user_link}) reopened" \
-                      " pull request [#{pull_request_number} {pull_request_title}]({pull_request_link})" \
+                      " pull request " \
+                      "[#{pull_request_number} {pull_request_title}]({pull_request_link})" \
                       " in [{repository_name}]({repository_link})"
 
         if body['action'] == 'edited':
             message = "[⛓]({pull_request_link}) [{username}]({user_link}) edited" \
-                      " pull request [#{pull_request_number} {pull_request_title}]({pull_request_link})" \
+                      " pull request " \
+                      "[#{pull_request_number} {pull_request_title}]({pull_request_link})" \
                       " in [{repository_name}]({repository_link})"
 
         if body['action'] == 'closed' and body['pull_request']['merged'] is True:
             message = "[⛓]({pull_request_link}) [{username}]({user_link}) merged" \
-                      " pull request [#{pull_request_number} {pull_request_title}]({pull_request_link})"
+                      " pull request " \
+                      "[#{pull_request_number} {pull_request_title}]({pull_request_link})"
 
         if body['action'] == 'closed' and body['pull_request']['merged'] is False:
             message = "[⛓]({pull_request_link}) [{username}]({user_link}) closed" \
-                      " pull request [#{pull_request_number} {pull_request_title}]({pull_request_link})" \
+                      " pull request " \
+                      "[#{pull_request_number} {pull_request_title}]({pull_request_link})" \
                       " in [{repository_name}](repository_link)"
 
         message = message.format(**params)
@@ -63,7 +68,8 @@ class PullRequestEvent(GithubEvent):
                 'status_code': 404
             }
 
-        if "message" in api_result and ("Not" in api_result['message'] or "rate limit" in api_result['message']):
+        if "message" in api_result and (
+                    "Not" in api_result['message'] or "rate limit" in api_result['message']):
             return {
                 'status_code': 404
             }
@@ -71,10 +77,11 @@ class PullRequestEvent(GithubEvent):
         repo = s[4] + '/' + s[5]
         if api_result['state'] == 'closed':
             status_code = 404
-
+        title = '{issue_title} · PR #{issue_number} · {repo}'.format(
+            issue_title=api_result['title'].encode('utf-8'), issue_number=str(api_result['number']),
+            repo=repo)
         redirect = {
-            'meta_title': '{issue_title} · PR #{issue_number} · {repo}'.format(
-                issue_title=api_result['title'].encode('utf-8'), issue_number=str(api_result['number']), repo=repo),
+            'meta_title': title,
             'meta_summary': api_result['body'].split("\n")[0][0:100],
             'poster_image': api_result['user']['avatar_url'],
             'redirect': api_result['html_url'],

@@ -1,7 +1,9 @@
-import os, json
+import os
+import json
 from pprint import pprint
 import requests
 from time import sleep
+
 
 def get_data_files(service):
     files = []

@@ -4,7 +4,6 @@ from ...base.events import BaseEvent
 import threading
 import importlib
 from utils import strings
-from pprint import pprint
 import logging
 
 log = logging.getLogger('hookbot')
@@ -30,7 +29,8 @@ class MessageEvent(BaseEvent):
                 try:
                     command_module = self.process_command(command)
                     if command_module:
-                        t = threading.Thread(target=command_module.run, args=(update.get('message'), self.config))
+                        t = threading.Thread(target=command_module.run,
+                                             args=(update.get('message'), self.config))
                         t.start()
                 except ImportError:
                     log.warn("Don't know how to handle telegram command {}".format(command))

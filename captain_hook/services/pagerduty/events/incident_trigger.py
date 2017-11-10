@@ -9,15 +9,15 @@ class IncidentTriggerEvent(BaseEvent):
         incident = payload['data']['incident']
         assignee = incident['assigned_to'][0]
         message = 'New incident created on pagerduty \n' \
-                  '[#{incident_number} {incident_title}]({incident_link}) Urgency: *{urgency}* \n' \
+                  '[#{incident_number} {incident_title}]({incident_link}) ' \
+                  'Urgency: *{urgency}* \n' \
                   'Assigned to [{name}]({user_link})'.format(
-            name=assignee['object']['name'],
-            user_link=assignee['object']['html_url'],
-            incident_number=str(incident['incident_number']),
-            incident_title=incident[
-                'trigger_summary_data']['subject'],
-            incident_link=incident['html_url'],
-            urgency=incident['urgency']
-        )
+                    name=assignee['object']['name'],
+                    user_link=assignee['object']['html_url'],
+                    incident_number=str(incident['incident_number']),
+                    incident_title=incident[
+                        'trigger_summary_data']['subject'],
+                    incident_link=incident['html_url'],
+                    urgency=incident['urgency'])
 
         return {'default': message}

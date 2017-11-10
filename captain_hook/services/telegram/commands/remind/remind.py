@@ -48,12 +48,16 @@ class RemindCommand(BaseCommand):
             multiplier = match[-1:]
             if multiplier:
                 total_seconds += (int(amount) * int(modifiers[multiplier]['amount']))
-                plural = modifiers[multiplier]['name'] if int(amount) == 1 else modifiers[multiplier]['name'] + 's'
+
+                plural = modifiers[multiplier]['name'] if int(amount) == 1 else \
+                    modifiers[multiplier]['name'] + 's'
+
                 matched.append('{amount} {plural}'.format(amount=amount, plural=plural))
 
         if matched:
             reminder_time = ', '.join(matched)
-            msg = 'You will be reminded in ' + reminder_time + '. That\'s ' + str(total_seconds) + ' seconds! \n'
+            msg = 'You will be reminded in ' + reminder_time + '. That\'s ' + str(
+                total_seconds) + ' seconds! \n'
             msg += ''
             Timer(total_seconds, sendReminder, (self, messageObj, reminder)).start()
         else:

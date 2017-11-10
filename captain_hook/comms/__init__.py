@@ -28,7 +28,7 @@ def get_base_comm_list():
 def load_comms(comms, config):
     loaded_comms = []
     for comm in comms:
-        if not comm in config['comms']:
+        if comm not in config['comms']:
             continue
 
         if config["comms"][comm].get("enabled"):

@@ -4,7 +4,6 @@ from ...base.events import BaseEvent
 import json
 import urllib
 import datetime
-from pprint import pprint
 
 
 class BuildEvent(BaseEvent):
@@ -20,8 +19,9 @@ class BuildEvent(BaseEvent):
                   ' {repository}@{branch} by {author} {result} in {duration}'
 
         if payload.get('pull_request'):
-            message = 'Build [{build_number}]({build_url}) [{commit}]({compare_url}) of {repository}@{branch} ' \
-                      'in PR [{pull_request}]({pull_request_url}) by {author} {result} in {duration}'
+            message = 'Build [{build_number}]({build_url}) [{commit}]({compare_url})' \
+                      ' of {repository}@{branch} in PR [{pull_request}]({pull_request_url}) ' \
+                      'by {author} {result} in {duration}'
 
         icon = '⚒'
 
@@ -45,8 +45,8 @@ class BuildEvent(BaseEvent):
             build_url=payload.get('build_url'),
             commit=payload.get('commit')[0:7],
             compare_url=payload.get('compare_url'),
-            repository=payload.get('repository').get('owner_name') +
-                       '/' + payload.get('repository').get('name'),
+            repository=payload.get('repository').get('owner_name') + '/' +
+                         payload.get('repository').get('name'),
             branch=payload.get('branch'),
             author=payload.get('committer_name'),
             result=payload.get('result_message').lower(),

@@ -5,7 +5,8 @@ from . import GithubEvent
 """
 Represents an attempted build of a GitHub Pages site, whether successful or not.
 
-Triggered on push to a GitHub Pages enabled branch (gh-pages for project pages, master for user and organization pages).
+Triggered on push to a GitHub Pages enabled branch (gh-pages for
+project pages, master for user and organization pages).
 """
 
 
