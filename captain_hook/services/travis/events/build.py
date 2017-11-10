@@ -4,6 +4,7 @@ from ...base.events import BaseEvent
 import json
 import urllib
 import datetime
+from pprint import pprint
 
 
 class BuildEvent(BaseEvent):
