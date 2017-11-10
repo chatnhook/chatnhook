@@ -1,11 +1,8 @@
 from __future__ import absolute_import
 from ..base import BaseService
-import importlib
 import telegram
 from time import sleep
-from pprint import pprint
 import os
-import datetime
 import logging
 
 log = logging.getLogger('hookbot')
@@ -51,7 +48,6 @@ class TelegramService(BaseService):
             # @todo continues checking
             log.error('Error during signup at telegram')
             print(e)
-            pass
 
         if self.webhook and self.webhook.last_error_date:
             # print ("last_error_date : %s" %
