@@ -20,12 +20,13 @@ class InspectionCanceledEvent(BaseEvent):
             body['_embedded']['repository']['name']
 
         message = '❌ Inspection [{inspection}]({inspection_url})' \
-                  ' *canceled* for {repository}@{branch}\n'.format(
-                    inspection=inspection,
-                    inspection_url=inspection_link,
-                    repository=repo_link,
-                    branch=body['metadata']['branch'],
-                    commit=commit,
-                    commit_msg=body['metadata']['title'])
+                  ' *canceled* for {repository}@{branch}\n' \
+            .format(
+                inspection=inspection,
+                inspection_url=inspection_link,
+                repository=repo_link,
+                branch=body['metadata']['branch'],
+                commit=commit,
+                commit_msg=body['metadata']['title'])
 
         return {"default": message}

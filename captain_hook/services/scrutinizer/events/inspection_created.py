@@ -25,8 +25,8 @@ class InspectionCreatedEvent(BaseEvent):
         message = message.format(
             inspection=inspection,
             inspection_url=inspection_link,
-            repository=body['_embedded']['repository'][
-                           'login'] + '/' + body['_embedded']['repository']['name'],
+            repository=body['_embedded']['repository']['login'] + '/' +
+            body['_embedded']['repository']['name'],
             branch=body['metadata']['branch'],
             commit=commit,
             commit_msg=body['metadata']['title']

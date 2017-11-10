@@ -9,10 +9,11 @@ class IncidentUnacknowledgeEvent(BaseEvent):
         incident = payload['data']['incident']
         assignee = incident['assigned_to'][0]
         message = '[#{incident_number} {incident_title}]({incident_link}) ' \
-                  'has been unacknowledged on pagerduty\n'.format(
-                   name=assignee['object']['name'],
-                   user_link=assignee['object']['html_url'],
-                   incident_number=str(incident['incident_number']),
-                   incident_title=incident['trigger_summary_data']['subject'],
-                   incident_link=incident['html_url'])
+                  'has been unacknowledged on pagerduty\n' \
+            .format(
+                name=assignee['object']['name'],
+                user_link=assignee['object']['html_url'],
+                incident_number=str(incident['incident_number']),
+                incident_title=incident['trigger_summary_data']['subject'],
+                incident_link=incident['html_url'])
         return {'default': message}

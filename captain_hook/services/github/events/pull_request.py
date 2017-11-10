@@ -68,8 +68,8 @@ class PullRequestEvent(GithubEvent):
                 'status_code': 404
             }
 
-        if "message" in api_result and (
-                    "Not" in api_result['message'] or "rate limit" in api_result['message']):
+        if "message" in api_result and ("Not" in api_result['message'] or
+                                        "rate limit" in api_result['message']):
             return {
                 'status_code': 404
             }

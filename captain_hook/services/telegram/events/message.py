@@ -4,7 +4,6 @@ from ...base.events import BaseEvent
 import threading
 import importlib
 from utils import strings
-from pprint import pprint
 import logging
 
 log = logging.getLogger('hookbot')

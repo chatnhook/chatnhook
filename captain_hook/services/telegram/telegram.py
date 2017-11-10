@@ -1,11 +1,8 @@
 from __future__ import absolute_import
 from ..base import BaseService
-import importlib
 import telegram
 from time import sleep
-from pprint import pprint
 import os
-import datetime
 import logging
 
 log = logging.getLogger('hookbot')
