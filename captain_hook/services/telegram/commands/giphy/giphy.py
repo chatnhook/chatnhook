@@ -4,7 +4,6 @@ from ..base import BaseCommand
 import requests
 
 
-
 class GiphyCommand(BaseCommand):
     def get_description(self):
         return "Search for a random giphy gif"
@@ -19,4 +18,4 @@ class GiphyCommand(BaseCommand):
         data = r.json()
         data = data.get('data')
         self.send_document(chat_id=messageObj.get('chat').get('id'),
-                          document=data.get('image_original_url'))
+                           document=data.get('image_original_url'))

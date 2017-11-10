@@ -5,7 +5,9 @@ from . import GithubEvent
 """
 Represents a created repository, branch, or tag.
 
-Note: webhooks will not receive this event for created repositories. Additionally, webhooks will not receive this event for tags if more than three tags are pushed at once.
+Note: webhooks will not receive this event for created repositories.
+Additionally, webhooks will not receive this event for tags if more than
+three tags are pushed at once.
 """
 
 

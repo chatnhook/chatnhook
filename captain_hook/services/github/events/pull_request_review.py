@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from . import GithubEvent
 
 """
-Triggered when a pull request review is submitted into a 
+Triggered when a pull request review is submitted into a
 non-pending state, the body is edited, or the review is dismissed.
 """
 
@@ -32,7 +32,8 @@ class PullRequestReviewEvent(GithubEvent):
             params['icon'] = "🔴"
 
         message = "[{icon}]({pull_request_link}) [{username}]({user_link}) {state} " \
-                  "pull request [#{pull_request_number} {pull_request_title}]({pull_request_link})" \
+                  "pull request " \
+                  "[#{pull_request_number} {pull_request_title}]({pull_request_link})" \
                   " in [{repository_name}]({repository_link})"
         message = message.format(**params)
 

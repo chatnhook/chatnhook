@@ -3,11 +3,14 @@ from __future__ import absolute_import
 from . import GithubEvent
 
 """
-Triggered on a push to a repository branch. Branch pushes and repository tag pushes also trigger webhook push events.
+Triggered on a push to a repository branch.
+Branch pushes and repository tag pushes also trigger webhook push events.
 
-Note: The webhook payload example following the table differs significantly from the Events API payload 
-described in the Github API. Among other differences, the webhook payload includes both sender and pusher objects. 
-Sender and pusher are the same user who initiated the push event, but the sender object contains more detail.
+Note: The webhook payload example following the table differs significantly
+from the Events API payload described in the Github API. Among other differences,
+the webhook payload includes both sender and pusher objects.
+Sender and pusher are the same user who initiated the push event,
+but the sender object contains more detail.
 """
 
 

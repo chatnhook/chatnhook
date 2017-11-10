@@ -12,17 +12,19 @@ class CommitCommentEvent(GithubEvent):
 
         comment_api_link = str(body['comment']['url']).replace(
             'https://api.github.com/', '')
+        redir_link = self.build_redirect_link('github', 'commit_comment', comment_api_link)
         params = {
             'username': body['comment']['user']['login'],
             'user_link': body['comment']['user']['html_url'],
             'commit_hash': str(body['comment']['commit_id'])[:7],
-            'commit_comment_link': self.build_redirect_link('github', 'commit_comment', comment_api_link),
+            'commit_comment_link': redir_link,
             'body': str(body['comment']['body']).split("\n")[0],
         }
 
         message = False
         if body['action'] == 'created':
-            message = "[🗨]({commit_comment_link}) [{username}]({user_link}) commented on [{commit_hash}]({commit_comment_link})"
+            message = "[🗨]({commit_comment_link}) [{username}]({user_link}) " \
+                      "commented on [{commit_hash}]({commit_comment_link})"
             # message += '```{body}```'
             message = message.format(**params)
 

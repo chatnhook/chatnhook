@@ -17,15 +17,18 @@ class InspectionFailedEvent(BaseEvent):
             '/api/repositories', '')
         commit = body['metadata']['source_reference'][0:7].replace('[', '\[')
 
-        message = '💥 Inspection [{inspection}]({inspection_url}) *failed* for {repository}@{branch}\n' \
+        message = '💥 Inspection [{inspection}]({inspection_url})' \
+                  ' *failed* for {repository}@{branch}\n' \
                   'Commits: \n' \
                   '- {commit} - {commit_msg}'
+
+        repo = body['_embedded']['repository']['login'] + '/' + \
+            body['_embedded']['repository']['name']
 
         message = message.format(
             inspection=inspection,
             inspection_url=inspection_link,
-            repository=body['_embedded']['repository']['login'] + '/' + body['_embedded']['repository'][
-                'name'],
+            repository=repo,
             branch=body['metadata']['branch'],
             commit=commit,
             commit_msg=body['metadata']['title']

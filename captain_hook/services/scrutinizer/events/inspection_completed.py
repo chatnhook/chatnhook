@@ -17,7 +17,8 @@ class InspectionCompletedEvent(BaseEvent):
             '/api/repositories', '')
         commit = body['metadata']['source_reference'][0:7].replace('[', '\[')
 
-        message = '🎉 Inspection [{inspection}]({inspection_url}) *completed* for {repository}@{branch}\n' \
+        message = '🎉 Inspection [{inspection}]({inspection_url}) ' \
+                  '*completed* for {repository}@{branch}\n' \
                   'Commits: \n' \
                   '- {commit} - {commit_msg}'
 

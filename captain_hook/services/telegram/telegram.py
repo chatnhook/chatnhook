@@ -20,7 +20,10 @@ class TelegramService(BaseService):
         sleep(1)
         log.info('Registering telegram webhook url: %s' % self.webhook_url)
         self.telegram_webhook.setWebhook(
-            url=self.webhook_url, certificate=self.cert, allowed_updates=updates, max_connections=40)
+            url=self.webhook_url,
+            certificate=self.cert,
+            allowed_updates=updates,
+            max_connections=40)
         self.webhook = self.telegram_webhook.getWebhookInfo()
 
     def register_commands(self):
