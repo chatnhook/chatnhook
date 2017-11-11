@@ -4,5 +4,5 @@ from ..base import BaseService
 
 class PagerdutyService(BaseService):
     def get_event(self, request, body):
-        event = body['messages'][0]['type']
+        event = body.get('messages', {})[0].get('type')
         return event.replace('.', '_')

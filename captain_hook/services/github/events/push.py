@@ -17,29 +17,29 @@ but the sender object contains more detail.
 class PushEvent(GithubEvent):
     def process(self, request, body):
         plural = 'changesets'
-        branch = body['ref'].split('/')[2]
+        branch = body.get('ref', '').split('/')[2]
 
-        if branch not in self.config['notify_branches']:
+        if branch not in self.config.get('notify_branches'):
             return False
 
-        if len(body['commits']) == 1:
+        if len(body.get('commits')) == 1:
             plural = 'changeset'
 
-        push_link = body['compare'].replace('https://github.com/', '')
-        user_link = body['sender']['html_url'].replace(
+        push_link = body.get('compare').replace('https://github.com/', '')
+        user_link = body.get('sender', {}).get('html_url').replace(
             'https://github.com/', '')
-        repo_link = body['repository'][
-            'html_url'].replace('https://github.com/', '')
+        repo_link = body.get('repository', {}).get('html_url')\
+            .replace('https://github.com/', '')
 
         params = {
-            'username': body['sender']['login'],
+            'username': body.get('sender', {}).get('login', ''),
             'user_link': self.build_redirect_link('github', 'push', user_link),
-            'commit_amount': len(body['commits']),
+            'commit_amount': len(body.get('commits', '')),
             'plural': plural,
-            'repository_name': body['repository']['full_name'],
+            'repository_name': body.get('repository', {}).get('full_name', ''),
             'repository_link': self.build_redirect_link('github', 'push', repo_link),
             'push_link': self.build_redirect_link('github', 'push', push_link),
-            'ref': '',
+            'ref': body.get('ref', '').replace('refs/heads/', ''),
         }
 
         message = "[🔨]({push_link}) [{username}]({user_link}) pushed {commit_amount} " \
@@ -48,10 +48,10 @@ class PushEvent(GithubEvent):
         # message += '```{body}```'
         message = message.format(**params)
 
-        for commit in body['commits']:
+        for commit in body.get('commits'):
             args = {
-                'commit_hash': str(commit['id'])[:7],
-                'commit_message': commit['message'].encode('utf-8').replace("\n\n", '\n'),
+                'commit_hash': str(commit.get('id'))[:7],
+                'commit_message': commit.get('message', '').encode('utf-8').replace("\n\n", '\n'),
                 'commit_link': commit.get('html_url', '')
             }
             message += "· [{commit_hash}]({commit_link}): {commit_message} \n".format(

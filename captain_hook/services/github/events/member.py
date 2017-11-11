@@ -10,15 +10,15 @@ or has their permissions changed.
 
 class MemberEvent(GithubEvent):
     def process(self, request, body):
-        sender_link = body['sender']['html_url'].replace('https://github.com/', '')
-        user_link = body['member']['html_url'].replace('https://github.com/', '')
+        sender_link = body.get('sender', {}).get('html_url').replace('https://github.com/', '')
+        user_link = body.get('member', {}).get('html_url').replace('https://github.com/', '')
 
         params = {
-            'username': body['member']['login'],
+            'username': body.get('member', {}).get('login', ''),
             'user_link': self.build_redirect_link('github', 'member', user_link),
-            'sender_name': body['sender']['login'],
+            'sender_name': body.get('sender', {}).get('login', ''),
             'sender_link': self.build_redirect_link('github', 'member', sender_link),
-            'org_name': body['organization']['login'],
+            'org_name': body.get('organization', {}).get('login'),
         }
 
         message = "[{username}]({user_link}) joined the {org_name} organisation"
