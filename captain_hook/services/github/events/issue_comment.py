@@ -25,12 +25,11 @@ class IssueCommentEvent(GithubEvent):
             'issue_type': issue_type,
             'body': str(body.get('comment', {}).get('body', {})).split("\n")[0] + '...',
         }
-
+        message = ''
         if body.get('action') == 'created':
             message = "[🗨]({comment_link}) [{username}]({user_link}) commented " \
                       "on {issue_type} [#{issue_number} {issue_title}]({comment_link})"
         # message += '```{body}```'
-        message = message.format(**params)
 
         if body.get('action') == 'edited':
             message = "[🗨]({comment_link}) [{username}]({user_link}) edited the" \

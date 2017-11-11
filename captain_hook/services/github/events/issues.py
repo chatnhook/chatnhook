@@ -27,7 +27,7 @@ class IssuesEvent(GithubEvent):
         message = False
         if body['action'] == 'opened':
             message = "[❓]({issue_link}) [{username}]({user_link}) " \
-                      "opened new issue [#{issue_number}{issue_title}]({issue_link}) " \
+                      "opened new issue [#{issue_number} {issue_title}]({issue_link}) " \
                       "in [{repository_name}]({repository_link})"
 
         if body['action'] == 'reopened':
