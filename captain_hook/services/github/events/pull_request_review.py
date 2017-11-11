@@ -10,23 +10,22 @@ non-pending state, the body is edited, or the review is dismissed.
 
 class PullRequestReviewEvent(GithubEvent):
     def process(self, request, body):
-        user_link = body['sender']['html_url'].replace(
+        user_link = body.get('sender', {}).get('html_url', '').replace(
             'https://github.com/', '')
-        pr_link = body['pull_request']['html_url'].replace(
+        pr_link = body.get('pull_request', {}).get('html_url', '').replace(
             'https://github.com/', '')
 
-        params = {
-            'username': body['sender']['login'],
-            'user_link': self.build_redirect_link('github', 'release', user_link),
-            'pull_request_number': str(body['pull_request']['number']),
-            'pull_request_link': self.build_redirect_link('github', 'pull_request', pr_link),
-            'pull_request_title': body['pull_request']['title'],
-            'repository_name': body['repository']['full_name'],
-            'repository_link': body['repository']['html_url'],
-        }
+        params = {'username': body.get('sender', {}).get('login'),
+                  'user_link': self.build_redirect_link('github', 'release', user_link),
+                  'pull_request_number': str(body.get('pull_request', {}).get('number')),
+                  'pull_request_link': self.build_redirect_link('github', 'pull_request', pr_link),
+                  'pull_request_title': body.get('pull_request', {}).get('title', ''),
+                  'repository_name': body.get('repository', {}).get('full_name', ''),
+                  'repository_link': body.get('repository', {}).get('html_url', ''),
+                  'state': 'approved',
+                  'icon': "✅"
+                  }
 
-        params['state'] = 'approved'
-        params['icon'] = "✅"
         if body.get('review').get('state') == "changes_requested":
             params['state'] = 'requested changes on'
             params['icon'] = "🔴"

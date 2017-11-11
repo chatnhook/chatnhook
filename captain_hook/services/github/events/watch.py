@@ -13,19 +13,19 @@ repository is the repository that was starred.
 
 class WatchEvent(GithubEvent):
     def process(self, request, body):
-        user_link = body['sender']['html_url'].replace(
+        user_link = body.get('sender', {}).get('html_url', '').replace(
             'https://github.com/', '')
-        repo_link = body['repository'][
-            'html_url'].replace('https://github.com/', '')
+        repo_link = body.get('repository', {}).get('html_url', '') \
+            .replace('https://github.com/', '')
 
         params = {
-            'username': body['sender']['login'],
+            'username': body.get('sender', {}).get('login'),
             'user_link': self.build_redirect_link('github', 'release', user_link),
-            'repository_name': body['repository']['full_name'],
+            'repository_name': body.get('repository', {}).get('full_name'),
             'repository_link': self.build_redirect_link('github', 'release', repo_link),
         }
         message = False
-        if body['action'] == 'started':
+        if body.get('action') == 'started':
             message = "❤ [{username}]({user_link}) starred [{repository_name}]({repository_link})"
             message = message.format(**params)
 

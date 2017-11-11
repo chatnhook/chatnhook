@@ -6,18 +6,20 @@ from ...base.events import BaseEvent
 class InspectionCanceledEvent(BaseEvent):
     def process(self, request, body):
 
-        if body['metadata']['branch'] not in self.config['notify_branches']:
+        if body.get('metadata', {}).get('branch') not in self.config.get('notify_branches'):
             return False
 
-        if 'inspection.canceled' not in self.config['events']:
+        if 'inspection.canceled' not in self.config.get('events'):
             return False
 
-        inspection = body['uuid'].split('-')[-1]
-        inspection_link = 'https://scrutinizer-ci.com' + body['_links']['self']['href'].replace(
+        inspection = body.get('uuid', '').split('-')[-1]
+        inspection_link = 'https://scrutinizer-ci.com' + body.get('_links', {}) \
+            .get('self', {}).get('href').replace(
             '/api/repositories', '')
-        commit = body['metadata']['source_reference'][0:7].replace('[', '\[')
-        repo_link = body['_embedded']['repository']['login'] + '/' + \
-            body['_embedded']['repository']['name']
+
+        commit = body.get('metadata', {}).get('source_reference', '')[0:7].replace('[', '\[')
+        repo_link = body.get('_embedded', {}).get('repository', {}).get('login', '') + '/' + \
+            body.get('_embedded', {}).get('repository', {}).get('name')
 
         message = '❌ Inspection [{inspection}]({inspection_url})' \
                   ' *canceled* for {repository}@{branch}\n' \
@@ -25,8 +27,8 @@ class InspectionCanceledEvent(BaseEvent):
                 inspection=inspection,
                 inspection_url=inspection_link,
                 repository=repo_link,
-                branch=body['metadata']['branch'],
+                branch=body.get('metadata', {}).get('branch', ''),
                 commit=commit,
-                commit_msg=body['metadata']['title'])
+                commit_msg=body.get('metadata', {}).get('title', ''))
 
         return {"default": message}

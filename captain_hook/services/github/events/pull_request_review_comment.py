@@ -11,16 +11,17 @@ edited, or deleted (in the Files Changed tab).
 class PullRequestReviewCommentEvent(GithubEvent):
     def process(self, request, body):
 
-        comment_api_link = str(body['comment']['url']).replace(
+        comment_api_link = str(body.get('comment', {}).get('url', '')).replace(
             'https://api.github.com/', '')
+
         params = {
-            'username': body['comment']['user']['login'],
-            'user_link': body['comment']['user']['html_url'],
+            'username': body.get('comment', {}).get('user', {}).get('login', ''),
+            'user_link': body.get('comment', {}).get('user', {}).get('html_url', ''),
             'pr_comment_link': self.build_redirect_link('github', 'pull_request_review_comment',
                                                         comment_api_link),
-            'pr_number': str(body['pull_request']['number']),
-            'pr_title': body['pull_request']['title'],
-            'pr_link': body['pull_request']['html_url'],
+            'pr_number': str(body.get('pull_request', {}).get('number')),
+            'pr_title': body.get('pull_request', {}).get('title'),
+            'pr_link': body.get('pull_request', {}).get('html_url', ''),
         }
 
         message = False
@@ -45,15 +46,17 @@ class PullRequestReviewCommentEvent(GithubEvent):
             status_code = 404
         s = api_result['url'].split('/')
         repo = s[4] + '/' + s[5]
-
-        redirect = {
-            'meta_title': '{path}:{line} · {repo}'.format(
+        title = '{path}:{line} · {repo}'.format(
                 path=api_result['path'],
                 line=str(api_result['position']),
-                repo=repo),
-            'meta_summary': api_result['body'].split("\n")[0][0:100],
-            'poster_image': api_result['user']['avatar_url'],
-            'redirect': api_result['html_url'],
+                repo=repo)
+
+        redirect = {
+            'meta_title': title,
+            'meta_summary': api_result.get('body').split("\n")[0][0:100],
+            'poster_image': api_result.get('user', {}).get('avatar_url'),
+            'redirect': api_result.get('html_url', ''),
             'status_code': status_code,
         }
+
         return redirect

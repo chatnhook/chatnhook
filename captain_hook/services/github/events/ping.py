@@ -6,7 +6,7 @@ from . import GithubEvent
 class PingEvent(GithubEvent):
     def process(self, request, body):
         params = {
-            'repo': body['repository']['full_name']
+            'repo': body.get('repository', {}).get('full_name')
         }
 
         message = "Webhook works for: {repo}".format(**params)

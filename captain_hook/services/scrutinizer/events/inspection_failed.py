@@ -6,32 +6,31 @@ from ...base.events import BaseEvent
 class InspectionFailedEvent(BaseEvent):
     def process(self, request, body):
 
-        if body['metadata']['branch'] not in self.config['notify_branches']:
+        if body.get('metadata', {}).get('branch') not in self.config.get('notify_branches'):
             return False
 
-        if 'inspection.failed' not in self.config['events']:
+        if 'inspection.failed' not in self.config.get('events'):
             return False
 
-        inspection = body['uuid'].split('-')[-1]
-        inspection_link = 'https://scrutinizer-ci.com' + body['_links']['self']['href'].replace(
+        inspection = body.get('uuid', '').split('-')[-1]
+        inspection_link = 'https://scrutinizer-ci.com' + body.get('_links', {}) \
+            .get('self', {}).get('href').replace(
             '/api/repositories', '')
-        commit = body['metadata']['source_reference'][0:7].replace('[', '\[')
+        repo_link = body.get('_embedded', {}).get('repository', {}).get('login', '') + '/' + \
+            body.get('_embedded', {}).get('repository', {}).get('name')
+        commit = body.get('metadata', {}).get('source_reference', '')[0:7].replace('[', '\[')
 
         message = '💥 Inspection [{inspection}]({inspection_url})' \
                   ' *failed* for {repository}@{branch}\n' \
                   'Commits: \n' \
                   '- {commit} - {commit_msg}'
 
-        repo = body['_embedded']['repository']['login'] + '/' + \
-            body['_embedded']['repository']['name']
-
         message = message.format(
             inspection=inspection,
             inspection_url=inspection_link,
-            repository=repo,
-            branch=body['metadata']['branch'],
+            branch=body.get('metadata', {}).get('branch', ''),
             commit=commit,
-            commit_msg=body['metadata']['title']
-        )
+            repository=repo_link,
+            commit_msg=body.get('metadata', {}).get('title', ''))
 
         return {"default": message}
