@@ -1,6 +1,6 @@
 # Captain Hook
 
-[![Build Status](https://travis-ci.org/brantje/captain_hook.svg?branch=master)](https://travis-ci.org/brantje/captain_hook)
+[![Build Status](https://travis-ci.org/captainhookbot/captain_hook.svg?branch=master)](https://travis-ci.org/captainhookbot/captain_hook)
 ![Python](https://img.shields.io/badge/python-2.7-brightgreen.svg)
 
 A web server to receive webhooks from many online services and forward the information
