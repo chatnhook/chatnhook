@@ -12,6 +12,19 @@ class BaseCommand:
     def run(self, messageObj, config):
         raise NotImplementedError
 
+    def is_admin(self, username):
+        return username in self.config.get('permissions', {}).get('admins')
+
+    def is_moderator(self, username):
+        return username in self.config.get('permissions', {}).get('moderators')
+
+    def get_rank(self, username):
+        if self.is_admin(username):
+            return 'admin'
+        if self.is_moderator(username):
+            return 'moderator'
+        return 'user'
+
     def send_message(self, chat_id,
                      text,
                      parse_mode=telegram.ParseMode.MARKDOWN,

@@ -65,6 +65,11 @@ services:
     server_cert: '' # Only when using a custom ssl cert
     hostname: 'webhook.mydomain.com'
     port: 443
+    permissions:
+        admins:
+            - username1
+        moderators:
+            - username2
     token: "xxxx:xxxx"
     plugins:
       giphy:
