@@ -52,7 +52,7 @@ class PushEvent(GithubEvent):
             args = {
                 'commit_hash': str(commit.get('id'))[:7],
                 'commit_message': commit.get('message', '').encode('utf-8').replace("\n\n", '\n'),
-                'commit_link': commit.get('html_url', '')
+                'commit_link': commit.get('url', '')
             }
             message += "· [{commit_hash}]({commit_link}): {commit_message} \n".format(
                 **args)
