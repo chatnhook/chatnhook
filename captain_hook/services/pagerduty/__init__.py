@@ -1,2 +1,2 @@
 from __future__ import absolute_import
-from .pagerduty import PagerdutyService
+from .pagerduty import PagerdutyService  # NOQA

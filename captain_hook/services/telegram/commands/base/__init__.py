@@ -1,2 +1,2 @@
 from __future__ import absolute_import
-from .base_command import BaseCommand
+from .base_command import BaseCommand  # NOQA

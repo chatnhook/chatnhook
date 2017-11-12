@@ -1,2 +1,2 @@
 from __future__ import absolute_import
-from .patreon import PatreonService
+from .patreon import PatreonService  # NOQA

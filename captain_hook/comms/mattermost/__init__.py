@@ -1,2 +1,2 @@
 from __future__ import absolute_import
-from .bot import MattermostComm
+from .bot import MattermostComm  # NOQA

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from ..base import BaseCommand
-from time import sleep
 
 
 class RankCommand(BaseCommand):
