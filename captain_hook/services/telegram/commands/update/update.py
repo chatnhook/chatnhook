@@ -27,4 +27,4 @@ class UpdateCommand(BaseCommand):
             # git_root = git_repo.git.rev_parse("--show-toplevel")
             origin = git_repo.remotes.origin
             origin.pull()
-            os.system("/etc/init.d/hookbot restart")
+            os.system("/etc/init.d/hook-bot restart")
