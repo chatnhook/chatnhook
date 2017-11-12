@@ -24,7 +24,11 @@ class UpdateCommand(BaseCommand):
                 chat_id=messageObj.get('chat').get('id'),
                 text=message)
             git_repo = git.Repo(__file__, search_parent_directories=True)
-            # git_root = git_repo.git.rev_parse("--show-toplevel")
-            origin = git_repo.remotes.origin
-            origin.pull()
-            os.system("/etc/init.d/hook-bot restart")
+            git_root = git_repo.git.rev_parse("--show-toplevel")
+            try:
+                origin = git_repo.remotes.origin
+                origin.pull()
+            except git.GitCommandError:
+                pass
+
+            os.system(git_root+'/restart.sh')
