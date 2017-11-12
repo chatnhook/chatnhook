@@ -2,6 +2,7 @@ setuptools
 wheel
 flask
 pyyaml
+gitpython
 python-telegram-bot
 slackweb
 matterhook
