@@ -22,8 +22,14 @@ A **comm** is then used to publish information from this hook in messaging servi
 
 
 ## Running
-
+Run without deamon:   
 `python captain_hook/endpoint.py`
+
+Run with deamon (required for the `/update` telegram command):    
+```
+./daemon.sh install
+/etc/init.d/hook-bot start
+```
 
 ## Currently supported services and events
 
