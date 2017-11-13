@@ -56,7 +56,6 @@ class BaseService:
             event_module = self._import_event_module(event)
         except ImportError:
             self.log.warn('Don\'t know how to handle {}'.format(event))
-            print("Doesn't know how to handle {}".format(event))
 
         event_processor_class_name = "{}Event".format(
             strings.toCamelCase(event),
