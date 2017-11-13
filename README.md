@@ -52,10 +52,10 @@ Run with deamon (required for the `/update` telegram command):
 
 
 ## Adding your own service
-See our [wiki](https://github.com/brantje/captain_hook/wiki/Adding-a-service)  
+See our [wiki](https://github.com/captainhookbot/captain_hook/wiki/Adding-a-service)  
 
 ## Adding your own events
-See our [wiki](https://github.com/brantje/captain_hook/wiki/Adding-a-event)   
+See our [wiki](https://github.com/captainhookbot/captain_hook/wiki/Adding-a-event)   
 
 ## Adding your comms
-See our [wiki](https://github.com/brantje/captain_hook/wiki/Adding-a-comm)
+See our [wiki](https://github.com/captainhookbot/captain_hook/Adding-a-comm)
