@@ -38,6 +38,7 @@ Run with deamon (required for the `/update` telegram command):
 - Pagerduty
 - Patreon
 - Scrutinizer
+- Codacy
 - Slack
 - Travis
 - Telegram (can be used as telegram bot)
