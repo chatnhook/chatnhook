@@ -6,3 +6,4 @@ gitpython
 python-telegram-bot
 slackweb
 matterhook
+raven[flask]

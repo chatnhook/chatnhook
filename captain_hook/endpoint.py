@@ -9,6 +9,7 @@ from comms import find_and_load_comms
 from stats.stats import BotStats
 import logging
 import json
+from raven.contrib.flask import Sentry
 
 CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
 config = utils.config.load_config(CONFIG_FOLDER)
@@ -18,6 +19,10 @@ application = Flask(__name__)
 bot_stats = BotStats()
 
 formatter = logging.Formatter('%(created)s - %(name)s - %(levelname)s - %(message)s')
+dsn = 'https://a3aa56ba615c4085ae8855ab78e4c021:a0f50be103034d9eb71331378e8f1da2@sentry.io/245538'
+
+if config.get('enable_sentry', True):
+    sentry = Sentry(application, dsn=dsn)
 
 wz = logging.getLogger('werkzeug')
 wz.setLevel(logging.INFO)
@@ -55,6 +60,14 @@ def get_comms():
     if comms is None:
         comms = g._comms = find_and_load_comms(config)
     return comms
+
+
+@application.errorhandler(500)
+def internal_server_error(error):
+    return render_template('500.html',
+                           event_id=g.sentry_event_id,
+                           public_dsn=sentry.client.get_public_dsn('https')
+                           )
 
 
 @application.route('/<service>', methods=['GET', 'POST'])
