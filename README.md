@@ -60,3 +60,8 @@ See our [wiki](https://github.com/captainhookbot/captain_hook/wiki/Adding-a-even
 
 ## Adding your comms
 See our [wiki](https://github.com/captainhookbot/captain_hook/Adding-a-comm)
+
+## Sponsored content
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/KPk1tkZCu9wtVjXV3QxhxQY2/captainhookbot/captain_hook'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/KPk1tkZCu9wtVjXV3QxhxQY2/captainhookbot/captain_hook.svg' />
+</a>
