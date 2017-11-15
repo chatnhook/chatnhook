@@ -49,7 +49,7 @@ class IssueCommentEvent(GithubEvent):
         issue_type = 'Issue'
         if 'pull_request' in api_result:
             issue_type = 'Pull Request'
-        issue = self.gh_api(api_result['issue_url'])
+        issue = self.gh_api(api_result.get('issue_url', {}))
         s = api_result.get('url').split('/')
         repo = s[4] + '/' + s[5]
         title = '{username} replied · {issue_title} · {issue_type} #{issue_number} · {repo}'.format(
