@@ -1,5 +1,5 @@
 global:
-  boturl: "https://webhook.mydomain.com"
+  bot_url: "https://webhook.mydomain.com"
 comms:
   telegram:
     enabled: true
