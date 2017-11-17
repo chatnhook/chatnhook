@@ -21,7 +21,7 @@ bot_stats = BotStats()
 formatter = logging.Formatter('%(created)s - %(name)s - %(levelname)s - %(message)s')
 dsn = 'https://a3aa56ba615c4085ae8855ab78e4c021:a0f50be103034d9eb71331378e8f1da2@sentry.io/245538'
 
-if config.get('enable_sentry', True):
+if config.get('global', {}).get('enable_sentry', True):
     sentry = Sentry(application, dsn=dsn)
 
 wz = logging.getLogger('werkzeug')
