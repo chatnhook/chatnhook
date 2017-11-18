@@ -24,7 +24,7 @@ class IssuesEvent(GithubEvent):
             'repository_name': body.get('repository', {}).get('full_name', ''),
             'repository_link': body.get('repository', {}).get('html_url', ''),
         }
-        message = False
+        message = ''
         if body['action'] == 'opened':
             message = "[❓]({issue_link}) [{username}]({user_link}) " \
                       "opened new issue [#{issue_number} {issue_title}]({issue_link}) " \
