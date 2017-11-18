@@ -15,14 +15,19 @@ class IssueCommentEvent(GithubEvent):
 
         comment_api_link = str(body.get('comment', {}).get('url', '')).replace(
             'https://api.github.com/', '')
+        issue_api_link = str(body.get('issue', {}).get('url', '')).replace(
+            'https://api.github.com/', '')
 
         body_txt = body.get('comment', {}).get('body', '').encode('utf-8')
 
         params = {
-            'username': body.get('comment', {}).get('user', {}).get('login', ''),
+            'username': body.get('comment', {}).get('login', ''),
             'user_link': body.get('comment', {}).get('user', {}).get('html_url', ''),
+            'sender': body.get('sender', {}).get('login', ''),
+            'sender_link': body.get('sender', {}).get('html_url', ''),
             'issue_number': str(body.get('issue', {}).get('number', '')),
             'comment_link': self.build_redirect_link('github', 'issue_comment', comment_api_link),
+            'issue_link': self.build_redirect_link('github', 'issues', issue_api_link),
             'issue_title': body.get('issue', {}).get('title').encode('utf-8'),
             'issue_type': issue_type,
             'body': body_txt.split("\n")[0] + '...',
@@ -36,6 +41,10 @@ class IssueCommentEvent(GithubEvent):
         if body.get('action') == 'edited':
             message = "[🗨]({comment_link}) [{username}]({user_link}) edited the" \
                       " comment on {issue_type} [#{issue_number} {issue_title}]({comment_link})"
+
+        if body.get('action') == 'deleted':
+            message = "[❌]({issue_link}) [{sender}]({sender_link}) removed a" \
+                      " comment on {issue_type} [#{issue_number} {issue_title}]({issue_link})"
         # message += '```{body}```'
         message = message.format(**params)
 
@@ -51,8 +60,8 @@ class IssueCommentEvent(GithubEvent):
         issue_type = 'Issue'
         if 'pull_request' in api_result:
             issue_type = 'Pull Request'
-        issue = self.gh_api(api_result.get('issue_url', {}))
-        s = api_result.get('url').split('/')
+        issue = self.gh_api(api_result.get('issue_url', ''))
+        s = api_result.get('url', '').split('/')
         repo = s[4] + '/' + s[5]
         title = '{username} replied · {issue_title} · {issue_type} #{issue_number} · {repo}'.format(
             issue_title=issue.get('title').encode('utf-8'), issue_number=str(issue.get('number')),
