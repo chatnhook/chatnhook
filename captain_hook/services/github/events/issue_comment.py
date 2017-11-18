@@ -16,6 +16,8 @@ class IssueCommentEvent(GithubEvent):
         comment_api_link = str(body.get('comment', {}).get('url', '')).replace(
             'https://api.github.com/', '')
 
+        body_txt = body.get('comment', {}).get('body', '').encode('utf-8')
+
         params = {
             'username': body.get('comment', {}).get('user', {}).get('login', ''),
             'user_link': body.get('comment', {}).get('user', {}).get('html_url', ''),
@@ -23,7 +25,7 @@ class IssueCommentEvent(GithubEvent):
             'comment_link': self.build_redirect_link('github', 'issue_comment', comment_api_link),
             'issue_title': body.get('issue', {}).get('title').encode('utf-8'),
             'issue_type': issue_type,
-            'body': str(body.get('comment', {}).get('body', {})).split("\n")[0] + '...',
+            'body': body_txt.split("\n")[0] + '...',
         }
         message = ''
         if body.get('action') == 'created':
@@ -59,7 +61,7 @@ class IssueCommentEvent(GithubEvent):
             issue_type=issue_type)
         redirect = {
             'meta_title': title,
-            'meta_summary': api_result.get('body').split("\n")[0][0:100],
+            'meta_summary': api_result.get('body', '').encode('utf-8').split("\n")[0][0:100],
             'poster_image': api_result.get('user', {}).get('avatar_url'),
             'redirect': api_result.get('html_url', ''),
             'status_code': status_code,
