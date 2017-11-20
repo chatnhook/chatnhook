@@ -12,8 +12,7 @@ class BitbucketEvent(BaseEvent):
             'User-Agent': 'Hookbot',
         }
         if 'token' in self.config:
-            headers['Authorization'] = 'token ' + self.config.get('token')
-
+            headers['Authorization'] = 'Bearer ' + self.config.get('token')
         response = requests.get(url=url, headers=headers)
 
         try:
