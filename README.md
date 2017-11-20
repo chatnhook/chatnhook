@@ -42,6 +42,7 @@ Run with deamon (required for the `/update` telegram command):
 - Codacy
 - Slack
 - Travis
+- CircleCI
 - Telegram (can be used as telegram bot)
 
 
