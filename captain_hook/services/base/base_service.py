@@ -2,7 +2,8 @@ from __future__ import absolute_import
 import importlib
 from utils import strings
 import logging
-
+import subprocess
+import json
 log = logging.getLogger('hookbot')
 
 
@@ -20,9 +21,18 @@ class BaseService:
         if self.config.get('notify_events'):
             if event not in self.config.get('notify_events'):
                 return 'Event disabled'
+
         if self.config.get('disabled_events'):
             if event in self.config.get('disabled_events'):
                 return 'Event disabled'
+
+        if self.config.get('scripts', {}).get(event, False):
+            for script in self.config.get('scripts', {}).get(event, False):
+                command = script.split(' ')
+                command.append(event)
+                command.append(json.dumps(body))
+                subprocess.Popen(command)
+
         message_dict = self._get_event_processor(event)
         bot_stats.count_webhook(request.path[1:], event)
         if message_dict:

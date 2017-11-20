@@ -21,6 +21,10 @@ services:
   github:
     enabled: true
     secret: ''
+    token: ''
+    scripts:
+      push:
+        - python /path/to/script.py
     notify_branches:
       - master
 
