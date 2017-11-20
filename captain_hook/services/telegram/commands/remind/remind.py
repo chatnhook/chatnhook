@@ -18,8 +18,8 @@ class RemindCommand(BaseCommand):
         return "The bot will remind you of something"
 
     def run(self, messageObj, config):
-        message = messageObj.get('text')[1:]
-        # message = ' '.join(message)
+        message = messageObj.get('args')
+        message = ' '.join(message)
         regex = "(([0-9]+d)?([0-9]+h)?\s?([0-9]+m)?([0-9]+s)?)+$"
         matches = re.findall(regex, message)[0]
         reminder = re.sub(regex, '', message)

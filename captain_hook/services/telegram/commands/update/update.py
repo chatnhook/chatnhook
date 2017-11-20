@@ -7,7 +7,7 @@ import git
 
 class UpdateCommand(BaseCommand):
     def get_description(self):
-        return "Get information about you permissions"
+        return "Update and restart bot"
 
     def run(self, messageObj, config):
         username = messageObj.get('from', {}).get('username', '')
