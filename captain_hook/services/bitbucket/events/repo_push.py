@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from . import BitbucketEvent
-import itertools
+
 """
 Triggered on a push to a repository branch.
 Branch pushes and repository tag pushes also trigger webhook push events.
@@ -21,7 +21,8 @@ class RepoPushEvent(BitbucketEvent):
 
         branch = body.get('push', {}).get('changes', {})[0].get('new', {}).get('name', '')
 
-        if self.config.get('notify_branches', False) and branch not in self.config.get('notify_branches'):
+        if self.config.get('notify_branches', False)\
+                and branch not in self.config.get('notify_branches'):
             return False
 
         if len(body.get('push', {}).get('changes', {})) == 1:
@@ -30,7 +31,8 @@ class RepoPushEvent(BitbucketEvent):
         push_link = body.get('push', {}).get('changes', {})[0].get('new', {}).get('target', {}) \
             .get('links', {}).get('html', {}).get('href').replace('https://bitbucket.org/', '')
 
-        user_link = body.get('actor', {}).get('links').get('html').get('href').replace('https://bitbucket.org/', '')
+        user_link = body.get('actor', {}).get('links').get('html')\
+            .get('href').replace('https://bitbucket.org/', '')
         repo_link = body.get('repository', {}).get('links', {}).get('html').get('href')\
             .replace('https://bitbucket.org/', '')
 
@@ -54,7 +56,8 @@ class RepoPushEvent(BitbucketEvent):
             for commit in change.get('commits'):
                 args = {
                     'commit_hash': str(commit.get('hash'))[:7],
-                    'commit_message': commit.get('message', '').encode('utf-8').replace("\n\n", '\n'),
+                    'commit_message': commit.get('message', '').encode('utf-8')
+                                            .replace("\n\n", '\n'),
                     'commit_link': commit.get('links', {}).get('html', {}).get('href')
                 }
                 message += "· [{commit_hash}]({commit_link}): {commit_message} \n".format(

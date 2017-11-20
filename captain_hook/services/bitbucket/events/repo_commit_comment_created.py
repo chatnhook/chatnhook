@@ -9,13 +9,19 @@ Triggered when a commit comment is created.
 
 class RepoCommitCommentCreatedEvent(BitbucketEvent):
     def process(self, request, body):
-        comment_api_link = str(body.get('comment', {}).get('links', {}).get('self', {}).get('href')).replace(
-            'https://api.bitbucket.org/2.0/', '')
-        redir_link = self.build_redirect_link('bitbucket', 'repo_commit_comment_created', comment_api_link)
+        comment_api_link = str(body.get('comment', {}).get('links', {})
+                               .get('self', {}).get('href'))\
+            .replace('https://api.bitbucket.org/2.0/', '')
+
+        redir_link = self.build_redirect_link(
+            'bitbucket',
+            'repo_commit_comment_created',
+            comment_api_link)
 
         params = {
             'username': body.get('comment', {}).get('user', {}).get('username', ''),
-            'user_link': body.get('comment', {}).get('user', {}).get('links', {}).get('html').get('href'),
+            'user_link': body.get('comment', {}).get('user', {}).get('links', {}).get('html').get(
+                'href'),
             'commit_hash': str(body.get('comment', {}).get('commit', {}).get('hash'))[:7],
             'commit_comment_link': redir_link,
             'body': str(body.get('comment', {}).get('content', {}).get('raw')).split("\n")[0],
@@ -43,7 +49,8 @@ class RepoCommitCommentCreatedEvent(BitbucketEvent):
                                        commit=api_result.get('commit', {}).get('hash', '')[:7],
                                        repo=repo),
             'meta_summary': api_result.get('content', {}).get('raw', '').split("\n")[0][0:100],
-            'poster_image': api_result.get('user', {}).get('links', {}).get('avatar', {}).get('href'),
+            'poster_image': api_result.get('user', {}).get('links', {}).get('avatar', {}).get(
+                'href'),
             'redirect': api_result.get('links', {}).get('html', {}).get('href'),
             'status_code': status_code,
         }

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from . import BitbucketEvent
-import itertools
+
 """
 Triggered on a push to a repository branch.
 Branch pushes and repository tag pushes also trigger webhook push events.

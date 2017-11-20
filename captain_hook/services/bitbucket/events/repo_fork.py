@@ -9,11 +9,13 @@ Triggered when a user forks a repository.
 
 class RepoForkEvent(BitbucketEvent):
     def process(self, request, body):
-        user_link = body.get('actor', {}).get('links', {}).get('html').get('href').replace('https://bitbucket.org/', '')
-        repo_link = body.get('repository', {}).get('links', {}).get('html').get('href')\
-            .replace('https://bitbucket.org/', '')
+        user_link = body.get('actor', {}).get('links', {}) \
+            .get('html').get('href').replace('https://bitbucket.org/', '')
+        repo_link = body.get('repository', {}).get('links', {}) \
+            .get('html').get('href').replace('https://bitbucket.org/', '')
 
-        fork_link = body.get('fork', {}).get('links', {}).get('html').get('href').replace('https://bitbucket.org/', '')
+        fork_link = body.get('fork', {}).get('links', {}) \
+            .get('html').get('href').replace('https://bitbucket.org/', '')
 
         params = {
             'username': body.get('actor', {}).get('username', ''),
