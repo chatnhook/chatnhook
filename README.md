@@ -35,6 +35,7 @@ Run with deamon (required for the `/update` telegram command):
 ## Currently supported services and events
 
 - Github
+- Bitbucket
 - Docker
 - Pagerduty
 - Patreon
