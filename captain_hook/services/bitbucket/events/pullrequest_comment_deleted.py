@@ -39,7 +39,7 @@ class PullrequestCommentDeletedEvent(BitbucketEvent):
 
         message = "[🗨]({comment_link}) [{username}]({user_link}) " \
                   "removed a comment from {comment_user}" \
-                      " on PR [#{issue_number} {issue_title}]({comment_link})"
+                  " on PR [#{issue_number} {issue_title}]({comment_link})"
         message = message.format(**params)
 
         return {"default": str(message)}
@@ -54,7 +54,7 @@ class PullrequestCommentDeletedEvent(BitbucketEvent):
             'meta_title': '',
             'meta_summary': '',
             'poster_image': '',
-            'redirect': 'https://bitbucket.com'+ params,
+            'redirect': 'https://bitbucket.com' + params,
             'status_code': status_code,
         }
         return redirect

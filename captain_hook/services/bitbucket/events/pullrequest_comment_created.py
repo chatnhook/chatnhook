@@ -37,7 +37,7 @@ class PullrequestCommentCreatedEvent(BitbucketEvent):
         }
 
         message = "[🗨]({comment_link}) [{username}]({user_link}) commented " \
-                      "on PR [#{issue_number} {issue_title}]({comment_link})"
+                  "on PR [#{issue_number} {issue_title}]({comment_link})"
         message = message.format(**params)
 
         return {"default": str(message)}

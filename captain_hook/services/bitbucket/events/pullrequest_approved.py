@@ -59,7 +59,7 @@ class PullrequestApprovedEvent(BitbucketEvent):
             'meta_title': title,
             'meta_summary': '',
             'poster_image': api_result.get('author', {}).get('links', {}).get('avatar', {})
-                .get('href'),
+                                      .get('href'),
 
             'redirect': api_result.get('links', {}).get('html', {}).get('href'),
             'status_code': status_code,
