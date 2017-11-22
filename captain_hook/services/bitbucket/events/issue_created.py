@@ -3,7 +3,6 @@ from __future__ import absolute_import
 from . import BitbucketEvent
 
 
-
 class IssueCreatedEvent(BitbucketEvent):
     """
     Triggered when a pull request is assigned, unassigned, labeled, unlabeled, opened,
