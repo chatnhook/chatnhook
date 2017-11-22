@@ -5,7 +5,7 @@ from json import loads
 
 class BitbucketEvent(BaseEvent):
     """
-    :return dictionary
+    :rtype dictionary
     """
     def bb_api(self, url):
         if 'https://api.bitbucket.org/2.0/' not in url:
