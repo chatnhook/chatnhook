@@ -14,8 +14,8 @@ class CommitCommentEvent(GithubEvent):
             'https://api.github.com/', '')
         redir_link = self.build_redirect_link('github', 'commit_comment', comment_api_link)
         params = {
-            'username': body.get('comment', {}).get('user', {}).get('login', ''),
-            'user_link': body.get('comment', {}).get('user', {}).get('html_url', ''),
+            'username': body.get('sender', {}).get('login', ''),
+            'user_link': body.get('sender', {}).get('html_url', ''),
             'commit_hash': str(body.get('comment', {}).get('commit_id', ''))[:7],
             'commit_comment_link': redir_link,
             'body': str(body.get('comment', {}).get('body', '')).split("\n")[0],
