@@ -15,8 +15,8 @@ class PullRequestReviewCommentEvent(GithubEvent):
             'https://api.github.com/', '')
 
         params = {
-            'username': body.get('comment', {}).get('user', {}).get('login', ''),
-            'user_link': body.get('comment', {}).get('user', {}).get('html_url', ''),
+            'username': body.get('sender', {}).get('login', ''),
+            'user_link': body.get('sender', {}).get('html_url', ''),
             'pr_comment_link': self.build_redirect_link('github', 'pull_request_review_comment',
                                                         comment_api_link),
             'pr_number': str(body.get('pull_request', {}).get('number')),
