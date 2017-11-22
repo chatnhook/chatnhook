@@ -102,7 +102,8 @@ def redirect(service, event, path):
         'meta_summary': result.get('meta_summary', '').decode("utf8"),
         'meta_link': config['global']['bot_url'] + '/' + request.path,
         'poster_image': result.get('poster_image', '').decode("utf8"),
-        'redirect': result.get('redirect', '')
+        'redirect': result.get('redirect', ''),
+        'service': service[0].upper() + service[1:]
     }
 
     return render_template('redirect.html', **data), result.get('status_code', 200)

@@ -13,6 +13,8 @@ class BitbucketEvent(BaseEvent):
         }
         if 'token' in self.config:
             headers['Authorization'] = 'Bearer ' + self.config.get('token')
+
+
         response = requests.get(url=url, headers=headers)
 
         try:
