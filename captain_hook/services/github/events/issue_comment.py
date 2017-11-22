@@ -21,8 +21,8 @@ class IssueCommentEvent(GithubEvent):
         body_txt = body.get('comment', {}).get('body', '').encode('utf-8')
 
         params = {
-            'username': body.get('comment', {}).get('user', {}).get('login', ''),
-            'user_link': body.get('comment', {}).get('user', {}).get('html_url', ''),
+            'username': body.get('sender', {}).get('login', ''),
+            'user_link': body.get('sender', {}).get('html_url', ''),
             'sender': body.get('sender', {}).get('login', ''),
             'sender_link': body.get('sender', {}).get('html_url', ''),
             'issue_number': str(body.get('issue', {}).get('number', '')),
