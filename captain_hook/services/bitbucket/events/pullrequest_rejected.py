@@ -32,33 +32,6 @@ class PullrequestRejectedEvent(BitbucketEvent):
                   " pull request " \
                   "[#{pull_request_number} {pull_request_title}]({pull_request_link})" \
                   " in [{repository_name}]({repository_link})"
-        #
-        # if body['action'] == 'opened':
-        #
-        #
-        # if body['action'] == 'reopened':
-        #     message = "[⛓]({pull_request_link}) [{username}]({user_link}) reopened" \
-        #               " pull request " \
-        #               "[#{pull_request_number} {pull_request_title}]({pull_request_link})" \
-        #               " in [{repository_name}]({repository_link})"
-        #
-        # if body['action'] == 'edited':
-        #     message = "[⛓]({pull_request_link}) [{username}]({user_link}) edited" \
-        #               " pull request " \
-        #               "[#{pull_request_number} {pull_request_title}]({pull_request_link})" \
-        #               " in [{repository_name}]({repository_link})"
-        #
-        # if body['action'] == 'closed' and body['pull_request']['merged'] is True:
-        #     message = "[⛓]({pull_request_link}) [{username}]({user_link}) merged" \
-        #               " pull request " \
-        #               "[#{pull_request_number} {pull_request_title}]({pull_request_link})" \
-        #               " in [{repository_name}]({repository_link})"
-        #
-        # if body['action'] == 'closed' and body['pull_request']['merged'] is False:
-        #     message = "[⛓]({pull_request_link}) [{username}]({user_link}) closed" \
-        #               " pull request " \
-        #               "[#{pull_request_number} {pull_request_title}]({pull_request_link})" \
-        #               " in [{repository_name}]({repository_link})"
 
         message = message.format(**params)
 
