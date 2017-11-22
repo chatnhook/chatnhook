@@ -2,12 +2,11 @@
 from __future__ import absolute_import
 from . import BitbucketEvent
 
-"""
-Triggered when an issue comment is created, edited, or deleted.
-"""
-
 
 class PullrequestCommentCreatedEvent(BitbucketEvent):
+    """
+    Triggered when an issue comment is created, edited, or deleted.
+    """
     def process(self, request, body):
         comment = body.get('comment', {})
         pr = body.get('pullrequest', {})

@@ -2,14 +2,14 @@
 from __future__ import absolute_import
 from . import BitbucketEvent
 
-"""
-Triggered when a pull request is assigned, unassigned, labeled, unlabeled, opened,
-edited, closed, reopened, or synchronized.
-Also triggered when a pull request review is requested, or when a review request is removed.
-"""
 
 
 class IssueCreatedEvent(BitbucketEvent):
+    """
+    Triggered when a pull request is assigned, unassigned, labeled, unlabeled, opened,
+    edited, closed, reopened, or synchronized.
+    Also triggered when a pull request review is requested, or when a review request is removed.
+    """
     def process(self, request, body):
         issue = body.get('issue', {})
         issue_link = issue.get('links', {}).get('self', {}).get('href', '').replace(

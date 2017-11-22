@@ -2,12 +2,11 @@
 from __future__ import absolute_import
 from . import BitbucketEvent
 
-"""
-Triggered when a commit comment is created.
-"""
-
 
 class RepoCommitCommentCreatedEvent(BitbucketEvent):
+    """
+    Triggered when a commit comment is created.
+    """
     def process(self, request, body):
         comment_api_link = str(body.get('comment', {}).get('links', {})
                                .get('self', {}).get('href'))\

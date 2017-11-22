@@ -2,12 +2,11 @@
 from __future__ import absolute_import
 from . import BitbucketEvent
 
-"""
-Triggered when a user forks a repository.
-"""
-
 
 class RepoForkEvent(BitbucketEvent):
+    """
+    Triggered when a user forks a repository.
+    """
     def process(self, request, body):
         user_link = body.get('actor', {}).get('links', {}) \
             .get('html').get('href').replace('https://bitbucket.org/', '')

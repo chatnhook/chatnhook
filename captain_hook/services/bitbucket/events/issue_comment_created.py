@@ -2,12 +2,11 @@
 from __future__ import absolute_import
 from . import BitbucketEvent
 
-"""
-Triggered when an issue comment is created, edited, or deleted.
-"""
-
 
 class IssueCommentCreatedEvent(BitbucketEvent):
+    """
+    Triggered when an issue comment is created, edited, or deleted.
+    """
     def process(self, request, body):
         comment = body.get('comment', {})
         issue = body.get('issue', {})
@@ -62,9 +61,9 @@ class IssueCommentCreatedEvent(BitbucketEvent):
         redirect = {
             'meta_title': title,
             'meta_summary': api_result.get('content', {}).get('raw')
-                                      .encode('utf-8').split("\n")[0][0:100],
+                                .encode('utf-8').split("\n")[0][0:100],
             'poster_image': api_result.get('user', {}).get('links', {}).get('avatar', {})
-                                      .get('href'),
+                .get('href'),
             'redirect': api_result.get('links', {}).get('html', {}).get('href'),
             'status_code': status_code,
         }
