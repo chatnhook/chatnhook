@@ -37,7 +37,7 @@ class IssueUpdatedEvent(BitbucketEvent):
         return {"default": str(message)}
 
     def get_redirect(self, request, event, params):
-        api_result = self.bb_api(params)
+        api_result = self.bb_api(params)  # type:dict
         status_code = 200
         if not api_result:
             return {

@@ -42,7 +42,7 @@ class PullrequestCommentCreatedEvent(BitbucketEvent):
         return {"default": str(message)}
 
     def get_redirect(self, request, event, params):
-        api_result = self.bb_api(params)
+        api_result = self.bb_api(params)  # type:dict
         pr = api_result.get('pullrequest')
         status_code = 200
         if not api_result:
