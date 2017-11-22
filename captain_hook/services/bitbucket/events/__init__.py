@@ -22,6 +22,6 @@ class BitbucketEvent(BaseEvent):
         try:
             result = loads(response.text)
         except TypeError:
-            result = False
+            result = []
 
         return result
