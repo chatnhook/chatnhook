@@ -9,7 +9,7 @@ Also triggered when a pull request review is requested, or when a review request
 """
 
 
-class PullrequestFullfilledEvent(BitbucketEvent):
+class PullrequestRejectedEvent(BitbucketEvent):
     def process(self, request, body):
         pr = body.get('pullrequest', {})
         pr_link = pr.get('links', {}).get('self', {}).get('href', '').replace(
@@ -28,8 +28,7 @@ class PullrequestFullfilledEvent(BitbucketEvent):
             'repository_name': body.get('repository', {}).get('full_name', ''),
             'repository_link': body.get('repository', {}).get('links', {}).get('html').get('href'),
         }
-        message = False
-        message = "[⛓]({pull_request_link}) [{username}]({user_link}) merged" \
+        message = "[🔴]({pull_request_link}) [{username}]({user_link}) rejected" \
                   " pull request " \
                   "[#{pull_request_number} {pull_request_title}]({pull_request_link})" \
                   " in [{repository_name}]({repository_link})"
