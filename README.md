@@ -67,8 +67,3 @@ See our [wiki](https://github.com/captainhookbot/captain_hook/Adding-a-comm)
 ## Error logging
 We use sentry.io for error logging. This enables us to trackdown issues quickly.
 If you don't want this you can turn it off by setting `global.enable_sentry` to false in config.yml
-
-## Sponsored content
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/KPk1tkZCu9wtVjXV3QxhxQY2/captainhookbot/captain_hook'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/KPk1tkZCu9wtVjXV3QxhxQY2/captainhookbot/captain_hook.svg' />
-</a>
