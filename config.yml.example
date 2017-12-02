@@ -36,6 +36,8 @@ services:
       - watch
   circleci:
     enabled: true
+  codacy:
+    enabled: true
   bitbucket:
     enabled: true
   docker:
