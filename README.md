@@ -1,6 +1,6 @@
 ![](https://demo.identihub.co/assets/Chat'n'Hook_ICONS_5.png)
 
-[![Build Status](https://travis-ci.org/captainhookbot/captain_hook.svg?branch=master)](https://travis-ci.org/captainhookbot/captain_hook)
+[![Build Status](https://travis-ci.org/chatnhook/chatnhook.svg?branch=master)](https://travis-ci.org/chatnhook/chatnhook)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/captainhookbot/captain_hook/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/captainhookbot/captain_hook/?branch=master)
 ![Python](https://img.shields.io/badge/python-2.7-brightgreen.svg)
 [![Known Vulnerabilities](https://snyk.io/test/github/captainhookbot/captain_hook/badge.svg)](https://snyk.io/test/github/captainhookbot/captain_hook)   
