@@ -113,6 +113,7 @@ def redirect(service, event, path):
 def favIcon():
     return ''
 
+
 @application.route('/', methods=['GET'])
 def index():
     return ''
