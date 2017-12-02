@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/chatnhook/chatnhook.svg?branch=master)](https://travis-ci.org/chatnhook/chatnhook)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/chatnhook/chatnhook/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/chatnhook/chatnhook/?branch=master)
 ![Python](https://img.shields.io/badge/python-2.7-brightgreen.svg)
-[![Known Vulnerabilities](https://snyk.io/test/github/captainhookbot/captain_hook/badge.svg)](https://snyk.io/test/github/captainhookbot/captain_hook)   
+[![Known Vulnerabilities](https://snyk.io/test/github/chatnhook/chatnhook/badge.svg)](https://snyk.io/test/github/chatnhook/chatnhook)   
 
 A web server to receive webhooks from many online services and forward the information
 to many different messaging platforms, like Telegram or Slack, using a different
