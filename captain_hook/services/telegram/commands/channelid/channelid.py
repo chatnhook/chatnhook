@@ -4,6 +4,7 @@ from ..base import BaseCommand
 
 
 class ChannelidCommand(BaseCommand):
+    @classmethod
     def get_description(self):
         return "Get the current channel id"
 
