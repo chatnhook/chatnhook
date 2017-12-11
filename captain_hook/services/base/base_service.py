@@ -18,6 +18,10 @@ class BaseService:
 
     def execute(self, request, body, bot_stats):
         event = self.get_event(request, body)
+        
+        if not event:
+            return "Unable to detect event"
+        
         if self.config.get('notify_events'):
             if event not in self.config.get('notify_events'):
                 return 'Event disabled'
