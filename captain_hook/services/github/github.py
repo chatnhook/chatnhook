@@ -30,4 +30,4 @@ class GithubService(BaseService):
                 if not str(mac.hexdigest()) == str(signature):
                     abort(403)
 
-        return request.headers.get('X-GITHUB-EVENT')
+        return request.headers.get('X-GITHUB-EVENT', False)
