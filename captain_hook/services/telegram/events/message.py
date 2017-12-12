@@ -64,7 +64,7 @@ class MessageEvent(BaseEvent):
         return importlib.import_module(package)
 
     def _import_custom_ommand_module(self, command):
-        package = "services.telegram.commands.{}.{}".format(
+        package = "services.telegram.commands.custom.{}.{}".format(
             command,
             command
         )
