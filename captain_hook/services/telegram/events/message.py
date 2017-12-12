@@ -42,7 +42,10 @@ class MessageEvent(BaseEvent):
         try:
             command_module = self._import_command_module(command)
         except ImportError:
-            log.warn("Don't know how to handle telegram command {}".format(command))
+            try:
+                command_module = self._import_custom_ommand_module(command)
+            except ImportError:
+                log.warn("Don't know how to handle telegram command {}".format(command))
 
         command_processor_class_name = "{}Command".format(
             strings.toCamelCase(command),
@@ -54,6 +57,13 @@ class MessageEvent(BaseEvent):
         return False
 
     def _import_command_module(self, command):
+        package = "services.telegram.commands.{}.{}".format(
+            command,
+            command
+        )
+        return importlib.import_module(package)
+
+    def _import_custom_ommand_module(self, command):
         package = "services.telegram.commands.{}.{}".format(
             command,
             command
