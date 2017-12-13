@@ -30,6 +30,7 @@ class TelegramService(BaseService):
         dir_path = os.path.dirname(os.path.realpath(__file__)) + '/commands'
         command_list = os.walk(dir_path).next()[1]
         del command_list[command_list.index('base')]
+        del command_list[command_list.index('custom')]
 
         # self.telegram_webhook.
         log.info('Found commands:' + ', '.join(command_list))
