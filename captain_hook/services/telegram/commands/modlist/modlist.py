@@ -14,12 +14,12 @@ class ModlistCommand(BaseCommand):
         if admins:
             message += '⭐ *Administrators ({count})*\n'.format(count=len(admins))
             for admin in admins:
-                message += '└@{user}\n'.format(user=admin)
+                message += '└@ {user}\n'.format(user=admin)
 
         if moderators:
             message += '👥 *Moderators ({count})*\n'.format(count=len(moderators))
             for moderator in moderators:
-                message += '└@{user}\n'.format(user=moderator)
+                message += '└@ {user}\n'.format(user=moderator)
 
         self.send_message(
             chat_id=messageObj.get('chat').get('id'),
