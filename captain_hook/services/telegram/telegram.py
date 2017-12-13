@@ -29,11 +29,14 @@ class TelegramService(BaseService):
     def register_commands(self):
         dir_path = os.path.dirname(os.path.realpath(__file__)) + '/commands'
         command_list = os.walk(dir_path).next()[1]
+        dir_path = os.path.dirname(os.path.realpath(__file__)) + '/commands/custom'
+        custom_command_list = os.walk(dir_path).next()[1]
         del command_list[command_list.index('base')]
         del command_list[command_list.index('custom')]
 
         # self.telegram_webhook.
-        log.info('Found commands:' + ', '.join(command_list))
+        log.info('Found commands: ' + ', '.join(command_list))
+        log.info('Found custom commands: ' + ', '.join(custom_command_list))
 
     def setup(self):
         log.info('init telegram service')

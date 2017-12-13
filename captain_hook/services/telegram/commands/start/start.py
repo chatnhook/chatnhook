@@ -15,6 +15,12 @@ class StartCommand(BaseCommand):
         dir_path = os.path.dirname(os.path.realpath(os.path.dirname(__file__)))
         command_list = os.walk(dir_path).next()[1]
         del command_list[command_list.index('base')]
+        del command_list[command_list.index('custom')]
+
+        dir_path = os.path.dirname(os.path.realpath(os.path.dirname(__file__))) + '/custom'
+        custom_command_list = os.walk(dir_path).next()[1]
+        command_list = command_list + custom_command_list
+
         commands = []
 
         for command in command_list:
@@ -29,7 +35,11 @@ class StartCommand(BaseCommand):
         self.send_message(parse_mode='HTML', chat_id=messageObj.get('chat').get('id'), text=msg)
 
     def process_command(self, command):
-        command_module = self._import_command_module(command)
+        command_module = False
+        try:
+            command_module = self._import_command_module(command)
+        except ImportError:
+            command_module = self._import_custom_command_module(command)
 
         command_processor_class_name = "{}Command".format(
             strings.toCamelCase(command),
@@ -42,6 +52,13 @@ class StartCommand(BaseCommand):
 
     def _import_command_module(self, command):
         package = "services.telegram.commands.{}.{}".format(
+            command,
+            command
+        )
+        return importlib.import_module(package)
+
+    def _import_custom_command_module(self, command):
+        package = "services.telegram.commands.custom.{}.{}".format(
             command,
             command
         )
