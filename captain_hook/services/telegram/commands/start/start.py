@@ -18,7 +18,13 @@ class StartCommand(BaseCommand):
         del command_list[command_list.index('custom')]
 
         dir_path = os.path.dirname(os.path.realpath(os.path.dirname(__file__))) + '/custom'
-        custom_command_list = os.walk(dir_path).next()[1]
+        custom_commands = os.walk(dir_path).next()[1]
+
+        custom_command_list = []
+        for command in custom_commands:
+            if command[0] is not '.':
+                custom_command_list.append(command)
+
         command_list = command_list + custom_command_list
 
         commands = []
