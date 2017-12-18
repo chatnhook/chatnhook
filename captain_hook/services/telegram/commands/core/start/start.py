@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from ..base import BaseCommand
+from ...base import BaseCommand
 import os
 import importlib
 from utils import strings
@@ -14,10 +14,8 @@ class StartCommand(BaseCommand):
         msg = 'Welcome to this bot!\n'
         dir_path = os.path.dirname(os.path.realpath(os.path.dirname(__file__)))
         command_list = os.walk(dir_path).next()[1]
-        del command_list[command_list.index('base')]
-        del command_list[command_list.index('custom')]
 
-        dir_path = os.path.dirname(os.path.realpath(os.path.dirname(__file__))) + '/custom'
+        dir_path = os.path.dirname(os.path.realpath(os.path.dirname(__file__))) + '/../custom'
         custom_commands = os.walk(dir_path).next()[1]
 
         custom_command_list = []
@@ -57,7 +55,7 @@ class StartCommand(BaseCommand):
         return False
 
     def _import_command_module(self, command):
-        package = "services.telegram.commands.{}.{}".format(
+        package = "services.telegram.commands.core.{}.{}".format(
             command,
             command
         )

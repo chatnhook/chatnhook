@@ -44,7 +44,8 @@ class MessageEvent(BaseEvent):
         except ImportError:
             try:
                 command_module = self._import_custom_command_module(command)
-            except ImportError:
+            except ImportError as e:
+                print(str(e))
                 log.warn("Don't know how to handle telegram command {}".format(command))
 
         command_processor_class_name = "{}Command".format(
@@ -57,7 +58,7 @@ class MessageEvent(BaseEvent):
         return False
 
     def _import_command_module(self, command):
-        package = "services.telegram.commands.{}.{}".format(
+        package = "services.telegram.commands.core.{}.{}".format(
             command,
             command
         )

@@ -27,12 +27,10 @@ class TelegramService(BaseService):
         self.webhook = self.telegram_webhook.getWebhookInfo()
 
     def register_commands(self):
-        dir_path = os.path.dirname(os.path.realpath(__file__)) + '/commands'
+        dir_path = os.path.dirname(os.path.realpath(__file__)) + '/commands/core'
         command_list = os.walk(dir_path).next()[1]
         dir_path = os.path.dirname(os.path.realpath(__file__)) + '/commands/custom'
         custom_commands = os.walk(dir_path).next()[1]
-        del command_list[command_list.index('base')]
-        del command_list[command_list.index('custom')]
 
         custom_command_list = []
         for command in custom_commands:
