@@ -6,7 +6,6 @@ import threading
 import importlib
 from utils import strings
 import logging
-from pprint import pprint
 import os
 
 log = logging.getLogger('hookbot')
@@ -42,10 +41,10 @@ class MessageEvent(BaseEvent):
     def process_command(self, command):
         command_module = False
         try:
-            command_module = self._import_module('commands','core', command)
+            command_module = self._import_module('commands', 'core', command)
         except ImportError:
             try:
-                command_module = self._import_module('commands','custom', command)
+                command_module = self._import_module('commands', 'custom', command)
             except ImportError as e:
                 print(str(e))
                 log.warn("Don't know how to handle telegram command {}".format(command))
@@ -59,7 +58,7 @@ class MessageEvent(BaseEvent):
             )
         return False
 
-    def _import_module(self, type, which , command):
+    def _import_module(self, type, which, command):
         package = "services.telegram.{}.{}.{}.{}".format(
             type,
             which,
@@ -69,7 +68,7 @@ class MessageEvent(BaseEvent):
         return importlib.import_module(package)
 
     def _call_services(self, message):
-        dir_path = os.path.dirname(os.path.realpath(os.path.dirname(__file__))) +'/services/core'
+        dir_path = os.path.dirname(os.path.realpath(os.path.dirname(__file__))) + '/services/core'
         command_list = os.walk(dir_path).next()[1]
         for service in command_list:
             if service[0] is not '.':
@@ -79,19 +78,17 @@ class MessageEvent(BaseEvent):
                                          args=(message, self.config))
                     t.start()
 
-
-
     def process_service(self, service):
         service_module = False
         try:
-            service_module = self._import_module('services','core', service)
+            service_module = self._import_module('services', 'core', service)
         except ImportError as e:
 
             try:
-                service_module = self._import_module('commands','custom', command)
+                service_module = self._import_module('commands', 'custom', service)
             except ImportError as e:
                 print(str(e))
-                log.warn("Don't know how to handle telegram command {}".format(command))
+                log.warn("Don't know how to handle telegram command {}".format(service))
 
         service_processor_class_name = "{}Service".format(
             strings.toCamelCase(service),

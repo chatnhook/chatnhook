@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from ....commands.base import BaseCommand
-from time import sleep
 
 
 class PingService(BaseCommand):
@@ -10,4 +9,3 @@ class PingService(BaseCommand):
             self.send_message(
                 chat_id=messageObj.get('chat').get('id'),
                 text='Pong!')
-
