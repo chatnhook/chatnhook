@@ -85,7 +85,7 @@ class MessageEvent(BaseEvent):
         service_module = False
         try:
             service_module = self._import_module('services','core', service)
-        except ImportError,e:
+        except ImportError as e:
 
             try:
                 service_module = self._import_module('commands','custom', command)
