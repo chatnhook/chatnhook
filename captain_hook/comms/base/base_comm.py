@@ -4,8 +4,9 @@ from os.path import join
 
 
 class BaseComm:
-    def __init__(self, config):
+    def __init__(self, config, project_service_config):
         self.config = config
+        self.project_service_config = project_service_config
 
     def setup(self):
         raise NotImplementedError

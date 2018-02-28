@@ -4,13 +4,18 @@ from utils import strings
 import logging
 import subprocess
 import json
+from comms import load_comm
+import utils.config
+
+
 log = logging.getLogger('hookbot')
 
 
 class BaseService:
-    def __init__(self, config, comms):
-        self.comms = comms
+    def __init__(self, config, project_service_config):
         self.config = config
+        self.project_service_config = project_service_config
+        self.global_config = utils.config.load_config('.')
         self.log = log
 
     def setup(self):
@@ -18,20 +23,20 @@ class BaseService:
 
     def execute(self, request, body, bot_stats):
         event = self.get_event(request, body)
-
         if not event:
             return "Unable to detect event"
 
-        if self.config.get('notify_events'):
+        if self.project_service_config.get('settings', {}).get('notify_events'):
             if event not in self.config.get('notify_events'):
                 return 'Event disabled'
 
-        if self.config.get('disabled_events'):
-            if event in self.config.get('disabled_events'):
+        if self.project_service_config.get('settings', {}).get('disabled_events'):
+            if event in self.project_service_config.get('settings', {}).get('disabled_events'):
                 return 'Event disabled'
 
-        if self.config.get('scripts', {}).get(event, False):
-            for script in self.config.get('scripts', {}).get(event, False):
+        if self.project_service_config.get('settings', {}).get('scripts', {}).get(event, False):
+            for script in self.project_service_config.get('settings', {})\
+                    .get('scripts', {}).get(event, False):
                 command = script.split(' ')
                 command.append(event)
                 command.append(json.dumps(body))
@@ -41,12 +46,17 @@ class BaseService:
         bot_stats.count_webhook(request.path[1:], event)
         if message_dict:
             message_dict = message_dict.process(request, body)
-            for name, comm in self.comms.items():
-                default_message = message_dict.get('default', None)
-                message = message_dict.get(name, default_message)
-                if message:
-                    bot_stats.count_message(name)
-                    comm.communicate(message)
+
+            for name, comm in self.project_service_config.get('send_to', {}).items():
+                if self.project_service_config.get('send_to', {}).get(name, {}).get('enabled', True):
+                    comm = load_comm(name,
+                                     self.global_config.get('comms', {}).get(name, {}),
+                                     self.project_service_config.get('send_to', {}).get(name))
+                    default_message = message_dict.get('default', None)
+                    message = message_dict.get(name, default_message)
+                    if message:
+                        bot_stats.count_message(name)
+                        comm.communicate(message)
             return "ok"
         else:
             return False

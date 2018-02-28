@@ -31,12 +31,17 @@ def load_comms(comms, config):
         if comm not in config['comms']:
             continue
 
-        if config["comms"][comm].get("enabled"):
-            comm_config = config["comms"][comm]
-            comm = import_service_module(comm)(comm_config)
-            comm.setup()
-            loaded_comms.append(comm)
+        comm_config = config["comms"][comm]
+        comm = import_service_module(comm)(comm_config)
+        comm.setup()
+        loaded_comms.append(comm)
     return loaded_comms
+
+
+def load_comm(comm, config, project_service_config={}):
+    comm = import_service_module(comm)(config, project_service_config)
+    comm.setup()
+    return comm
 
 
 def import_service_module(comm):

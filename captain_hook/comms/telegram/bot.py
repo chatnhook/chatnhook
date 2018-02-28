@@ -5,7 +5,11 @@ from ..base.base_comm import BaseComm
 
 class TelegramComm(BaseComm):
     def setup(self):
-        self.telegram_bot = telegram.Bot(self.config["token"])
+        print self.project_service_config
+        if self.project_service_config.get('token', False):
+            self.telegram_bot = telegram.Bot(self.project_service_config.get('token'))
+        else:
+            self.telegram_bot = telegram.Bot(self.config.get('token'))
 
     def communicate(self, message):
         if not message:

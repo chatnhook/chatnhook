@@ -48,10 +48,10 @@ log.addHandler(ch)
 log.addHandler(fh)
 
 
-def get_services():
+def get_services(project_service_config={}):
     services = getattr(g, "_services", None)
     if services is None:
-        services = g._services = find_and_load_services(config, get_comms())
+        services = g._services = find_and_load_services(config, project_service_config)
     return services
 
 
@@ -71,16 +71,19 @@ def internal_server_error(error):
 
 
 @application.route('/<service>', methods=['GET', 'POST'])
-def receive_webhook(service):
+@application.route('/<project>/<service>', methods=['GET', 'POST'])
+def receive_webhook(service='', project=''):
     try:
         body = json.loads(request.data)
     except ValueError:
         body = request.form
 
-    if service not in get_services():
+    project_service_config = config.get('hooks', {}).get(project, {}).get(service, {})
+    if service not in get_services(project_service_config):
         log.error('Service {} not found'.format(service))
         return 'Service not found'
-    result = get_services()[service].execute(request, body, bot_stats)
+
+    result = get_services(project_service_config)[service].execute(request, body, bot_stats)
     if result:
         return result
     else:
@@ -141,7 +144,7 @@ def getstats():
 
 def init_serviceses():
     with application.app_context():
-        for service in get_services().itervalues():
+        for service in get_services({}).itervalues():
             service.setup()
 
 
