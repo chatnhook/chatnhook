@@ -64,6 +64,9 @@ See our [wiki](https://github.com/captainhookbot/captain_hook/wiki/Adding-a-even
 ## Adding your comms
 See our [wiki](https://github.com/captainhookbot/captain_hook/Adding-a-comm)
 
+## Contributors
+- Brantje
+
 ## Error logging
 We use sentry.io for error logging. This enables us to trackdown issues quickly.
 If you don't want this you can turn it off by setting `global.enable_sentry` to false in config.yml
