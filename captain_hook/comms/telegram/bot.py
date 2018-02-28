@@ -5,7 +5,6 @@ from ..base.base_comm import BaseComm
 
 class TelegramComm(BaseComm):
     def setup(self):
-        print self.project_service_config
         if self.project_service_config.get('token', False):
             self.telegram_bot = telegram.Bot(self.project_service_config.get('token'))
         else:
@@ -14,8 +13,18 @@ class TelegramComm(BaseComm):
     def communicate(self, message):
         if not message:
             return None
-        self.telegram_bot.sendMessage(
-            self.config["channel"],
-            message,
-            parse_mode=telegram.ParseMode.MARKDOWN
-        )
+
+        channels = self.project_service_config.get('channels')
+        if channels:
+            for channel in channels:
+                self.telegram_bot.sendMessage(
+                    channel,
+                    message,
+                    parse_mode=telegram.ParseMode.MARKDOWN
+                )
+        else:
+            self.telegram_bot.sendMessage(
+                self.config["channel"],
+                message,
+                parse_mode=telegram.ParseMode.MARKDOWN
+            )
