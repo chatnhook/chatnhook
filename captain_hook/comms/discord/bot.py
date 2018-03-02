@@ -6,14 +6,18 @@ from .discordWebhooks import DiscordWebhook
 
 class DiscordComm(BaseComm):
     def setup(self):
-        self.discord_bot = DiscordWebhook(url=self.config["hook_url"])
+        return
 
     def communicate(self, message):
         if not message:
             return None
-        message = 'test'
-        self.discord_bot.notify(text=message, username=self.config['bot_name'])
 
+        hooks = self.project_service_config.get('webhooks')
+        if hooks:
+            for hook in hooks:
+                self.discord_bot = DiscordWebhook(url=hook)
+                self.discord_bot.notify(text=message,
+                                        username=self.project_service_config['bot_name'])
         #     sendMessage(
         #     self.config["channel"],
         #     message,
