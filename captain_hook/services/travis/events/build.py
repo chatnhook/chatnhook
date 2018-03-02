@@ -46,7 +46,7 @@ class BuildEvent(BaseEvent):
             commit=payload.get('commit')[0:7],
             compare_url=payload.get('compare_url'),
             repository=payload.get('repository').get('owner_name') + '/' +
-                       payload.get('repository').get('name'),
+                         payload.get('repository').get('name'),
             branch=payload.get('branch'),
             author=payload.get('committer_name'),
             result=payload.get('result_message').lower(),

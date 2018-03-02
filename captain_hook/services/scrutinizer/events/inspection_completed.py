@@ -5,8 +5,8 @@ from ...base.events import BaseEvent
 
 class InspectionCompletedEvent(BaseEvent):
     def process(self, request, body):
-
-        if body.get('metadata', {}).get('branch') not in self.project_service_config.get('notify_branches'):
+        branch = body.get('metadata', {}).get('branch')
+        if branch not in self.project_service_config.get('notify_branches'):
             return False
 
         if 'inspection.completed' not in self.project_service_config.get('events'):

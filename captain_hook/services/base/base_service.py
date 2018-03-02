@@ -48,7 +48,8 @@ class BaseService:
             message_dict = message_dict.process(request, body)
 
             for name, comm in self.project_service_config.get('send_to', {}).items():
-                if self.project_service_config.get('send_to', {}).get(name, {}).get('enabled', True):
+                if self.project_service_config\
+                        .get('send_to', {}).get(name, {}).get('enabled', True):
                     comm = load_comm(name,
                                      self.global_config.get('comms', {}).get(name, {}),
                                      self.project_service_config.get('send_to', {}).get(name))
