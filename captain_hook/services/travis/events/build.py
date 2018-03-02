@@ -9,6 +9,7 @@ import datetime
 class BuildEvent(BaseEvent):
     def process(self, request, body):
         payload = json.loads(urllib.unquote(body.get('payload', '')))
+        print payload
         if payload.get('result_message', '') not in self.config.get('results'):
             return {'default': ''}
 
