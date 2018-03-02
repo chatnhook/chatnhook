@@ -22,8 +22,3 @@ class DiscordComm(BaseComm):
             self.discord_bot = DiscordWebhook(url=self.config.get('hook_url'))
             self.discord_bot.notify(text=message,
                                     username=self.config.get('bot_name'))
-        #     sendMessage(
-        #     self.config["channel"],
-        #     message,
-        #     parse_mode=telegram.ParseMode.MARKDOWN
-        # )

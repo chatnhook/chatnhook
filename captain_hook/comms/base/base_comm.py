@@ -11,7 +11,7 @@ class BaseComm:
     def setup(self):
         raise NotImplementedError
 
-    def communicate(self):
+    def communicate(self, message):
         raise NotImplementedError
 
     def _load_config(self):
