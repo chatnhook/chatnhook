@@ -18,19 +18,19 @@ class MemberEvent(GithubEvent):
             'user_link': self.build_redirect_link('github', 'member', user_link),
             'sender_name': body.get('sender', {}).get('login', ''),
             'sender_link': self.build_redirect_link('github', 'member', sender_link),
-            'org_name': body.get('organization', {}).get('login'),
+            'repo': body.get('repository', {}).get('full_name'),
         }
 
-        message = "[{username}]({user_link}) joined the {org_name} organisation"
+        message = "[{username}]({user_link}) joined the {repo} organisation"
 
         action = body.get('action', 'added')
         if action == 'edited':
             message = "[{sender_name}]({sender_link}) edited " \
-                      "permissions from [{username}]({user_link}) at {org_name}"
+                      "permissions from [{username}]({user_link}) at {repo}"
 
         if action == 'removed':
             message = "[{sender_name}]({sender_link}) removed " \
-                      "[{username}]({user_link}) from {org_name}"
+                      "[{username}]({user_link}) from {repo}"
 
         message = message.format(**params)
 
