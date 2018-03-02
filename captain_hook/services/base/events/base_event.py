@@ -2,8 +2,9 @@ from random import randint
 
 
 class BaseEvent:
-    def __init__(self, event, config):
+    def __init__(self, event, config, project_service_config):
         self.config = config
+        self.project_service_config = project_service_config
 
     def process(self, request, body):
         raise NotImplementedError

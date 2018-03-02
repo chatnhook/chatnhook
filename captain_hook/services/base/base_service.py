@@ -84,6 +84,7 @@ class BaseService:
         if event_module:
             return getattr(event_module, event_processor_class_name)(
                 config=self.config,
+                project_service_config=self.project_service_config,
                 event=event
             )
         return False

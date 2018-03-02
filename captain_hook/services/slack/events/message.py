@@ -5,7 +5,7 @@ from ...base.events import BaseEvent
 
 class MessageEvent(BaseEvent):
     def process(self, request, body):
-        if self.config.get('token') != body.get('token'):
+        if self.project_service_config.get('token') != body.get('token'):
             return {'default': False}
 
         message = '[slack] {domain}:#{channel} <{user}>: {text}'.format(
@@ -15,4 +15,4 @@ class MessageEvent(BaseEvent):
             text=body.get('text', type=str)
         )
 
-        return {"telegram": '\\' + message, "slack": message}
+        return {"default": '\\' + message, "slack": message}
