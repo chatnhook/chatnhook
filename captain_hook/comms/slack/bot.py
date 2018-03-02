@@ -5,15 +5,19 @@ from ..base.base_comm import BaseComm
 
 class SlackComm(BaseComm):
     def setup(self):
-        self.slack_bot = slackweb.Slack(url=self.config["hook_url"])
+        pass
 
     def communicate(self, message):
         if not message:
             return None
-        self.slack_bot.notify(text=message)
+        hooks = self.project_service_config.get('webhooks')
+        if hooks:
+            for hook in hooks:
+                self.slack_bot = slackweb.Slack(url=hook)
+                self.slack_bot.notify(text=message,
+                                      username=self.project_service_config.get('bot_name', ''))
 
-        #     sendMessage(
-        #     self.config["channel"],
-        #     message,
-        #     parse_mode=telegram.ParseMode.MARKDOWN
-        # )
+        else:
+            self.slack_bot = slackweb.Slack(url=self.config.get('hook_url'))
+            self.slack_bot.notify(text=message,
+                                  username=self.config.get('bot_name'))
