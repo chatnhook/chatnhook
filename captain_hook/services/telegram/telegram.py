@@ -42,7 +42,6 @@ class TelegramService(BaseService):
         log.info('Found custom commands: ' + ', '.join(custom_command_list))
 
     def setup(self):
-        return # @FIXME remove this
         log.info('init telegram service')
 
         self.cert = False
