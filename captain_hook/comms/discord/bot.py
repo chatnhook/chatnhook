@@ -18,6 +18,10 @@ class DiscordComm(BaseComm):
                 self.discord_bot = DiscordWebhook(url=hook)
                 self.discord_bot.notify(text=message,
                                         username=self.project_service_config['bot_name'])
+        else:
+            self.discord_bot = DiscordWebhook(url=self.config.get('hook_url'))
+            self.discord_bot.notify(text=message,
+                                    username=self.config.get('bot_name'))
         #     sendMessage(
         #     self.config["channel"],
         #     message,
