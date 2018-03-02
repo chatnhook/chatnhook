@@ -9,11 +9,10 @@ import datetime
 class BuildEvent(BaseEvent):
     def process(self, request, body):
         payload = json.loads(urllib.unquote(body.get('payload', '')))
-        print payload
-        if payload.get('result_message', '') not in self.config.get('results'):
+        if payload.get('result_message', '') not in self.project_service_config.get('results'):
             return {'default': ''}
 
-        if payload.get('branch') not in self.config.get('notify_branches'):
+        if payload.get('branch') not in self.project_service_config.get('notify_branches'):
             return {'default': ''}
 
         message = 'Build [{build_number}]({build_url}) -  [{commit}]({compare_url}) of' \
@@ -47,7 +46,7 @@ class BuildEvent(BaseEvent):
             commit=payload.get('commit')[0:7],
             compare_url=payload.get('compare_url'),
             repository=payload.get('repository').get('owner_name') + '/' +
-                         payload.get('repository').get('name'),
+                       payload.get('repository').get('name'),
             branch=payload.get('branch'),
             author=payload.get('committer_name'),
             result=payload.get('result_message').lower(),
@@ -57,5 +56,5 @@ class BuildEvent(BaseEvent):
                          str(payload.get('pull_request_number')) + ' ' +
                          str(payload.get('pull_request_title')),
         )
-
+        print message
         return {'default': message}
