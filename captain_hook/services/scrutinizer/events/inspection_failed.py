@@ -6,10 +6,10 @@ from ...base.events import BaseEvent
 class InspectionFailedEvent(BaseEvent):
     def process(self, request, body):
 
-        if body.get('metadata', {}).get('branch') not in self.config.get('notify_branches'):
+        if body.get('metadata', {}).get('branch') not in self.project_service_config.get('notify_branches'):
             return False
 
-        if 'inspection.failed' not in self.config.get('events'):
+        if 'inspection.failed' not in self.project_service_config.get('events'):
             return False
 
         inspection = body.get('uuid', '').split('-')[-1]
