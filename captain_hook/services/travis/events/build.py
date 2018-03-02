@@ -56,5 +56,4 @@ class BuildEvent(BaseEvent):
                          str(payload.get('pull_request_number')) + ' ' +
                          str(payload.get('pull_request_title')),
         )
-        print message
         return {'default': message}
