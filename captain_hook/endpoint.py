@@ -48,7 +48,7 @@ log.addHandler(ch)
 log.addHandler(fh)
 
 
-def get_services(project_service_config={}):
+def get_services(project_service_config=None):
     services = getattr(g, "_services", None)
     if services is None:
         services = g._services = find_and_load_services(config, project_service_config)
