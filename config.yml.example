@@ -1,89 +1,198 @@
 global:
-  bot_url: "https://webhook.mydomain.com"
+  bot_url: "https://example.com"
+  debug: true
+
 comms:
   telegram:
     enabled: true
-    token: "your_token_here"
-    channel: "@my_channel"
+    token: "xxxxx:xxxxxx"
+    channel: "-xxxx"
   slack:
-    enabled: true
+    enabled: false
     hook_url: "slack_webhook_here"
   mattermost:
     enabled: false
     webhook_url: 'Mattermost_webhook_url'
     channel: 'test'
-    bot_name: 'Passman Bot'
+    bot_name: 'Bot'
   discord:
     enabled: false
     hook_url: 'https://discordapp.com/api/webhooks/....../......'
-    bot_name: 'Passman Bot'
+    bot_name: 'Bot'
+
 services:
   github:
     enabled: true
     secret: ''
-    token: ''
-    scripts:
-      push:
-        - python /path/to/script.py
-    notify_branches:
-      - master
-
-    disabled_events: # Allow all but those here
-      - create
-    notify_events: # Deny all but those here
-      - push
-      - commit_commment
-      - watch
-  circleci:
-    enabled: true
-  codacy:
-    enabled: true
+    token: 'xxxxxxxx'
   bitbucket:
-    enabled: true
-  docker:
-    enabled: true
-  patreon:
-    enabled: true
-  slack:
-    enabled: true
-    token: "your_outgoing_hook_token"
-  scrutinizer:
-    enabled: true
-    events:
-      - inspection.created
-      - inspection.completed
-      - inspection.canceled
-      - inspection.failed
-    notify_branches:
-      - master
-  travis:
-    enabled: true
-    notify_branches:
-      - master
-    results:
-      - Passed
-      - Fixed
-      - Broken
-      - Failed
-      - Still Failing
-      - Errored
-  pagerduty:
-    enabled: true
+     token: ''
   telegram:
     enabled: true
-    server_key: '' # Only when using a custom ssl cert
-    server_cert: '' # Only when using a custom ssl cert
-    hostname: 'webhook.mydomain.com'
+    hostname: 'xxxx.xxx.com'
+    server_cert: ''
     port: 443
     permissions:
         admins:
-            - username1
+            - user1
         moderators:
-            - username2
-    token: "xxxx:xxxx"
+            - user2
+    token: "xxxxxx:xxxxxx"
     plugins:
       giphy:
+        apiKey: ''
+      shodan:
         apiKey: 'xxxx'
 stats:
   enabled: true
-  api_key: '1234'
+
+hooks:
+  a_cool_project:
+    github:
+      settings:
+        notify_branches:
+          - master
+        disabled_events:
+          - ping
+      send_to:
+        telegram:
+          enabled: false
+          channels:
+            - "-xxxxx"
+          token: "xx:xxx"
+        discord:
+            enabled: false
+            bot_name: 'Bot'
+            webhooks:
+              - 'https://discordapp.com/api/webhooks/xxxx/xxxxxxx'
+        slack:
+          enabled: false
+          bot_name: 'Bot'
+          webhooks:
+            - 'https://hooks.slack.com/services/xxxx/xxxxx/xxxx'
+        mattermost:
+          enabled: true
+          bot_name: 'Bot'
+          webhooks:
+            - 'https://mattermost.xxxxx.com/hooks/xxxx'
+
+    bitbucket:
+      send_to:
+        telegram:
+          enabled: true
+          channels:
+            - "-xxx"
+    codacy:
+      send_to:
+        telegram:
+          enabled: true
+          channels:
+            - "-xxx"
+    patreon:
+      send_to:
+        telegram:
+          enabled: true
+          channels:
+            - "-xxxx"
+    circleci:
+      send_to:
+        telegram:
+          enabled: true
+          channels:
+            - "-xxxx"
+    docker:
+      send_to:
+        telegram:
+          enabled: true
+          channels:
+            - "-xxx"
+    gitlab:
+      send_to:
+        telegram:
+          enabled: true
+          channels:
+            - "-xxxx"
+    pagerduty:
+      send_to:
+        telegram:
+          enabled: true
+          channels:
+            - "-xxxx"
+    scrutinizer:
+      notify_branches:
+        - master
+      events:
+        - inspection.created
+        - inspection.completed
+        - inspection.canceled
+        - inspection.failed
+      send_to:
+        telegram:
+          enabled: true
+          channels:
+            - "-xxxx"
+    slack:
+      token: "xxxxxx"
+      send_to:
+        telegram:
+          enabled: true
+          channels:
+            - "-xxxx"
+    travis:
+      results:
+        - Passed
+        - Fixed
+        - Broken
+        - Failed
+        - Still Failing
+        - Errored
+      notify_branches:
+        - master
+        - some-test-branch
+      send_to:
+        telegram:
+          enabled: true
+          channels:
+            - "-xxxx"
+        slack:
+          enabled: true
+          hooks:
+            - "https://hooks.slack.com/services/xxxxxxx/xxxxxxx/xxxxxxx"
+          token: "xxxxxxx"
+
+
+  another-cool-project:
+    github:
+      settings:
+        notify_branches:
+          - master
+      send_to:
+        telegram:
+          channels:
+            - "-xxxxxx"
+#          token: "xxxxxxx:xxxxxxx"
+        slack:
+          hooks:
+            - "https://hooks.slack.com/services/xxxxxxx/xxxxxxx/xxxxxxx"
+          token: "xxxxxxx"
+    travis:
+      settings:
+        notify_branches:
+          - master
+          - some-test-branch
+        results:
+          - Passed
+          - Fixed
+          - Broken
+          - Failed
+          - Still Failing
+          - Errored
+      send_to:
+        telegram:
+          channels:
+            - "@passman_dev"
+#          token: "xxxxxxx:xxxxxxx"
+        slack:
+          hooks:
+            - "https://hooks.slack.com/services/xxxxxxx/xxxxxxx/xxxxxxx"
+          token: "xxxxxxx"
