@@ -1,9 +1,14 @@
+import time
 class BotStats():
     stats = {
         'messages': {},
         'webhooks': {},
-        'redirects': {}
+        'redirects': {},
+        'uptime': 0
     }
+
+    def __init__(self):
+        self.start_time = time.time()
 
     def count_message(self, service):
         if service in self.stats['messages']:
@@ -31,4 +36,5 @@ class BotStats():
             self.stats['redirects'][service] = 1
 
     def get_stats(self):
+        self.stats['uptime'] = round(time.time() - self.start_time)
         return self.stats
