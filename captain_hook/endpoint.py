@@ -142,6 +142,11 @@ def getstats():
         abort(404)
 
 
+def check_config():
+    if not utils.config.test_config(config):
+        raise ValueError('Invalid config detected! Please update your config')
+
+
 def init_serviceses():
     with application.app_context():
         for service in get_services({}).itervalues():
@@ -149,5 +154,6 @@ def init_serviceses():
 
 
 if __name__ == '__main__':
+    check_config()
     init_serviceses()
     application.run(debug=False, host='0.0.0.0')
