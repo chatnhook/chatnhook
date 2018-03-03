@@ -4,19 +4,15 @@ global:
 
 comms:
   telegram:
-    enabled: true
     token: "xxxxx:xxxxxx"
     channel: "-xxxx"
   slack:
-    enabled: false
     hook_url: "slack_webhook_here"
   mattermost:
-    enabled: false
     webhook_url: 'Mattermost_webhook_url'
     channel: 'test'
     bot_name: 'Bot'
   discord:
-    enabled: false
     hook_url: 'https://discordapp.com/api/webhooks/....../......'
     bot_name: 'Bot'
 
