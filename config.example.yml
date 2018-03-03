@@ -22,13 +22,11 @@ comms:
 
 services:
   github:
-    enabled: true
     secret: ''
     token: 'xxxxxxxx'
   bitbucket:
      token: ''
   telegram:
-    enabled: true
     hostname: 'xxxx.xxx.com'
     server_cert: ''
     port: 443
