@@ -1,12 +1,13 @@
 from __future__ import absolute_import
+
 import importlib
-from utils import strings
+import json
 import logging
 import subprocess
-import json
-from comms import load_comm
-import utils.config
 
+import utils.config
+from comms import load_comm
+from utils import strings
 
 log = logging.getLogger('hookbot')
 
