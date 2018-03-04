@@ -1,6 +1,8 @@
 from __future__ import absolute_import
-import yaml
+
 from os.path import join
+
+import yaml
 
 
 class BaseComm:
@@ -13,9 +15,3 @@ class BaseComm:
 
     def communicate(self, message):
         raise NotImplementedError
-
-    def _load_config(self):
-        config_file = open(join(self.CONFIG_FOLDER, 'comms.yml'), 'rb')
-        yaml_config = yaml.load(config_file.read())
-        config_file.close()
-        return yaml_config
