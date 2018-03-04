@@ -1,4 +1,6 @@
 import time
+
+
 class BotStats():
     stats = {
         'messages': {},
