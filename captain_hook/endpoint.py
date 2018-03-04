@@ -1,51 +1,28 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from os.path import abspath
-from os.path import dirname
-from flask import Flask, request, g, render_template, jsonify, abort
-import utils.config
-from services import find_and_load_services
-from comms import find_and_load_comms
-from stats.stats import BotStats
-import logging
+
 import json
+from os.path import abspath, dirname
+
+from flask import Flask, abort, g, jsonify, render_template, request
 from raven.contrib.flask import Sentry
 
+from comms import find_and_load_comms
+from logger import setup_logger
+from services import find_and_load_services
+from stats import BotStats
+from utils.config import load_config
+
 CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
-config = utils.config.load_config(CONFIG_FOLDER)
 
+config = load_config(CONFIG_FOLDER)
 application = Flask(__name__)
-
 bot_stats = BotStats()
+log = setup_logger()
 
-formatter = logging.Formatter('%(created)s - %(name)s - %(levelname)s - %(message)s')
 dsn = 'https://a3aa56ba615c4085ae8855ab78e4c021:a0f50be103034d9eb71331378e8f1da2@sentry.io/245538'
-
 if config.get('global', {}).get('enable_sentry', True):
     sentry = Sentry(application, dsn=dsn)
-
-wz = logging.getLogger('werkzeug')
-wz.setLevel(logging.INFO)
-
-wd = logging.getLogger('watchdog')
-wd.setLevel(logging.INFO)
-
-log = logging.getLogger('hookbot')
-logging.getLogger().setLevel(logging.DEBUG)
-
-fh = logging.FileHandler('hookbot.log')
-fh.setLevel(logging.DEBUG)
-
-ch = logging.StreamHandler()
-ch.setLevel(logging.INFO)
-
-wz.addHandler(fh)
-wz.addHandler(ch)
-
-ch.setFormatter(formatter)
-fh.setFormatter(formatter)
-log.addHandler(ch)
-log.addHandler(fh)
 
 
 def get_services(project_service_config=None):
@@ -108,7 +85,6 @@ def redirect(service, event, path):
         'redirect': result.get('redirect', ''),
         'service': service[0].upper() + service[1:]
     }
-
     return render_template('redirect.html', **data), result.get('status_code', 200)
 
 
@@ -142,18 +118,12 @@ def getstats():
         abort(404)
 
 
-def check_config():
-    if not utils.config.test_config(config):
-        raise ValueError('Invalid config detected! Please update your config')
-
-
-def init_serviceses():
+def init_services():
     with application.app_context():
         for service in get_services({}).itervalues():
             service.setup()
 
 
 if __name__ == '__main__':
-    check_config()
-    init_serviceses()
+    init_services()
     application.run(debug=False, host='0.0.0.0')
