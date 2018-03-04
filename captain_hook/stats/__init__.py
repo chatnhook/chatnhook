@@ -1,1 +1,1 @@
-from .stats import BotStats
+from .stats import BotStats  # NOQA

@@ -21,16 +21,19 @@ def setup_logger():
 
     return hookbot_log
 
+
 def _setup_logger(logger_name, level):
     logger = logging.getLogger(logger_name)
     logger.setLevel(level)
     return logger
+
 
 def _setup_file_handler(formatter):
     file_handler = logging.FileHandler('hookbot.log')
     file_handler.setFormatter(formatter)
     file_handler.setLevel(logging.DEBUG)
     return file_handler
+
 
 def _setup_stream_handler(formatter):
     stream_handler = logging.StreamHandler()
