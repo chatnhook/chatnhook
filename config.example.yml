@@ -18,6 +18,7 @@ comms:
 
 services:
   github:
+    redirect: true
     secret: ''
     token: 'xxxxxxxx'
   bitbucket:
