@@ -155,7 +155,7 @@ def init_services():
 # Initialize flask-login
 init_login()
 
-# Create admin test
+# Create admin
 admin = admin.Admin(application,
     'SB-Admin-2',
     index_view=AdminIndexView())
