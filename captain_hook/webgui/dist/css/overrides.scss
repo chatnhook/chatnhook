@@ -1,0 +1,24 @@
+$menuBg: #337ab7;
+$menuLinkColor: #fff;
+$menuActiveColor: #5cb85c;
+#wrapper {
+    background-color: $menuBg;
+}
+
+.navbar-default {
+    .navbar-brand {
+        color: $menuLinkColor;
+    }
+    background-color: $menuBg;
+    .sidebar-nav {
+        li {
+            border-bottom: none;
+            a {
+                &.active {
+                    background-color: $menuActiveColor;
+                }
+                color: $menuLinkColor;
+            }
+        }
+    }
+}
