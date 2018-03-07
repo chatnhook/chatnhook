@@ -8,3 +8,6 @@ python-telegram-bot
 slackweb
 matterhook
 raven[flask]
+Flask
+Flask-Admin
+Flask-Login
