@@ -47,17 +47,21 @@ def get_comms():
     return comms
 
 
-@application.route('/bower_components/<path:path>')
+@application.route('/admin/bower_components/<path:path>')
 def send_bower(path):
     return send_from_directory(os.path.join(application.root_path, 'webgui/bower_components'), path)
 
-@application.route('/dist/<path:path>')
+@application.route('/admin/dist/<path:path>')
 def send_dist(path):
     return send_from_directory(os.path.join(application.root_path, 'webgui/dist'), path)
 
-@application.route('/js/<path:path>')
+@application.route('/admin/js/<path:path>')
 def send_js(path):
     return send_from_directory(os.path.join(application.root_path, 'webgui/js'), path)
+
+@application.route('/admin/css/<path:path>')
+def send_css(path):
+    return send_from_directory(os.path.join(application.root_path, 'webgui/css'), path)
 
 # Create dummy secrey key so we can use sessions
 application.config['SECRET_KEY'] = '123456790'
