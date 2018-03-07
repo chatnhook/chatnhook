@@ -35,7 +35,7 @@ class AdminIndexView(admin.AdminIndexView):
         if not login.current_user.is_authenticated:
             return redirect(url_for('.login_view'))
             
-        self._stubs()    
+        self._stubs()
         self.header = "Dashboard"
         return render_template('sb-admin/pages/dashboard.html', admin_view=self)
     

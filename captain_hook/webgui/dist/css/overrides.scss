@@ -6,6 +6,10 @@ $menuLinkActiveColor: #5cb85c;
     background-color: $menuBg;
 }
 
+#page-wrapper{
+    min-height: calc(100vh - 51px);
+}
+
 .navbar-default {
     .navbar-brand {
         color: $menuLinkColor;
