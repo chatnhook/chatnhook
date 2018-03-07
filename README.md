@@ -4,7 +4,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/chatnhook/chatnhook/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/chatnhook/chatnhook/?branch=master)
 ![Python](https://img.shields.io/badge/python-2.7-brightgreen.svg)
 [![Known Vulnerabilities](https://snyk.io/test/github/chatnhook/chatnhook/badge.svg)](https://snyk.io/test/github/chatnhook/chatnhook)   
-
+[![Documentation Status](https://readthedocs.org/projects/chatnhook/badge/?version=latest)](http://chatnhook.readthedocs.io/en/latest/?badge=latest)
 A web server to receive webhooks from many online services and forward the information
 to many different messaging platforms, like Telegram or Slack, using a different
 template for each.
