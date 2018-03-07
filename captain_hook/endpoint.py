@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-
+import os
 import json
 from os.path import abspath, dirname
 
-from flask import Flask, abort, g, jsonify, render_template, request
+from flask import Flask, abort, g, jsonify, render_template, request, send_from_directory, url_for
 from raven.contrib.flask import Sentry
+
+import flask_admin as admin
+import flask_login as login
+
+from webgui.views import AdminIndexView, BlankView
+from webgui.user import User
 
 from comms import find_and_load_comms
 from logger import setup_logger
@@ -38,6 +44,21 @@ def get_comms():
         comms = g._comms = find_and_load_comms(config)
     return comms
 
+
+@application.route('/bower_components/<path:path>')
+def send_bower(path):
+    return send_from_directory(os.path.join(application.root_path, 'webgui/bower_components'), path)
+
+@application.route('/dist/<path:path>')
+def send_dist(path):
+    return send_from_directory(os.path.join(application.root_path, 'webgui/dist'), path)
+
+@application.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory(os.path.join(application.root_path, 'webgui/js'), path)
+
+# Create dummy secrey key so we can use sessions
+application.config['SECRET_KEY'] = '123456790'
 
 @application.errorhandler(500)
 def internal_server_error(error):
@@ -92,10 +113,9 @@ def redirect(service, event, path):
 def favIcon():
     return ''
 
-
 @application.route('/', methods=['GET'])
 def index():
-    return ''
+    return render_template("captain_hook/webgui/templates/sb-admin/redirect.html")
 
 
 @application.route('/stats', methods=['GET'])
@@ -118,11 +138,28 @@ def getstats():
         abort(404)
 
 
+def init_login():
+    login_manager = login.LoginManager()
+    login_manager.init_app(application)
+
+    # Create user loader function
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.get(user_id)
+
 def init_services():
     with application.app_context():
         for service in get_services({}).itervalues():
             service.setup()
 
+# Initialize flask-login
+init_login()
+
+# Create admin
+admin = admin.Admin(application,
+    'SB-Admin-2',
+    index_view=AdminIndexView())
+#admin.add_view(BlankView(name='Blank', url='blank', endpoint='blank'))
 
 if __name__ == '__main__':
     init_services()
