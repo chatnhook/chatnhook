@@ -1,6 +1,7 @@
 $menuBg: #337ab7;
 $menuLinkColor: #fff;
-$menuActiveColor: #5cb85c;
+$menuLinkHoverColor: #000;
+$menuLinkActiveColor: #5cb85c;
 #wrapper {
     background-color: $menuBg;
 }
@@ -14,8 +15,11 @@ $menuActiveColor: #5cb85c;
         li {
             border-bottom: none;
             a {
+                &:hover{
+                    color: $menuLinkHoverColor;
+                }
                 &.active {
-                    background-color: $menuActiveColor;
+                    background-color: $menuLinkActiveColor;
                 }
                 color: $menuLinkColor;
             }
