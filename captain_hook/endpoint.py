@@ -7,6 +7,8 @@ from os.path import abspath, dirname
 from flask import Flask, abort, g, jsonify, render_template, request, send_from_directory, url_for
 from raven.contrib.flask import Sentry
 
+from flask import Flask, url_for, redirect, render_template, request, send_from_directory
+
 import flask_admin as admin
 import flask_login as login
 
@@ -59,6 +61,8 @@ def send_js(path):
 
 # Create dummy secrey key so we can use sessions
 application.config['SECRET_KEY'] = '123456790'
+
+
 
 @application.errorhandler(500)
 def internal_server_error(error):
