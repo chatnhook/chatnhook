@@ -172,7 +172,7 @@ init_login()
 # Create admin
 admin = admin.Admin(application,
                     'Chat \'n\' Hook',
-                    index_view=AdminIndexView())
+                    index_view=AdminIndexView(config=config))
 # admin.add_view(BlankView(name='Blank', url='blank', endpoint='blank'))
 
 if __name__ == '__main__':

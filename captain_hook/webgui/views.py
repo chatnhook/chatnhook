@@ -6,53 +6,66 @@ from flask import redirect, url_for, request, render_template
 from loginform import LoginForm
 import stub as stub
 
-                       
+
 # Create customized index view class that handles login & registration
 class AdminIndexView(admin.AdminIndexView):
 
+    def __init__(self, *args, **kwargs):
+        config = kwargs.pop('config')
+        self.app_config = config
+        super(AdminIndexView, self).__init__(*args, **kwargs)
+
+    def tuple_without(self, original_tuple, element_to_remove):
+        new_tuple = []
+        for s in list(original_tuple):
+            print s
+            if not s == element_to_remove:
+                new_tuple.append(s)
+        return tuple(new_tuple)
+
     def _stubs(self):
         self.nav = {
-            "tasks" : stub.get_tasks(),
-            "messages" : stub.get_messages_summary(),
-            "alerts" : stub.get_alerts()
+            "tasks": stub.get_tasks(),
+            "messages": stub.get_messages_summary(),
+            "alerts": stub.get_alerts()
         }
-        
+
         (cols, rows) = stub.get_adv_tables()
         (scols, srows, context) = stub.get_tables()
-        
+
         self.tables = {
-            "advtables" : { "columns" : cols, "rows" : rows },
-            "table" : { "columns" : scols, "rows" : srows, "context" : context}
+            "advtables": {"columns": cols, "rows": rows},
+            "table": {"columns": scols, "rows": srows, "context": context}
         }
-        
+
         self.panelswells = {
-            "accordion" : stub.get_accordion_items(),
-            "tabitems" : stub.get_tab_items()
+            "accordion": stub.get_accordion_items(),
+            "tabitems": stub.get_tab_items()
         }
-            
+
     @expose('/')
     def index(self):
         if not login.current_user.is_authenticated:
             return redirect(url_for('.login_view'))
-            
+
         self._stubs()
         self.header = 'Dashboard'
         return render_template('admin/pages/dashboard.html', admin_view=self)
-    
+
     @expose('/configuration/comms')
     def comm_config(self):
         if not login.current_user.is_authenticated:
             return redirect(url_for('.login_view'))
-            
-        self._stubs()    
+
+        self._stubs()
         self.header = 'Comms configuration'
         return render_template('admin/pages/blank.html', admin_view=self)
-        
+
     @expose('/configuration/services')
     def service_config(self):
         if not login.current_user.is_authenticated:
             return redirect(url_for('.login_view'))
-            
+
         self.header = 'Service configuration'
         return render_template('admin/pages/blank.html', admin_view=self)
 
@@ -72,7 +85,6 @@ class AdminIndexView(admin.AdminIndexView):
         self.header = 'Webhook inspector'
         return render_template('admin/pages/blank.html', admin_view=self)
 
-
     @expose('/login/', methods=('GET', 'POST'))
     def login_view(self):
         # handle user login
@@ -90,7 +102,8 @@ class AdminIndexView(admin.AdminIndexView):
     def logout_view(self):
         login.logout_user()
         return redirect(url_for('.index'))
-        
+
+
 class BlankView(admin.BaseView):
     @expose('/')
     def index(self):
