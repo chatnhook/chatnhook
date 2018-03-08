@@ -10,6 +10,8 @@
     color: #fff; }
   .navbar-default .nav a {
     color: #fff; }
+  .navbar-default .navbar-top-links .dropdown li a {
+    color: #000; }
   .navbar-default .sidebar-nav li {
     border-bottom: none; }
     .navbar-default .sidebar-nav li a {

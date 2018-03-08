@@ -18,8 +18,11 @@ $menuLinkActiveColor: #5cb85c;
     background-color: $menuBg;
     .nav a {
         color: $menuLinkColor;
-    }
 
+    }
+    .navbar-top-links .dropdown li a {
+        color: $menuLinkHoverColor;
+    }
     .sidebar-nav {
         li {
             border-bottom: none;
