@@ -22,6 +22,9 @@ $menuLinkActiveColor: #5cb85c;
                 &:hover{
                     color: $menuLinkHoverColor;
                 }
+                &:focus{
+                    color: $menuLinkHoverColor;
+                }
                 &.active {
                     background-color: $menuLinkActiveColor;
                 }
