@@ -1,0 +1,22 @@
+#wrapper {
+  background-color: #337ab7; }
+
+#page-wrapper {
+  min-height: calc(100vh - 51px); }
+
+.navbar-default {
+  background-color: #337ab7; }
+  .navbar-default .navbar-brand {
+    color: #fff; }
+  .navbar-default .sidebar-nav li {
+    border-bottom: none; }
+    .navbar-default .sidebar-nav li a {
+      color: #fff; }
+      .navbar-default .sidebar-nav li a:hover {
+        color: #000; }
+      .navbar-default .sidebar-nav li a:focus {
+        color: #000; }
+      .navbar-default .sidebar-nav li a.active {
+        background-color: #5cb85c; }
+
+/*# sourceMappingURL=overrides.css.map */
