@@ -123,7 +123,7 @@ def favIcon():
 
 @application.route('/', methods=['GET'])
 def index():
-    return render_template("captain_hook/webgui/templates/sb-admin/redirect.html")
+    return render_template("captain_hook/webgui/templates/admin/redirect.html")
 
 
 @application.route('/stats', methods=['GET'])
@@ -165,7 +165,7 @@ init_login()
 
 # Create admin
 admin = admin.Admin(application,
-    'SB-Admin-2',
+    'Chat \'n\' Hook',
     index_view=AdminIndexView())
 #admin.add_view(BlankView(name='Blank', url='blank', endpoint='blank'))
 

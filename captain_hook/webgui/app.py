@@ -39,7 +39,7 @@ def init_login():
 # Flask views
 @app.route('/')
 def index():
-    return render_template("sb-admin/redirect.html")
+    return render_template("admin/redirect.html")
 
 # Initialize flask-login
 init_login()

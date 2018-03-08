@@ -37,7 +37,7 @@ class AdminIndexView(admin.AdminIndexView):
             
         self._stubs()
         self.header = "Dashboard"
-        return render_template('sb-admin/pages/dashboard.html', admin_view=self)
+        return render_template('admin/pages/dashboard.html', admin_view=self)
     
     @expose('/blank')
     def blank(self):        
@@ -46,7 +46,7 @@ class AdminIndexView(admin.AdminIndexView):
             
         self._stubs()    
         self.header = "Blank"
-        return render_template('sb-admin/pages/blank.html', admin_view=self)
+        return render_template('admin/pages/blank.html', admin_view=self)
         
     @expose('/flot')
     def flot(self):        
@@ -55,7 +55,7 @@ class AdminIndexView(admin.AdminIndexView):
             
         self._stubs()    
         self.header = "Flot Charts"
-        return render_template('sb-admin/pages/flot.html', admin_view=self)
+        return render_template('admin/pages/flot.html', admin_view=self)
 
     @expose('/morris')
     def morris(self):        
@@ -64,7 +64,7 @@ class AdminIndexView(admin.AdminIndexView):
             
         self._stubs()    
         self.header = "Morris Charts"
-        return render_template('sb-admin/pages/morris.html', admin_view=self) 
+        return render_template('admin/pages/morris.html', admin_view=self)
         
     @expose('/tables')
     def tables(self):        
@@ -73,7 +73,7 @@ class AdminIndexView(admin.AdminIndexView):
             
         self._stubs()    
         self.header = "Tables"
-        return render_template('sb-admin/pages/tables.html', admin_view=self)
+        return render_template('admin/pages/tables.html', admin_view=self)
         
     @expose('/forms')
     def forms(self):        
@@ -82,7 +82,7 @@ class AdminIndexView(admin.AdminIndexView):
             
         self._stubs()    
         self.header = "Forms"
-        return render_template('sb-admin/pages/forms.html', admin_view=self)         
+        return render_template('admin/pages/forms.html', admin_view=self)
         
     @expose('/ui/panelswells')
     def panelswells(self):        
@@ -91,7 +91,7 @@ class AdminIndexView(admin.AdminIndexView):
             
         self._stubs()    
         self.header = "Panels Wells"
-        return render_template('sb-admin/pages/ui/panels-wells.html', admin_view=self)
+        return render_template('admin/pages/ui/panels-wells.html', admin_view=self)
         
     @expose('/ui/buttons')
     def buttons(self):        
@@ -100,7 +100,7 @@ class AdminIndexView(admin.AdminIndexView):
             
         self._stubs()    
         self.header = "Buttons"
-        return render_template('sb-admin/pages/ui/buttons.html', admin_view=self) 
+        return render_template('admin/pages/ui/buttons.html', admin_view=self)
                                 
     @expose('/ui/notifications')
     def notifications(self):        
@@ -109,7 +109,7 @@ class AdminIndexView(admin.AdminIndexView):
             
         self._stubs()    
         self.header = "Notifications"
-        return render_template('sb-admin/pages/ui/notifications.html', admin_view=self)                         
+        return render_template('admin/pages/ui/notifications.html', admin_view=self)
 
     @expose('/ui/typography')
     def typography(self):        
@@ -118,7 +118,7 @@ class AdminIndexView(admin.AdminIndexView):
             
         self._stubs()    
         self.header = "Typography"
-        return render_template('sb-admin/pages/ui/typography.html', admin_view=self)
+        return render_template('admin/pages/ui/typography.html', admin_view=self)
         
     @expose('/ui/icons')
     def icons(self):        
@@ -127,7 +127,7 @@ class AdminIndexView(admin.AdminIndexView):
             
         self._stubs()    
         self.header = "Icons"
-        return render_template('sb-admin/pages/ui/icons.html', admin_view=self)         
+        return render_template('admin/pages/ui/icons.html', admin_view=self)
         
     @expose('/ui/grid')
     def grid(self):        
@@ -136,7 +136,7 @@ class AdminIndexView(admin.AdminIndexView):
             
         self._stubs()    
         self.header = "Grid"
-        return render_template('sb-admin/pages/ui/grid.html', admin_view=self)         
+        return render_template('admin/pages/ui/grid.html', admin_view=self)
 
     @expose('/login/', methods=('GET', 'POST'))
     def login_view(self):
@@ -149,7 +149,7 @@ class AdminIndexView(admin.AdminIndexView):
         if login.current_user.is_authenticated:
             return redirect(url_for('.index'))
         self._template_args['form'] = form
-        return render_template('sb-admin/pages/login.html', form=form)
+        return render_template('admin/pages/login.html', form=form)
 
     @expose('/logout/')
     def logout_view(self):
@@ -159,4 +159,4 @@ class AdminIndexView(admin.AdminIndexView):
 class BlankView(admin.BaseView):
     @expose('/')
     def index(self):
-        return render_template('sb-admin/pages/blank.html', admin_view=self)
+        return render_template('admin/pages/blank.html', admin_view=self)
