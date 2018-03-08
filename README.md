@@ -46,7 +46,7 @@ Run with deamon (required for the `/update` telegram command):
 - Travis
 - CircleCI
 - Telegram (can be used as telegram bot)
-
+- Zabbix (In combination with this [script](https://github.com/chatnhook/zabbix-alertscript))
 
 ## Currently supported comms to publish event information
 
