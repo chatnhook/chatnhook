@@ -51,21 +51,24 @@ def get_comms():
 def send_bower(path):
     return send_from_directory(os.path.join(application.root_path, 'webgui/bower_components'), path)
 
+
 @application.route('/admin/dist/<path:path>')
 def send_dist(path):
     return send_from_directory(os.path.join(application.root_path, 'webgui/dist'), path)
+
 
 @application.route('/admin/js/<path:path>')
 def send_js(path):
     return send_from_directory(os.path.join(application.root_path, 'webgui/js'), path)
 
+
 @application.route('/admin/css/<path:path>')
 def send_css(path):
     return send_from_directory(os.path.join(application.root_path, 'webgui/css'), path)
 
+
 # Create dummy secrey key so we can use sessions
 application.config['SECRET_KEY'] = '123456790'
-
 
 
 @application.errorhandler(500)
@@ -121,6 +124,7 @@ def redirect(service, event, path):
 def favIcon():
     return ''
 
+
 @application.route('/', methods=['GET'])
 def index():
     return render_template("captain_hook/webgui/templates/admin/redirect.html")
@@ -155,19 +159,21 @@ def init_login():
     def load_user(user_id):
         return User.get(user_id)
 
+
 def init_services():
     with application.app_context():
         for service in get_services({}).itervalues():
             service.setup()
+
 
 # Initialize flask-login
 init_login()
 
 # Create admin
 admin = admin.Admin(application,
-    'Chat \'n\' Hook',
-    index_view=AdminIndexView())
-#admin.add_view(BlankView(name='Blank', url='blank', endpoint='blank'))
+                    'Chat \'n\' Hook',
+                    index_view=AdminIndexView())
+# admin.add_view(BlankView(name='Blank', url='blank', endpoint='blank'))
 
 if __name__ == '__main__':
     init_services()

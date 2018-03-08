@@ -9,7 +9,7 @@ import stub as stub
                        
 # Create customized index view class that handles login & registration
 class AdminIndexView(admin.AdminIndexView):
-    
+
     def _stubs(self):
         self.nav = {
             "tasks" : stub.get_tasks(),
