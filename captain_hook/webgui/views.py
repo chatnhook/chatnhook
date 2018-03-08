@@ -25,18 +25,9 @@ class AdminIndexView(admin.AdminIndexView):
 
     def _stubs(self):
         self.nav = {
-            "tasks": stub.get_tasks(),
-            "messages": stub.get_messages_summary(),
             "alerts": stub.get_alerts()
         }
 
-        (cols, rows) = stub.get_adv_tables()
-        (scols, srows, context) = stub.get_tables()
-
-        self.tables = {
-            "advtables": {"columns": cols, "rows": rows},
-            "table": {"columns": scols, "rows": srows, "context": context}
-        }
 
         self.panelswells = {
             "accordion": stub.get_accordion_items(),
@@ -52,6 +43,15 @@ class AdminIndexView(admin.AdminIndexView):
         self.header = 'Dashboard'
         return render_template('admin/pages/dashboard.html', admin_view=self)
 
+    @expose('/ui/panelswells')
+    def panelswells(self):
+        if not login.current_user.is_authenticated:
+            return redirect(url_for('.login_view'))
+
+        self._stubs()
+        self.header = "Panels Wells"
+        return render_template('admin/pages/ui/panels-wells.html', admin_view=self)
+
     @expose('/configuration/comms')
     def comm_config(self):
         if not login.current_user.is_authenticated:
@@ -66,8 +66,9 @@ class AdminIndexView(admin.AdminIndexView):
         if not login.current_user.is_authenticated:
             return redirect(url_for('.login_view'))
 
+        self._stubs()
         self.header = 'Service configuration'
-        return render_template('admin/pages/blank.html', admin_view=self)
+        return render_template('admin/pages/configuration/services.html', admin_view=self)
 
     @expose('/configuration/projects')
     def project_config(self):

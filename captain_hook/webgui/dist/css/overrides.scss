@@ -2,11 +2,12 @@ $menuBg: #337ab7;
 $menuLinkColor: #fff;
 $menuLinkHoverColor: #000;
 $menuLinkActiveColor: #5cb85c;
+
 #wrapper {
     background-color: $menuBg;
 }
 
-#page-wrapper{
+#page-wrapper {
     min-height: calc(100vh - 51px);
 }
 
@@ -15,14 +16,18 @@ $menuLinkActiveColor: #5cb85c;
         color: $menuLinkColor;
     }
     background-color: $menuBg;
+    .nav a {
+        color: $menuLinkColor;
+    }
+
     .sidebar-nav {
         li {
             border-bottom: none;
             a {
-                &:hover{
+                &:hover {
                     color: $menuLinkHoverColor;
                 }
-                &:focus{
+                &:focus {
                     color: $menuLinkHoverColor;
                 }
                 &.active {

@@ -1,0 +1,33 @@
+<!-- extend base layout -->
+{% extends "admin/master.html" %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#services-github" data-toggle="tab">Github</a>
+                </li>
+                <li>
+                    <a href="#services-slack" data-toggle="tab">Slack</a>
+                </li>
+
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade" id="services-github">
+                    <h4>Github</h4>
+
+                </div>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="services-slack">
+                    <h4>Slack</h4>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

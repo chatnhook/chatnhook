@@ -8,6 +8,8 @@
   background-color: #337ab7; }
   .navbar-default .navbar-brand {
     color: #fff; }
+  .navbar-default .nav a {
+    color: #fff; }
   .navbar-default .sidebar-nav li {
     border-bottom: none; }
     .navbar-default .sidebar-nav li a {

@@ -33,4 +33,6 @@ $(function() {
     if (element.is('li')) {
         element.addClass('active');
     }
+
+    $('[data-toggle="tooltip"]').tooltip();
 });

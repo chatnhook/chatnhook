@@ -10,20 +10,174 @@
 {#{% from "admin/macros/dashboard/chat.html" import chat %}#}
 
 {% block body %}
-<div class="row">
-	<div class="col-lg-3 col-md-6">
-		{{count_icon(26, "Hooks processed!", "comments", "primary", "#")}}
-	</div>
-	<div class="col-lg-3 col-md-6">
-		{{count_icon(12, "Projects configured!", "tasks", "green", "#")}}
-	</div>
-	<div class="col-lg-3 col-md-6">
-		{{count_icon(124, "Webhook inspections preformed!", "shopping-cart", "green", "#")}}
-	</div>
-	<div class="col-lg-3 col-md-6">
-		{{count_icon(13, "Errors during processing!", "support", "red", "#")}}
-	</div>
-</div>
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            {{ count_icon(26, "Hooks processed!", "comments", "primary", "#") }}
+        </div>
+        <div class="col-lg-3 col-md-6">
+            {{ count_icon(12, "Projects configured!", "tasks", "green", "#") }}
+        </div>
+        <div class="col-lg-3 col-md-6">
+            {{ count_icon(124, "Webhook inspections preformed!", "shopping-cart", "green", "#") }}
+        </div>
+        <div class="col-lg-3 col-md-6">
+            {{ count_icon(13, "Errors during processing!", "support", "red", "#") }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bar-chart-o fa-fw"></i> Recent webhooks
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Project</th>
+                                        <th>Service</th>
+                                        <th>Hook</th>
+                                        <th>Delivery status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>10/21/2013 3:29 PM</td>
+                                        <td>My project</td>
+                                        <td>Github</td>
+                                        <td>issue_created</td>
+                                        <td>
+                                            <a data-toggle="tooltip" data-placement="bottom" data-html="true" title="
+                                            <table style='min-width: 150px' class='table-responsive text-left'>
+                                            <tr>
+                                                  <td>Slack</td>
+                                                  <td>Success</td>
+                                            </tr>
+                                            <tr>
+                                                  <td>SMS</td>
+                                                  <td>Success</td>
+                                            </tr>
+                                            <tr>
+                                                  <td>Telegram</td>
+                                                  <td>Success</td>
+                                            </tr>
+                                            <tr>
+                                                  <td>Mattermost</td>
+                                                  <td>Failed</td>
+                                            </tr>
+                                            <tr>
+                                                  <td>Discord</td>
+                                                  <td>Success</td>
+                                            </tr>
+                                            </table>
+                                            ">4 / 5</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.col-lg-4 (nested) -->
+                        <div class="col-lg-8">
+                            <div id="morris-bar-chart"></div>
+                        </div>
+                        <!-- /.col-lg-8 (nested) -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bar-chart-o fa-fw"></i> Recent inspections
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>URL</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>3326</td>
+                                        <td>10/21/2013</td>
+                                        <td>3:29 PM</td>
+                                        <td>$321.33</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3325</td>
+                                        <td>10/21/2013</td>
+                                        <td>3:20 PM</td>
+                                        <td>$234.34</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3324</td>
+                                        <td>10/21/2013</td>
+                                        <td>3:03 PM</td>
+                                        <td>$724.17</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3323</td>
+                                        <td>10/21/2013</td>
+                                        <td>3:00 PM</td>
+                                        <td>$23.71</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3322</td>
+                                        <td>10/21/2013</td>
+                                        <td>2:49 PM</td>
+                                        <td>$8345.23</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3321</td>
+                                        <td>10/21/2013</td>
+                                        <td>2:23 PM</td>
+                                        <td>$245.12</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3320</td>
+                                        <td>10/21/2013</td>
+                                        <td>2:15 PM</td>
+                                        <td>$5663.54</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3319</td>
+                                        <td>10/21/2013</td>
+                                        <td>2:13 PM</td>
+                                        <td>$943.45</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.col-lg-4 (nested) -->
+                        <div class="col-lg-8">
+                            <div id="morris-bar-chart"></div>
+                        </div>
+                        <!-- /.col-lg-8 (nested) -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+    </div>
 
-	
 {% endblock %}
