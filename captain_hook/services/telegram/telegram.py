@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 from ..base import BaseService
 import telegram
+from telegram.error import RetryAfter, TimedOut
 from time import sleep
 import os
 import logging
@@ -11,20 +12,28 @@ log = logging.getLogger('hookbot')
 class TelegramService(BaseService):
     def register_webhook(self):
         self.telegram_webhook = telegram.Bot(self.config['token'])
-        log.info('Unregistered telegram webhook url')
-        self.telegram_webhook.setWebhook(url='')
-        sleep(1)
-        log.info('Cleaning updates')
-        updates = []
-        self.telegram_webhook.get_updates()
-        sleep(1)
-        log.info('Registering telegram webhook url: %s' % self.webhook_url)
-        self.telegram_webhook.setWebhook(
-            url=self.webhook_url,
-            certificate=self.cert,
-            allowed_updates=updates,
-            max_connections=40)
-        self.webhook = self.telegram_webhook.getWebhookInfo()
+        try:
+            log.info('Unregistered telegram webhook url')
+            self.telegram_webhook.setWebhook(url='')
+            sleep(1)
+            log.info('Cleaning updates')
+            updates = []
+            self.telegram_webhook.get_updates()
+            sleep(1)
+            log.info('Registering telegram webhook url: %s' % self.webhook_url)
+            self.telegram_webhook.setWebhook(
+                url=self.webhook_url,
+                certificate=self.cert,
+                allowed_updates=updates,
+                max_connections=40)
+            self.webhook = self.telegram_webhook.getWebhookInfo()
+        except TimedOut as e:
+            log.warn('Unable to reach telegram servers, retrying')
+            self.register_webhook()
+        except RetryAfter as e:
+            log.warn('Throtteled! Sleeping for %s', e.retry_after)
+            sleep(e.retry_after)
+            self.register_webhook()
 
     def register_commands(self):
         dir_path = os.path.dirname(os.path.realpath(__file__)) + '/commands/core'
