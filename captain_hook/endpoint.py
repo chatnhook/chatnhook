@@ -23,6 +23,8 @@ log = setup_logger()
 dsn = 'https://a3aa56ba615c4085ae8855ab78e4c021:a0f50be103034d9eb71331378e8f1da2@sentry.io/245538'
 isDev = config.get('global', {}).get('debug', False)
 if config.get('global', {}).get('enable_sentry', True) and not isDev:
+    log.info('Crash reporting is enabled.')
+    log.info('You can disable this by setting global.enable_sentry to false in your config')
     sentry = Sentry(application, dsn=dsn)
 
 
