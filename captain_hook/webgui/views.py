@@ -9,10 +9,11 @@ import stub as stub
 
 # Create customized index view class that handles login & registration
 class AdminIndexView(admin.AdminIndexView):
-
     def __init__(self, *args, **kwargs):
         config = kwargs.pop('config')
+        inspector = kwargs.pop('inspector')
         self.app_config = config
+        self.inspector = inspector
         super(AdminIndexView, self).__init__(*args, **kwargs)
 
     def tuple_without(self, original_tuple, element_to_remove):
@@ -28,7 +29,6 @@ class AdminIndexView(admin.AdminIndexView):
             "alerts": stub.get_alerts()
         }
 
-
         self.panelswells = {
             "accordion": stub.get_accordion_items(),
             "tabitems": stub.get_tab_items()
@@ -41,6 +41,7 @@ class AdminIndexView(admin.AdminIndexView):
 
         self._stubs()
         self.header = 'Dashboard'
+        self.db_inspections = self.inspector.get_inspections(5)
         return render_template('admin/pages/dashboard.html', admin_view=self)
 
     @expose('/ui/panelswells')

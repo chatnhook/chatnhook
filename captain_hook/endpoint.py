@@ -20,13 +20,15 @@ from logger import setup_logger
 from services import find_and_load_services
 from stats import BotStats
 from utils.config import load_config
-
+from inspections import WebhookInspector
 CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
 
 config = load_config(CONFIG_FOLDER)
 application = Flask(__name__)
 bot_stats = BotStats()
 log = setup_logger()
+
+inspector = WebhookInspector()
 
 dsn = 'https://a3aa56ba615c4085ae8855ab78e4c021:a0f50be103034d9eb71331378e8f1da2@sentry.io/245538'
 isDev = config.get('global', {}).get('debug', False)
@@ -123,6 +125,11 @@ def redirect(service, event, path):
     return render_template('redirect.html', **data), result.get('status_code', 200)
 
 
+@application.route('/inspect/<path:path>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
+def inspect(path):
+    inspector.inspect(path, request)
+    return ''
+
 @application.route('/favicon.ico', methods=['GET'])
 def favIcon():
     return ''
@@ -175,7 +182,7 @@ init_login()
 # Create admin
 admin = admin.Admin(application,
                     'Chat \'n\' Hook',
-                    index_view=AdminIndexView(config=config))
+                    index_view=AdminIndexView(config=config, inspector=inspector))
 # admin.add_view(BlankView(name='Blank', url='blank', endpoint='blank'))
 
 if __name__ == '__main__':
