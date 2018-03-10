@@ -61,8 +61,8 @@
                         <a href="#"><i class="fa fa-list-alt"></i> Logs<span
                                 class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            {{ nav_link(name="Inspector", url=url_for('admin.webhook_inspector'), active=name) }}
-                            {{ nav_link(name="Webhooks", url=url_for('admin.webhook_log'), active=name) }}
+                            {{ nav_link(name="Inspector", url=url_for('admin.webhook_inspector'), active=name, icon='search') }}
+                            {{ nav_link(name="Webhooks", url=url_for('admin.webhook_log'), active=name, icon='hubspot') }}
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>

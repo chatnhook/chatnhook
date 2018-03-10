@@ -12,16 +12,17 @@
 {% block body %}
     <div class="row">
         <div class="col-lg-3 col-md-6">
-            {{ count_icon(26, "Hooks processed!", "comments", "primary", "#") }}
+            {{ count_icon(admin_view.hook_log.get_logged_hooks()|length, "Hooks processed!", "check-square", "primary", "#") }}
         </div>
         <div class="col-lg-3 col-md-6">
-            {{ count_icon(admin_view.app_config.get('hooks')|length, "Projects configured!", "tasks", "green", "#") }}
+            {{ count_icon(0, "Errors during processing!", "exclamation-circle", "red", "#") }}
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            {{ count_icon(admin_view.app_config.get('hooks')|length, "Projects configured!", "cogs", "green", "#") }}
         </div>
         <div class="col-lg-3 col-md-6">
-            {{ count_icon(admin_view.inspector.get_inspections()|length, "Webhook inspections preformed!", "shopping-cart", "green", "#") }}
-        </div>
-        <div class="col-lg-3 col-md-6">
-            {{ count_icon(0, "Errors during processing!", "support", "red", "#") }}
+            {{ count_icon(admin_view.inspector.get_inspections()|length, "Webhook inspections preformed!", "search", "green", "#") }}
         </div>
     </div>
     <div class="row">
@@ -139,6 +140,7 @@
                                         <thead>
                                         <tr>
                                             <th>Date</th>
+                                             <th>Method</th>
                                             <th>URL</th>
                                             <th></th>
                                         </tr>
@@ -149,6 +151,7 @@
                                                 <td><span class="timeago"
                                                           data-timestamp="{{ a.timestamp }}">{{ parseTime(a.timestamp) }}</span>
                                                 </td>
+                                                <td>{{ a.method }}</td>
                                                 <td>{{ a.path }}</td>
                                                 <td>
                                                     <a href="{{ url_for('.webhook_inspector_show', guid=a.guid) }}">Show</a>
