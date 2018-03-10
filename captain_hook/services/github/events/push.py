@@ -18,8 +18,7 @@ class PushEvent(GithubEvent):
     def process(self, request, body):
         plural = 'changesets'
         branch = body.get('ref', '').split('/')[2]
-
-        if branch not in self.config.get('notify_branches'):
+        if branch not in self.project_service_config.get('settings', {}).get('notify_branches'):
             return False
 
         if len(body.get('commits')) == 1:
