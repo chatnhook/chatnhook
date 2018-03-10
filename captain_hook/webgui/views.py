@@ -89,7 +89,8 @@ class AdminIndexView(admin.AdminIndexView):
             return redirect(url_for('.login_view'))
 
         self.header = 'Webhook inspector'
-        return render_template('admin/pages/blank.html', admin_view=self)
+        self.db_inspections = self.inspector.get_inspections()
+        return render_template('admin/inspections/list.html', admin_view=self, parseTime=self.parseTime)
 
     @expose('/inspector/show/<string:guid>')
     def webhook_inspector_show(self, guid):
@@ -100,6 +101,15 @@ class AdminIndexView(admin.AdminIndexView):
         inspection = self.inspector.get_inspection(guid)
         return render_template('admin/inspections/show.html', admin_view=self,
                                inspection=inspection, parseTime=self.parseTime)
+
+    @expose('/inspector/clear')
+    def webhook_inspector_clear(self):
+        if not login.current_user.is_authenticated:
+            return redirect(url_for('.login_view'))
+        self.inspector.clear_inspections()
+
+        return redirect(url_for('.webhook_inspector'))
+
 
     @expose('/login/', methods=('GET', 'POST'))
     def login_view(self):

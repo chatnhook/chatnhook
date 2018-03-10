@@ -52,7 +52,8 @@
                                         <td>Github</td>
                                         <td>issue_created</td>
                                         <td>
-                                            <a data-toggle="tooltip" data-placement="bottom" data-html="true" title="
+                                            <a data-toggle="tooltip" data-placement="bottom"
+                                               data-html="true" title="
                                             <table style='min-width: 150px' class='table-responsive text-left'>
                                             <tr>
                                                   <td>Slack</td>
@@ -97,33 +98,38 @@
         <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-bar-chart-o fa-fw"></i> Recent inspections
+                    <i class="fa fa-bar-chart-o fa-fw"></i> Last 5 recent inspections
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>URL</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    {% for a in admin_view.db_inspections %}
-                                         <tr>
-                                            <td><span class="timeago" data-timestamp="{{ a.timestamp }}">{{ parseTime(a.timestamp) }}</span> </td>
-                                            <td>{{ a.path }}</td>
-                                            <td>
-                                                <a href="{{  url_for('.webhook_inspector_show', guid=a.guid) }}">Show</a>
-                                            </td>
+                                <div class="table-responsive">
+                                    {% if admin_view.db_inspections is defined and  admin_view.db_inspections|length > 0 %}
+                                        <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>URL</th>
                                         </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                        {% for a in admin_view.db_inspections %}
+                                            <tr>
+                                                <td><span class="timeago"
+                                                          data-timestamp="{{ a.timestamp }}">{{ parseTime(a.timestamp) }}</span>
+                                                </td>
+                                                <td>{{ a.path }}</td>
+                                                <td>
+                                                    <a href="{{ url_for('.webhook_inspector_show', guid=a.guid) }}">Show</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    No inspections, yet!
+                                {% endif %}
                             </div>
                             <!-- /.table-responsive -->
                         </div>

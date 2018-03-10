@@ -26,6 +26,7 @@ class WebhookInspector():
             'path': path,
             'timestamp': time(),
             'body': body,
+            'method': req.method,
             'body_raw': raw_body,
             'ip': req.remote_addr,
             'guid': guid,
@@ -41,8 +42,6 @@ class WebhookInspector():
 
     def get_inspection(self, guid):
         for inspection in self.inspections:
-            print guid
-            print inspection.get('guid')
             if str(inspection.get('guid')) == str(guid):
                 return inspection
         return None
