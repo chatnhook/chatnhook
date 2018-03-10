@@ -35,52 +35,78 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Project</th>
-                                        <th>Service</th>
-                                        <th>Hook</th>
-                                        <th>Delivery status</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>10/21/2013 3:29 PM</td>
-                                        <td>My project</td>
-                                        <td>Github</td>
-                                        <td>issue_created</td>
-                                        <td>
-                                            <a data-toggle="tooltip" data-placement="bottom"
-                                               data-html="true" title="
-                                            <table style='min-width: 150px' class='table-responsive text-left'>
+                                {% if admin_view.db_hooklog is defined and  admin_view.db_hooklog|length > 0 %}
+
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Project</th>
+                                            <th>Service</th>
+                                            <th>Hook</th>
+                                            <th>Delivery status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for hook in admin_view.db_hooklog %}
                                             <tr>
-                                                  <td>Slack</td>
-                                                  <td>Success</td>
-                                            </tr>
-                                            <tr>
-                                                  <td>SMS</td>
-                                                  <td>Success</td>
-                                            </tr>
-                                            <tr>
-                                                  <td>Telegram</td>
-                                                  <td>Success</td>
-                                            </tr>
-                                            <tr>
-                                                  <td>Mattermost</td>
-                                                  <td>Failed</td>
-                                            </tr>
-                                            <tr>
-                                                  <td>Discord</td>
-                                                  <td>Success</td>
-                                            </tr>
+                                                <td>
+                                                <span class="timeago"
+                                                      data-timestamp="{{ hook.timestamp }}">{{ parseTime(hook.timestamp) }}</span>
+                                                </td>
+                                                <td>
+                                                    {{ hook.project }}
+                                                </td>
+                                                <td>
+                                                    {{ hook.service | title }}
+                                                </td>
+                                                <td>
+                                                    {{ hook.event }}
+                                                </td>
+                                                <td>
+                                                    <a data-toggle="tooltip" data-placement="bottom"
+                                                       data-html="true" title="
+                                            <table style='width: 450px' class='table-responsive text-left'>
+                                            {% for comm in hook.comm_result.services %}
+                                                <tr>
+                                                    <td style='vertical-align: top'>{{ comm  | title }}</td>
+                                                    <td>
+                                                        {% if hook.comm_result.services[comm].result %}
+                                                            <i class='fa fa-check text-success'></i>
+                                                            Succes!
+                                                        {% else %}
+                                                            <i class='fa fa-times text-danger'></i>
+                                                            Failed!
+                                                        {% endif %}
+                                                        {% if hook.comm_result.services[comm].error %}
+                                                            <br />
+                                                            <small>(Error: {{ hook.comm_result.services[comm].error }})</small>
+                                                        {% endif %}
+                                                    </td>
+                                              </tr>
+                                            {% endfor %}
                                             </table>
-                                            ">4 / 5</a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                            ">
+                                                        {% if hook.comm_result.success == hook.comm_result.total %}
+                                                            <span class="text-success">
+
+
+                                                        {% else %}
+                                                            <span class="text-warning">
+
+                                                        {% endif %}
+                                                        {{ hook.comm_result.success }}
+                                                        / {{ hook.comm_result.total }}
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    No processed hooks, yet!
+                                {% endif %}
                             </div>
                             <!-- /.table-responsive -->
                         </div>
@@ -104,9 +130,9 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                                <div class="table-responsive">
-                                    {% if admin_view.db_inspections is defined and  admin_view.db_inspections|length > 0 %}
-                                        <table class="table table-bordered table-hover table-striped">
+                            <div class="table-responsive">
+                                {% if admin_view.db_inspections is defined and  admin_view.db_inspections|length > 0 %}
+                                    <table class="table table-bordered table-hover table-striped">
                                         <thead>
                                         <tr>
                                             <th>Date</th>

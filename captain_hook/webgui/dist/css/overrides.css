@@ -23,4 +23,7 @@
       .navbar-default .sidebar-nav li a.active {
         background-color: #5cb85c; }
 
+.tooltip-inner {
+  max-width: 350px; }
+
 /*# sourceMappingURL=overrides.css.map */

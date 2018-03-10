@@ -12,8 +12,10 @@ class AdminIndexView(admin.AdminIndexView):
     def __init__(self, *args, **kwargs):
         config = kwargs.pop('config')
         inspector = kwargs.pop('inspector')
+        hook_log = kwargs.pop('hook_log')
         self.app_config = config
         self.inspector = inspector
+        self.hook_log = hook_log
 
         super(AdminIndexView, self).__init__(*args, **kwargs)
 
@@ -38,7 +40,9 @@ class AdminIndexView(admin.AdminIndexView):
         self._stubs()
         self.header = 'Dashboard'
         self.db_inspections = self.inspector.get_inspections(5)
-        return render_template('admin/pages/dashboard.html', admin_view=self, parseTime=self.parseTime)
+        self.db_hooklog = self.hook_log.get_logged_hooks(5)
+        return render_template('admin/pages/dashboard.html', admin_view=self,
+                               parseTime=self.parseTime)
 
     @expose('/ui/panelswells')
     def panelswells(self):
@@ -82,7 +86,8 @@ class AdminIndexView(admin.AdminIndexView):
 
         self.header = 'Webhook inspector'
         self.db_inspections = self.inspector.get_inspections()
-        return render_template('admin/inspections/list.html', admin_view=self, parseTime=self.parseTime)
+        return render_template('admin/inspections/list.html', admin_view=self,
+                               parseTime=self.parseTime)
 
     @expose('/inspector/show/<string:guid>')
     def webhook_inspector_show(self, guid):
@@ -101,7 +106,6 @@ class AdminIndexView(admin.AdminIndexView):
         self.inspector.clear_inspections()
 
         return redirect(url_for('.webhook_inspector'))
-
 
     @expose('/login/', methods=('GET', 'POST'))
     def login_view(self):

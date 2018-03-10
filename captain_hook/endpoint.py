@@ -21,13 +21,14 @@ from services import find_and_load_services
 from stats import BotStats
 from utils.config import load_config
 from inspections import WebhookInspector
+from hooklog import Hooklog
 CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
 
 config = load_config(CONFIG_FOLDER)
 application = Flask(__name__)
 bot_stats = BotStats()
 log = setup_logger()
-
+hook_log = Hooklog()
 inspector = WebhookInspector()
 
 dsn = 'https://a3aa56ba615c4085ae8855ab78e4c021:a0f50be103034d9eb71331378e8f1da2@sentry.io/245538'
@@ -97,7 +98,12 @@ def receive_webhook(service='', project=''):
         log.error('Service {} not found'.format(service))
         return 'Service not found'
 
-    result = get_services(project_service_config)[service].execute(request, body, bot_stats)
+    result = get_services(project_service_config)[service].execute(request,
+                                                                   body,
+                                                                   bot_stats,
+                                                                   hook_log,
+                                                                   service,
+                                                                   project)
     if result:
         return result
     else:
@@ -184,7 +190,10 @@ init_login()
 # Create admin
 admin = admin.Admin(application,
                     'Chat \'n\' Hook',
-                    index_view=AdminIndexView(config=config, inspector=inspector))
+                    index_view=AdminIndexView(config=config,
+                                              inspector=inspector,
+                                              hook_log=hook_log
+                                              ))
 # admin.add_view(BlankView(name='Blank', url='blank', endpoint='blank'))
 
 if __name__ == '__main__':

@@ -22,7 +22,7 @@ class BaseService:
     def setup(self):
         pass
 
-    def execute(self, request, body, bot_stats):
+    def execute(self, request, body, bot_stats, hook_log, service, project):
         event = self.get_event(request, body)
         if not event:
             return "Unable to detect event"
@@ -45,10 +45,23 @@ class BaseService:
 
         message_dict = self._get_event_processor(event)
         bot_stats.count_webhook(request.path[1:], event)
+
+        to_comms = self.project_service_config.get('send_to', {})
+
+        comm_result = {
+            'services': {},
+            'total': len(to_comms),
+            'success': 0
+        }
+
         if message_dict:
             message_dict = message_dict.process(request, body)
 
-            for name, comm in self.project_service_config.get('send_to', {}).items():
+            for name, comm in to_comms.items():
+                comm_result['services'][name] = {
+                    'result': False,
+                    'error': ''
+                }
                 if self.project_service_config\
                         .get('send_to', {}).get(name, {}).get('enabled', True):
                     comm = load_comm(name,
@@ -58,9 +71,22 @@ class BaseService:
                     message = message_dict.get(name, default_message)
                     if message:
                         bot_stats.count_message(name)
-                        comm.communicate(message)
+                        try:
+                            comm.communicate(message)
+                            comm_result['services'][name]['result'] = True
+                            comm_result['success'] += 1
+                        except Exception as ex:
+                            template = "An exception of type {0} occurred."
+                            message = template.format(type(ex).__name__)
+                            print message
+                            comm_result['services'][name]['error'] = message
+                else:
+                    message = "Service is disabled"
+                    comm_result['services'][name]['error'] = message
+            hook_log.log_hook(project, service, event, comm_result)
             return "ok"
         else:
+            hook_log.log_hook(project, service, event, comm_result)
             return False
 
     def redirect(self, request, event, params):
