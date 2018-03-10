@@ -137,4 +137,8 @@ class BaseService:
     def get_config_template(self):
         return 'No config options!'
 
+    def get_service_config_model(self):
+        return {}
 
+    def get_service_project_config_model(self):
+        return {}

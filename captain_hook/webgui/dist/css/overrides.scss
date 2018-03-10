@@ -44,4 +44,6 @@ $menuLinkActiveColor: #5cb85c;
 .tooltip-inner {
     max-width: 350px;
 }
-
+.row-striped .row:nth-of-type(2n+1) {
+    background-color: #f9f9f9;
+}

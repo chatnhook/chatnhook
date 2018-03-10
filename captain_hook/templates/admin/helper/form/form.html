@@ -1,0 +1,14 @@
+{% for field in fields %}
+<div class="row">
+
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+        {{ field.label }}<br />
+        <small>{{ field.description | safe }}</small>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        {% with name=field.name, value=config[field.name] %}
+            {% include "admin/helper/form/"+ field.type +".html" %}
+        {% endwith %}
+    </div>
+</div>
+{% endfor %}

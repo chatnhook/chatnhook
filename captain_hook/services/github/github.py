@@ -31,3 +31,21 @@ class GithubService(BaseService):
                     abort(403)
 
         return request.headers.get('X-GITHUB-EVENT', False)
+
+    def get_service_config_model(self):
+        desc = 'This is the global secret, and will be used at all projects.<br />' \
+               'Unless configured on project level'
+        return [
+            {
+                'name': 'secret',
+                'label': 'Secret',
+                'type': 'text',
+                'description': desc
+            },
+            {
+                'name': 'token',
+                'label': 'Token',
+                'type': 'text',
+                'description': 'Token to use when using Github API'
+            },
+        ]
