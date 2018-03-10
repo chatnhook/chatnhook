@@ -1,6 +1,11 @@
 <!-- extend base layout -->
 {% extends "admin/master.html" %}
 {% block body %}
+    {% if admin_view.recent_hooks is defined and  admin_view.recent_hooks|length > 0 %}
+    <div class="row m-b ">
+        <div class="col-xs-12"><a href="{{ url_for('.webhook_processed_clear') }}" class="btn btn-danger">Clear recent webhooks</a></div>
+    </div>
+    {% endif %}
     <div class="row">
         <div class="col-lg-12">
             <div class="table-responsive">
@@ -17,7 +22,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for hook in admin_view.db_hooklog %}
+                        {% for hook in admin_view.recent_hooks %}
                             <tr>
                                 <td>
                                                 <span class="timeago"

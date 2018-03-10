@@ -49,7 +49,7 @@
                      <li>
                         <a href="#"><i class="fa fa-list-alt"></i> Logs<span
                                 class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
+                        <ul class="nav nav-second-level collapse">
                             {{ nav_link(name="Inspector", url=url_for('admin.webhook_inspector'), active=name, icon='search') }}
                             {{ nav_link(name="Webhooks", url=url_for('admin.webhook_log'), active=name, icon='hubspot') }}
                         </ul>
@@ -58,7 +58,7 @@
                     <li>
                         <a href="#"><i class="fa fa-gears fa-fw"></i> Configuration<span
                                 class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
+                        <ul class="nav nav-second-level collapse">
                             {{ nav_link(name="Services", url=url_for('admin.service_config'), active=name) }}
                             {{ nav_link(name="Comms", url=url_for('admin.comm_config'), active=name) }}
                             {{ nav_link(name="Projects", url=url_for('admin.project_config'), active=name) }}

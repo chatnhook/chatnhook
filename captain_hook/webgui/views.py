@@ -117,6 +117,14 @@ class AdminIndexView(admin.AdminIndexView):
 
         return redirect(url_for('.webhook_inspector'))
 
+    @expose('/webhook-log/clear')
+    def webhook_processed_clear(self):
+        if not login.current_user.is_authenticated:
+            return redirect(url_for('.login_view'))
+        self.hook_log.clear_logged_hooks()
+
+        return redirect(url_for('.webhook_log'))
+
     @expose('/login/', methods=('GET', 'POST'))
     def login_view(self):
         # handle user login

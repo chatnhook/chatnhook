@@ -22,3 +22,6 @@ class Hooklog():
             return self.logged_hooks
         else:
             return self.logged_hooks[:limit]
+
+    def clear_logged_hooks(self):
+        self.logged_hooks = []
