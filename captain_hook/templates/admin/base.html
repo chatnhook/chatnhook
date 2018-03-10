@@ -11,25 +11,19 @@
     {% endblock %}
     {% block head_css %}
         <!-- Bootstrap Core CSS -->
-        <link href="/admin/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/admin/dist/css/bootstrap.min.css" rel="stylesheet">
     
         <!-- MetisMenu CSS -->
-        <link href="/admin/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+        <link href="/admin/dist/metisMenu.min.css" rel="stylesheet" type="text/admin/css">
     
         <!-- Custom CSS -->
-        <link href="/admin/dist/css/sb-admin-2.css" rel="stylesheet">
+        <link href="/admin/dist/css/admin.css" rel="stylesheet">
 
         <!-- Custom Fonts -->
-        <link href="/admin/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/admin/dist/css/font-awesome.min.css" rel="stylesheet" type="text/admin/css">
         <link href="/admin/dist/css/overrides.css" rel="stylesheet">
-        <link href="/admin/css/prettify.css" rel="stylesheet">
+        <link href="/admin/dist/css/prettify.css" rel="stylesheet" type="text/admin/css">
 
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
     {% endblock %}
     {% block head %}
     {% endblock %}
@@ -43,17 +37,17 @@
 
     {% block tail_js %}
         <!-- jQuery -->
-        <script src="/admin/bower_components/jquery/dist/jquery.min.js"></script>
-    
+        <script src="/admin/dist/js/jquery.min.js"></script>
+
         <!-- Bootstrap Core JavaScript -->
-        <script src="/admin/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    
+        <script src="/admin/dist/js/bootstrap.min.js"></script>
+
         <!-- Metis Menu Plugin JavaScript -->
-        <script src="/admin/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-    
+        <script src="/admin/dist/js/metisMenu.min.js"></script>
+
         <!-- Custom Theme JavaScript -->
-        <script src="/admin/dist/js/sb-admin-2.js"></script>
-        <script src="/admin/js/prettify/run_prettify.js"></script>
+        <script src="/admin/dist/js/admin.js"></script>
+        <!--<script src="/admin/js/prettify/run_prettify.js"></script>-->
     {% endblock %}
 
     {% block tail %}
