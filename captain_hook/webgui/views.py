@@ -141,7 +141,7 @@ class AdminIndexView(admin.AdminIndexView):
         if login.current_user.is_authenticated:
             return redirect(url_for('.index'))
         self._template_args['form'] = form
-        return render_template('admin/pages/login.html', form=form)
+        return render_template('admin/login.html', form=form)
 
     @expose('/logout/')
     def logout_view(self):
