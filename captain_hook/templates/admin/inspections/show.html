@@ -1,0 +1,73 @@
+<!-- extend base layout -->
+{% extends "admin/master.html" %}
+{% block body %}
+    <h3>Info</h3>
+    <table class="table table-striped">
+        <tr>
+            <th colspan="2">General info</th>
+        </tr>
+        <tr>
+            <td>
+                Time
+            </td>
+            <td>
+                <span class="timeago"
+                      data-timestamp="{{ inspection.timestamp }}">{{ parseTime(inspection.timestamp) }}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Path
+            </td>
+            <td>
+                {{ inspection.path }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Remote IP
+            </td>
+            <td>
+                {{ inspection.ip }}
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">Headers</th>
+        </tr>
+        {% for item in inspection.headers %}
+            <tr>
+                <td>{{ item.header }}</td>
+                <td>{{ item.value }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+
+    <h3>Body</h3>
+
+
+
+    <ul class="nav nav-tabs">
+        {% for item in items %}
+            {% set hrefid="tabitem" + loop.index|string %}
+            {% set active="" %}
+            {% if loop.index == 1 %}
+                {% set active="active" %}
+            {% endif %}
+        {% endfor %}
+        <li class="active"><a href="#inspect-body-tabitem1" data-toggle="tab">Pretty</a>
+        <li><a href="#inspect-body-tabitem2" data-toggle="tab">Raw</a>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="inspect-body-tabitem1">
+                <pre class="prettyprint linenums">{{ inspection.body_raw }}</pre>
+        </div>
+        <div class="tab-pane fade" id="inspect-body-tabitem2">
+                <pre>{{ inspection.body_raw }}</pre>
+        </div>
+    </div>
+
+
+{% endblock %}

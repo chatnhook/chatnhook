@@ -2,7 +2,7 @@ import flask_login as login
 import flask_admin as admin
 from flask_admin import helpers, expose
 from flask import redirect, url_for, request, render_template
-
+from datetime import datetime
 from loginform import LoginForm
 import stub as stub
 
@@ -14,7 +14,11 @@ class AdminIndexView(admin.AdminIndexView):
         inspector = kwargs.pop('inspector')
         self.app_config = config
         self.inspector = inspector
+
         super(AdminIndexView, self).__init__(*args, **kwargs)
+
+    def parseTime(self, timestamp):
+        return datetime.fromtimestamp(timestamp).strftime('%d-%m-%Y %H:%M:%S')
 
     def tuple_without(self, original_tuple, element_to_remove):
         new_tuple = []
@@ -42,7 +46,7 @@ class AdminIndexView(admin.AdminIndexView):
         self._stubs()
         self.header = 'Dashboard'
         self.db_inspections = self.inspector.get_inspections(5)
-        return render_template('admin/pages/dashboard.html', admin_view=self)
+        return render_template('admin/pages/dashboard.html', admin_view=self, parseTime=self.parseTime)
 
     @expose('/ui/panelswells')
     def panelswells(self):
@@ -86,6 +90,16 @@ class AdminIndexView(admin.AdminIndexView):
 
         self.header = 'Webhook inspector'
         return render_template('admin/pages/blank.html', admin_view=self)
+
+    @expose('/inspector/show/<string:guid>')
+    def webhook_inspector_show(self, guid):
+        if not login.current_user.is_authenticated:
+            return redirect(url_for('.login_view'))
+
+        self.header = 'Inspecting webhook'
+        inspection = self.inspector.get_inspection(guid)
+        return render_template('admin/inspections/show.html', admin_view=self,
+                               inspection=inspection, parseTime=self.parseTime)
 
     @expose('/login/', methods=('GET', 'POST'))
     def login_view(self):

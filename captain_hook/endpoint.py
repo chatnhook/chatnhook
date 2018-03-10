@@ -127,7 +127,8 @@ def redirect(service, event, path):
 
 @application.route('/inspect', methods=['GET', 'POST', 'PATCH', 'DELETE'])
 @application.route('/inspect/<path:path>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
-def inspect(path):
+def inspect(path=''):
+    path = '/' + path
     inspector.inspect(path, request)
     return ''
 

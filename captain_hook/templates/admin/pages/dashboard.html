@@ -15,13 +15,13 @@
             {{ count_icon(26, "Hooks processed!", "comments", "primary", "#") }}
         </div>
         <div class="col-lg-3 col-md-6">
-            {{ count_icon(12, "Projects configured!", "tasks", "green", "#") }}
+            {{ count_icon(admin_view.app_config.get('hooks')|length, "Projects configured!", "tasks", "green", "#") }}
         </div>
         <div class="col-lg-3 col-md-6">
-            {{ count_icon(124, "Webhook inspections preformed!", "shopping-cart", "green", "#") }}
+            {{ count_icon(admin_view.inspector.get_inspections()|length, "Webhook inspections preformed!", "shopping-cart", "green", "#") }}
         </div>
         <div class="col-lg-3 col-md-6">
-            {{ count_icon(13, "Errors during processing!", "support", "red", "#") }}
+            {{ count_icon(0, "Errors during processing!", "support", "red", "#") }}
         </div>
     </div>
     <div class="row">
@@ -107,7 +107,6 @@
                                 <table class="table table-bordered table-hover table-striped">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Date</th>
                                         <th>URL</th>
                                     </tr>
@@ -116,10 +115,11 @@
 
                                     {% for a in admin_view.db_inspections %}
                                          <tr>
-                                            <td>3326</td>
-                                            <td>{{ a.timestamp }}</td>
-                                            <td>{{ a.url }}</td>
-                                            <td>Show</td>
+                                            <td><span class="timeago" data-timestamp="{{ a.timestamp }}">{{ parseTime(a.timestamp) }}</span> </td>
+                                            <td>{{ a.path }}</td>
+                                            <td>
+                                                <a href="{{  url_for('.webhook_inspector_show', guid=a.guid) }}">Show</a>
+                                            </td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
