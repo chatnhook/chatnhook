@@ -88,10 +88,14 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
-
                     <li>
-                        <a href="{{ url_for('admin.webhook_inspector') }}"><i
-                                class="fa fa-search fa-fw"></i> Inspector</a>
+                        <a href="#"><i class="fa fa-list-alt"></i> Logs<span
+                                class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            {{ nav_link(name="Inspector", url=url_for('admin.webhook_inspector'), active=name) }}
+                            {{ nav_link(name="Webhooks", url=url_for('admin.comm_config'), active=name) }}
+                        </ul>
+                        <!-- /.nav-second-level -->
                     </li>
 
                     <li>
