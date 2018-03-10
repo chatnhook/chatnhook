@@ -12,17 +12,17 @@
 {% block body %}
     <div class="row">
         <div class="col-lg-3 col-md-6">
-            {{ count_icon(admin_view.hook_log.get_logged_hooks()|length, "Hooks processed!", "check-square", "primary", "#") }}
+            {{ count_icon(admin_view.hook_log.get_logged_hooks()|length, "Hooks processed!", "check-square", "primary", url_for('.webhook_log')) }}
         </div>
         <div class="col-lg-3 col-md-6">
             {{ count_icon(0, "Errors during processing!", "exclamation-circle", "red", "#") }}
         </div>
 
         <div class="col-lg-3 col-md-6">
-            {{ count_icon(admin_view.app_config.get('hooks')|length, "Projects configured!", "cogs", "green", "#") }}
+            {{ count_icon(admin_view.app_config.get('hooks')|length, "Projects configured!", "cogs", "green", url_for('.project_config')) }}
         </div>
         <div class="col-lg-3 col-md-6">
-            {{ count_icon(admin_view.inspector.get_inspections()|length, "Webhook inspections preformed!", "search", "green", "#") }}
+            {{ count_icon(admin_view.inspector.get_inspections()|length, "Webhook inspections preformed!", "search", "green", url_for('.webhook_inspector')) }}
         </div>
     </div>
     <div class="row">
