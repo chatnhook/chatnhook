@@ -89,6 +89,16 @@ class AdminIndexView(admin.AdminIndexView):
         return render_template('admin/inspections/list.html', admin_view=self,
                                parseTime=self.parseTime)
 
+    @expose('/webhook-log')
+    def webhook_log(self):
+        if not login.current_user.is_authenticated:
+            return redirect(url_for('.login_view'))
+
+        self.header = 'Recently processed webhooks'
+        self.recent_hooks = self.hook_log.get_logged_hooks()
+        return render_template('admin/webhooks/list.html', admin_view=self,
+                               parseTime=self.parseTime)
+
     @expose('/inspector/show/<string:guid>')
     def webhook_inspector_show(self, guid):
         if not login.current_user.is_authenticated:

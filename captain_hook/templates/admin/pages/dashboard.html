@@ -64,8 +64,10 @@
                                                     {{ hook.event }}
                                                 </td>
                                                 <td>
-                                                    <a data-toggle="tooltip" data-placement="bottom"
-                                                       data-html="true" title="
+                                                    {% if hook.comm_result.services %}
+                                                        <a data-toggle="tooltip"
+                                                           data-placement="bottom"
+                                                           data-html="true" title="
                                             <table style='width: 450px' class='table-responsive text-left'>
                                             {% for comm in hook.comm_result.services %}
                                                 <tr>
@@ -87,18 +89,19 @@
                                             {% endfor %}
                                             </table>
                                             ">
-                                                        {% if hook.comm_result.success == hook.comm_result.total %}
-                                                            <span class="text-success">
+                                                            {% if hook.comm_result.success == hook.comm_result.total %}
+                                                                <span class="text-success">
 
 
-                                                        {% else %}
-                                                            <span class="text-warning">
+                                                            {% else %}
+                                                                <span class="text-warning">
 
-                                                        {% endif %}
-                                                        {{ hook.comm_result.success }}
-                                                        / {{ hook.comm_result.total }}
-                                                        </span>
-                                                    </a>
+                                                            {% endif %}
+                                                            {{ hook.comm_result.success }}
+                                                            / {{ hook.comm_result.total }}
+                                                            </span>
+                                                        </a>
+                                                    {% endif %}
                                                 </td>
                                             </tr>
                                         {% endfor %}

@@ -78,10 +78,13 @@ class BaseService:
                         except Exception as ex:
                             template = "An exception of type {0} occurred."
                             message = template.format(type(ex).__name__)
-                            print message
                             comm_result['services'][name]['error'] = message
+                    else:
+                        comm_result['total'] -= 1
+                        comm_result['services'][name]['error'] = 'Not sending empty message'
                 else:
                     message = "Service is disabled"
+                    comm_result['total'] -= 1
                     comm_result['services'][name]['error'] = message
             hook_log.log_hook(project, service, event, comm_result)
             return "ok"
