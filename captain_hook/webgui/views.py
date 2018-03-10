@@ -5,7 +5,7 @@ from flask import redirect, url_for, request, render_template
 from datetime import datetime
 from loginform import LoginForm
 import stub as stub
-
+from services import find_and_load_services
 
 # Create customized index view class that handles login & registration
 class AdminIndexView(admin.AdminIndexView):
@@ -69,7 +69,9 @@ class AdminIndexView(admin.AdminIndexView):
 
         self._stubs()
         self.header = 'Service configuration'
-        return render_template('admin/pages/configuration/services.html', admin_view=self)
+        services = find_and_load_services(self.app_config, None)
+
+        return render_template('admin/configuration/services.html', admin_view=self, services=services)
 
     @expose('/configuration/projects')
     def project_config(self):

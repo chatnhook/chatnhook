@@ -5,6 +5,7 @@ import json
 import logging
 import subprocess
 
+import imp
 import utils.config
 from comms import load_comm
 from utils import strings
@@ -36,8 +37,8 @@ class BaseService:
                 return 'Event disabled'
 
         if self.project_service_config.get('settings', {}).get('scripts', {}).get(event, False):
-            for script in self.project_service_config.get('settings', {})\
-                    .get('scripts', {}).get(event, False):
+            for script in self.project_service_config.get('settings', {}) \
+                .get('scripts', {}).get(event, False):
                 command = script.split(' ')
                 command.append(event)
                 command.append(json.dumps(body))
@@ -62,8 +63,8 @@ class BaseService:
                     'result': False,
                     'error': ''
                 }
-                if self.project_service_config\
-                        .get('send_to', {}).get(name, {}).get('enabled', True):
+                if self.project_service_config \
+                    .get('send_to', {}).get(name, {}).get('enabled', True):
                     comm = load_comm(name,
                                      self.global_config.get('comms', {}).get(name, {}),
                                      self.project_service_config.get('send_to', {}).get(name))
@@ -132,3 +133,8 @@ class BaseService:
             ".{}".format(event),
             package=package
         )
+
+    def get_config_template(self):
+        return 'No config options!'
+
+
