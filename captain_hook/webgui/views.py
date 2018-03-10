@@ -81,7 +81,8 @@ class AdminIndexView(admin.AdminIndexView):
             return redirect(url_for('.login_view'))
 
         self.header = 'Projects configuration'
-        return render_template('admin/pages/blank.html', admin_view=self)
+        projects = self.app_config.get('hooks', {})
+        return render_template('admin/configuration/projects.html', admin_view=self, projects=projects)
 
     @expose('/inspector')
     def webhook_inspector(self):

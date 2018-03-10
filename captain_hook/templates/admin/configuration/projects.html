@@ -1,0 +1,22 @@
+<!-- extend base layout -->
+{% extends "admin/master.html" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-responsive table-striped">
+                <tr>
+                    <th>Project name</th>
+                    <th>Number of services</th>
+                </tr>
+                {% for project in projects | reverse %}
+                    <tr>
+                        <td>{{ project }}</td>
+                        <td>{{ projects[project] | length}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
