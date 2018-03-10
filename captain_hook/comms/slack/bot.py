@@ -21,3 +21,12 @@ class SlackComm(BaseComm):
             self.slack_bot = slackweb.Slack(url=self.config.get('hook_url'))
             self.slack_bot.notify(text=message,
                                   username=self.config.get('bot_name'))
+    def get_comm_config_model(self):
+        return [
+            {
+                'name': 'hook_url',
+                'label': 'Webhook URL',
+                'type': 'text',
+                'description': ''
+            },
+        ]

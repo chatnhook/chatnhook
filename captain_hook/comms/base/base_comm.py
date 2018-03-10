@@ -12,5 +12,8 @@ class BaseComm:
     def communicate(self, message):
         raise NotImplementedError
 
-    def get_config_template(self):
-        return 'No config options!'
+    def get_comm_config_model(self):
+        return {}
+
+    def get_comm_project_config_model(self):
+        return {}

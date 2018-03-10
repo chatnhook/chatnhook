@@ -9,7 +9,7 @@ comms:
   slack:
     hook_url: "slack_webhook_here"
   mattermost:
-    webhook_url: 'Mattermost_webhook_url'
+    hook_url: 'Mattermost_webhook_url'
     channel: 'test'
     bot_name: 'Bot'
   discord:

@@ -80,3 +80,27 @@ class TelegramService(BaseService):
 
     def get_event(self, request, body):
         return next(iter(body))
+
+    def get_service_config_model(self):
+        desc = 'This is the global %s, and will be used at all projects.<br />' \
+               'Unless configured on project level'
+        return [
+            {
+                'name': 'hostname',
+                'label': 'Hostname',
+                'type': 'text',
+                'description': 'Hostname to register at telegram API'
+            },
+            {
+                'name': 'server_cert',
+                'label': 'Server certificate',
+                'type': 'text',
+                'description': ''
+            },
+            {
+                'name': 'token',
+                'label': 'Bot token',
+                'type': 'text',
+                'description': 'Your bot token'
+            },
+        ]

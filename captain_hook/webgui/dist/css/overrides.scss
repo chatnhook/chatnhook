@@ -41,9 +41,23 @@ $menuLinkActiveColor: #5cb85c;
         }
     }
 }
+
 .tooltip-inner {
     max-width: 350px;
 }
+
 .row-striped .row:nth-of-type(2n+1) {
     background-color: #f9f9f9;
+}
+
+.service-config {
+    .row .service-label {
+        min-height: 30px;
+        display: block;
+        padding: 10px 0;
+    }
+    .row .form-control {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }

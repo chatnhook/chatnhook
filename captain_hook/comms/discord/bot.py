@@ -22,3 +22,18 @@ class DiscordComm(BaseComm):
             self.discord_bot = DiscordWebhook(url=self.config.get('hook_url'))
             self.discord_bot.notify(text=message,
                                     username=self.config.get('bot_name'))
+    def get_comm_config_model(self):
+        return [
+            {
+                'name': 'hook_url',
+                'label': 'Webhook URL',
+                'type': 'text',
+                'description': ''
+            },
+            {
+                'name': 'bot_name',
+                'label': 'Bot name',
+                'type': 'text',
+                'description': 'If the project doesn\'t has a bot name configured.<br />This name will be used'
+            },
+        ]

@@ -26,14 +26,14 @@
                     <div class="tab-pane fade {{ inactive }}" id="services-{{ service }}">
                         <h4>{{ service | title }}</h4>
 
-                        <div class="row-striped">
+                        <div class="row-striped service-config">
                              {% if services[service].get_service_config_model() %}
                              {% with fields=services[service].get_service_config_model(), config=admin_view.app_config.services[service] %}
                                 {% include "admin/helper/form/form.html" %}
                             {% endwith %}
                                  {% else %}
                                  No config options available!
-                        {% endif %}
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}

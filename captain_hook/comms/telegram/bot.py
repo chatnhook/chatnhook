@@ -28,3 +28,22 @@ class TelegramComm(BaseComm):
                 message,
                 parse_mode=telegram.ParseMode.MARKDOWN
             )
+
+    def get_comm_config_model(self):
+        return [
+            {
+                'name': 'token',
+                'label': 'Token',
+                'type': 'text',
+                'description': ''
+            },
+            {
+                'name': 'channel',
+                'label': 'Channel',
+                'type': 'text',
+                'description': 'If the project doesn\'t has channels configured<br />it will be send to this channel'
+            },
+        ]
+
+    def get_comm_project_config_model(self):
+        return {}

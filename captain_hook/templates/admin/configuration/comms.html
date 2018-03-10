@@ -24,8 +24,16 @@
                         {% set inactive="in active" %}
                     {% endif %}
                     <div class="tab-pane fade {{ inactive }}" id="services-{{ comm }}">
-                        <h4>{{ service | title }}</h4>
-                            {{ comms[comm].get_config_template() | safe }}
+                        <h4>{{ comm | title }}</h4>
+                        <div class="row-striped service-config">
+                             {% if comms[comm].get_comm_config_model() %}
+                             {% with fields=comms[comm].get_comm_config_model(), config=admin_view.app_config.comms[comm] %}
+                                {% include "admin/helper/form/form.html" %}
+                            {% endwith %}
+                                 {% else %}
+                                 No config options available!
+                            {% endif %}
+                        </div>
                     </div>
                 {% endfor %}
             </div>
