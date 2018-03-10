@@ -30,7 +30,7 @@ class WebhookInspector():
             'body_raw': raw_body,
             'ip': req.remote_addr,
             'guid': guid,
-            'type': req.headers.get('Content-Type').replace('application/', '')
+            'type': req.headers.get('Content-Type', '').replace('application/', '')
         }
 
         self.inspections.insert(0, request)

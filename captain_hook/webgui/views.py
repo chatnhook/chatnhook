@@ -20,14 +20,6 @@ class AdminIndexView(admin.AdminIndexView):
     def parseTime(self, timestamp):
         return datetime.fromtimestamp(timestamp).strftime('%d-%m-%Y %H:%M:%S')
 
-    def tuple_without(self, original_tuple, element_to_remove):
-        new_tuple = []
-        for s in list(original_tuple):
-            print s
-            if not s == element_to_remove:
-                new_tuple.append(s)
-        return tuple(new_tuple)
-
     def _stubs(self):
         self.nav = {
             "alerts": stub.get_alerts()
