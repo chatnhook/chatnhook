@@ -32,7 +32,7 @@ def load_comms(comms, config):
             continue
 
         comm_config = config["comms"][comm]
-        comm = import_service_module(comm)(comm_config)
+        comm = import_service_module(comm)(comm_config, {})
         comm.setup()
         loaded_comms.append(comm)
     return loaded_comms

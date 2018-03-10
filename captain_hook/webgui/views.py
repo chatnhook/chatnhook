@@ -6,6 +6,7 @@ from datetime import datetime
 from loginform import LoginForm
 import stub as stub
 from services import find_and_load_services
+from comms import find_and_load_comms
 
 # Create customized index view class that handles login & registration
 class AdminIndexView(admin.AdminIndexView):
@@ -60,7 +61,8 @@ class AdminIndexView(admin.AdminIndexView):
 
         self._stubs()
         self.header = 'Comms configuration'
-        return render_template('admin/pages/blank.html', admin_view=self)
+        comms = find_and_load_comms(self.app_config)
+        return render_template('admin/configuration/comms.html', admin_view=self, comms=comms)
 
     @expose('/configuration/services')
     def service_config(self):
