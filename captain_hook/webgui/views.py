@@ -218,7 +218,7 @@ class AdminIndexView(admin.AdminIndexView):
     def login_view(self, error=''):
 
         github_login = url_for("github.login")
-
+        github_authenticated_user = None
         try:
             if auth.is_authorized(self.app_config, 'github'):
                 return redirect(url_for('.index'))
