@@ -34,14 +34,13 @@ application.secret_key = os.environ.get("FLASK_SECRET_KEY", "supersekrit")
 application.config['SECRET_KEY'] = '123456790'
 
 application.config["GITHUB_OAUTH_CLIENT_ID"] = config.get('auth', {}).get('github', {}).get('client_id')
-application.config["GITHUB_OAUTH_CLIENT_SECRET"] = config.get('auth', {}).get('github', {}).get('5e3e4c46014f4b2e81fb807486e5468a66f7d244')
+application.config["GITHUB_OAUTH_CLIENT_SECRET"] = config.get('auth', {}).get('github', {}).get('client_secret')
 
-application.config['PREFERRED_URL_SCHEME'] = 'HTTPS'
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 
 github_bp = make_github_blueprint()
-application.register_blueprint(github_bp, url_prefix="/admin/login")
+application.register_blueprint(github_bp, url_prefix="/admin/login", redirect_url='/admin')
 
 bot_stats = BotStats()
 log = setup_logger()
@@ -167,7 +166,7 @@ def favIcon():
 @application.route('/', methods=['GET'])
 def index():
     if github.authorized:
-        return redirect('/admin')
+        return 'logged in'
     return 'false!'
 
 @application.route('/stats', methods=['GET'])
