@@ -1,3 +1,5 @@
+import json
+
 import flask_login as login
 import flask_admin as admin
 from flask_admin import helpers, expose
@@ -6,6 +8,8 @@ from datetime import datetime
 from loginform import LoginForm
 from services import find_and_load_services
 from comms import find_and_load_comms
+from utils import config
+
 
 # Create customized index view class that handles login & registration
 class AdminIndexView(admin.AdminIndexView):
@@ -21,7 +25,6 @@ class AdminIndexView(admin.AdminIndexView):
 
     def parseTime(self, timestamp):
         return datetime.fromtimestamp(timestamp).strftime('%d-%m-%Y %H:%M:%S')
-
 
     @expose('/')
     def index(self):
@@ -59,14 +62,23 @@ class AdminIndexView(admin.AdminIndexView):
         self.header = 'Service configuration'
         services = find_and_load_services(self.app_config, None)
 
-        return render_template('admin/configuration/services.html', admin_view=self, services=services)
+        return render_template('admin/configuration/services.html', admin_view=self,
+                               services=services)
 
-    @expose('/configuration/projects/<string:project>')
+    @expose('/configuration/projects/<string:project>', ['GET', 'POST'])
     def project_config(self, project):
         if not login.current_user.is_authenticated:
             return redirect(url_for('.login_view'))
 
-        self.header = 'Editing project '+ project
+        if request.method == 'POST':
+            print 'Got post'
+            data = json.loads(request.data)
+            service = data.get('service_name')
+            print self.app_config.get('hooks', {}).get(project, {}).get(service)
+            self.app_config['hooks'][project][service] = data
+            # config.save_config(self.app_config)
+
+        self.header = 'Editing project ' + project
         project_config = self.app_config.get('hooks', {}).get(project, {})
         services = find_and_load_services(self.app_config, None)
         comms = find_and_load_comms(self.app_config)
@@ -86,7 +98,8 @@ class AdminIndexView(admin.AdminIndexView):
 
         self.header = 'Projects configuration'
         projects = self.app_config.get('hooks', {})
-        return render_template('admin/configuration/projects/list.html', admin_view=self, projects=projects)
+        return render_template('admin/configuration/projects/list.html', admin_view=self,
+                               projects=projects)
 
     @expose('/inspector')
     def webhook_inspector(self):
