@@ -22,4 +22,7 @@ def check_github(app_config):
     assert resp.ok
     user_array = app_config.get('auth', {}).get('github').get('allowed_users')
     username = resp.json()["login"]
-    return username in user_array
+    if username in user_array:
+        return username
+    else:
+        return False

@@ -25,7 +25,7 @@ class AdminIndexView(admin.AdminIndexView):
         self.inspector = inspector
         self.hook_log = hook_log
         self.app = app
-
+        self.logged_in_user = ''
         self.app.config["GITHUB_OAUTH_CLIENT_ID"] = self.app_config.get('auth', {}).get('github', {}).get('client_id')
         self.app.config["GITHUB_OAUTH_CLIENT_SECRET"] = self.app_config.get('auth', {}).get('github', {}).get('client_secret')
 
@@ -39,7 +39,8 @@ class AdminIndexView(admin.AdminIndexView):
 
     @expose('/')
     def index(self):
-        if not auth.is_authorized(self.app_config, 'github'):
+        self.logged_in_user = auth.is_authorized(self.app_config, 'github')
+        if not self.logged_in_user:
             return redirect(url_for('.login_view'))
 
         self.header = 'Dashboard'
@@ -48,17 +49,11 @@ class AdminIndexView(admin.AdminIndexView):
         return render_template('admin/pages/dashboard.html', admin_view=self,
                                parseTime=self.parseTime)
 
-    @expose('/ui/panelswells')
-    def panelswells(self):
-        if not login.current_user.is_authenticated:
-            return redirect(url_for('.login_view'))
-
-        self.header = "Panels Wells"
-        return render_template('admin/pages/ui/panels-wells.html', admin_view=self)
 
     @expose('/configuration/comms')
     def comm_config(self):
-        if not login.current_user.is_authenticated:
+        self.logged_in_user = auth.is_authorized(self.app_config, 'github')
+        if not self.logged_in_user:
             return redirect(url_for('.login_view'))
 
         self.header = 'Comms configuration'
@@ -67,7 +62,8 @@ class AdminIndexView(admin.AdminIndexView):
 
     @expose('/configuration/services')
     def service_config(self):
-        if not login.current_user.is_authenticated:
+        self.logged_in_user = auth.is_authorized(self.app_config, 'github')
+        if not self.logged_in_user:
             return redirect(url_for('.login_view'))
 
         self.header = 'Service configuration'
@@ -78,7 +74,8 @@ class AdminIndexView(admin.AdminIndexView):
 
     @expose('/configuration/projects/<string:project>', ['GET', 'POST'])
     def project_config(self, project):
-        if not login.current_user.is_authenticated:
+        self.logged_in_user = auth.is_authorized(self.app_config, 'github')
+        if not self.logged_in_user:
             return redirect(url_for('.login_view'))
 
         if request.method == 'POST':
@@ -105,7 +102,8 @@ class AdminIndexView(admin.AdminIndexView):
 
     @expose('/configuration/projects')
     def project_config_list(self):
-        if not login.current_user.is_authenticated:
+        self.logged_in_user = auth.is_authorized(self.app_config, 'github')
+        if not self.logged_in_user:
             return redirect(url_for('.login_view'))
 
         self.header = 'Projects configuration'
@@ -115,7 +113,8 @@ class AdminIndexView(admin.AdminIndexView):
 
     @expose('/inspector')
     def webhook_inspector(self):
-        if not login.current_user.is_authenticated:
+        self.logged_in_user = auth.is_authorized(self.app_config, 'github')
+        if not self.logged_in_user:
             return redirect(url_for('.login_view'))
 
         self.header = 'Webhook inspector'
@@ -125,7 +124,8 @@ class AdminIndexView(admin.AdminIndexView):
 
     @expose('/webhook-log')
     def webhook_log(self):
-        if not login.current_user.is_authenticated:
+        self.logged_in_user = auth.is_authorized(self.app_config, 'github')
+        if not self.logged_in_user:
             return redirect(url_for('.login_view'))
 
         self.header = 'Recently processed webhooks'
@@ -145,7 +145,8 @@ class AdminIndexView(admin.AdminIndexView):
 
     @expose('/inspector/clear')
     def webhook_inspector_clear(self):
-        if not login.current_user.is_authenticated:
+        self.logged_in_user = auth.is_authorized(self.app_config, 'github')
+        if not self.logged_in_user:
             return redirect(url_for('.login_view'))
         self.inspector.clear_inspections()
 
@@ -153,7 +154,8 @@ class AdminIndexView(admin.AdminIndexView):
 
     @expose('/webhook-log/clear')
     def webhook_processed_clear(self):
-        if not login.current_user.is_authenticated:
+        self.logged_in_user = auth.is_authorized(self.app_config, 'github')
+        if not self.logged_in_user:
             return redirect(url_for('.login_view'))
         self.hook_log.clear_logged_hooks()
 
