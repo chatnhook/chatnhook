@@ -50,7 +50,7 @@ $menuLinkActiveColor: #5cb85c;
     background-color: #f9f9f9;
 }
 
-.service-config {
+.service-config, .comm-config, .project-config {
     .row .service-label {
         min-height: 30px;
         display: block;

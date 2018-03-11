@@ -29,11 +29,11 @@
 .row-striped .row:nth-of-type(2n+1) {
   background-color: #f9f9f9; }
 
-.service-config .row .service-label {
+.service-config .row .service-label, .comm-config .row .service-label, .project-config .row .service-label {
   min-height: 30px;
   display: block;
   padding: 10px 0; }
-.service-config .row .form-control {
+.service-config .row .form-control, .comm-config .row .form-control, .project-config .row .form-control {
   margin-top: 10px;
   margin-bottom: 10px; }
 
