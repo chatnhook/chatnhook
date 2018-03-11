@@ -49,6 +49,11 @@ hooks:
           - master
         disabled_events:
           - ping
+      scripts:
+        push:
+          - python script.py
+          - python script2.py
+
       send_to:
         telegram:
           enabled: false

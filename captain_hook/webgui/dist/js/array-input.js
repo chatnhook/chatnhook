@@ -5,7 +5,7 @@ $(document).ready(function () {
 
        $(input_container).on('click', '.delete', function () {
            console.log('click');
-           $(this).parent().parent().parent().remove();
+           $(this).parent().parent().remove();
        });
 
        $(input_container).find('.add').click(function () {

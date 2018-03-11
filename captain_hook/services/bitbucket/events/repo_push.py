@@ -20,8 +20,8 @@ class RepoPushEvent(BitbucketEvent):
 
         branch = body.get('push', {}).get('changes', {})[0].get('new', {}).get('name', '')
 
-        if self.config.get('notify_branches', False)\
-                and branch not in self.config.get('notify_branches'):
+        if self.project_service_config.get('notify_branches', False)\
+                and branch not in self.project_service_config.get('notify_branches'):
             return False
 
         if len(body.get('push', {}).get('changes', {})) == 1:

@@ -36,9 +36,9 @@ class BaseService:
             if event in self.project_service_config.get('settings', {}).get('disabled_events'):
                 return 'Event disabled'
 
-        if self.project_service_config.get('settings', {}).get('scripts', {}).get(event, False):
-            for script in self.project_service_config.get('settings', {}) \
-                .get('scripts', {}).get(event, False):
+        if self.project_service_config.get('scripts', {}).get(event, False):
+            for script in self.project_service_config \
+                    .get('scripts', {}).get(event, False):
                 command = script.split(' ')
                 command.append(event)
                 command.append(json.dumps(body))
