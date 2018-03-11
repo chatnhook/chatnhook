@@ -1,5 +1,5 @@
 {% if field_prefix %}
-    <input type="text" name="[{{ field_prefix }}][{{ name }}]" value="{{ value }}"
+    <input type="text" name="{{ field_prefix }}[{{ name }}]" value="{{ value }}"
            class="form-control"/>
 {% else %}
     <input type="text" name="{{ name }}" value="{{ value }}"

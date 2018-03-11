@@ -55,7 +55,7 @@
                                         <div id="collapse-{{ service }}-{{ comm }}"
                                              class="panel-collapse collapse">
                                             <div class="panel-body project-config">
-                                                {% with fields=comms[comm].get_comm_project_config_model(), config=project[service]['send_to'][comm], wide=true, field_prefix=comm %}
+                                                {% with fields=comms[comm].get_comm_project_config_model(), config=project[service]['send_to'][comm], wide=true, field_prefix='send_to.'+comm %}
                                                     {% include "admin/helper/form/form.html" %}
                                                 {% endwith %}
                                             </div>

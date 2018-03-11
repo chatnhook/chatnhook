@@ -2,7 +2,7 @@
 {% for v in value %}
     <li>
         <div class="input-group">
-            <input name="[{{ field_prefix }}[{{ name }}][]" value="{{ v }}" class="form-control" />
+            <input name="{{ field_prefix }}[{{ name }}][]" value="{{ v }}" class="form-control" />
             <div class="input-group-addon delete">
                 <i class="fa fa-times"></i>
             </div>

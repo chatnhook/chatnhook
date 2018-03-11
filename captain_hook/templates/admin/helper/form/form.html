@@ -16,12 +16,27 @@
         {% else %}
             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
         {% endif %}
+                {% if '.' in field_prefix %}
+                    {% set prefix_split = field_prefix.split('.') %}
+                {% else %}
+                    {% set prefix_split = [field_prefix] %}
+                {% endif %}
+                {% set ns = namespace(field_prefix_joined='') %}
+                {% for f in prefix_split %}
+                    {% if loop.index == 1 %}
+                            {% set ns.field_prefix_joined = f %}
+                        {% else %}
+                            {% set ns.field_prefix_joined = ns.field_prefix_joined + '['+ f + ']'  %}
+                    {% endif %}
+                {% endfor %}
                 {% if field_prefix in config %}
                     {% set value=config[field_prefix][field.name] %}
                 {% else %}
                     {% set value=config[field.name] %}
                 {% endif %}
-                {% with name=field.name, value=value,field_prefix=field_prefix %}
+
+
+                {% with name=field.name, value=value,field_prefix=ns.field_prefix_joined %}
                     {% include "admin/helper/form/"+ field.type +".html" %}
                 {% endwith %}
             </div>

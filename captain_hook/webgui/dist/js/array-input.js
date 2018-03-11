@@ -16,7 +16,7 @@ $(document).ready(function () {
            if(!value){
                return;
            }
-           var html = '<li> <div class="input-group"> <input name="['+ prefix +'['+ field +'][]" value="'+ value +'" class="form-control"/> <div class="input-group-addon delete"> <i class="fa fa-times"></i> </div></div></li>'
+           var html = '<li> <div class="input-group"> <input name="'+ prefix +'['+ field +'][]" value="'+ value +'" class="form-control"/> <div class="input-group-addon delete"> <i class="fa fa-times"></i> </div></div></li>'
            $(input_container).find('.addItem').before(html);
            input.val('');
        });
