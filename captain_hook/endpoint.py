@@ -39,8 +39,8 @@ application.config["GITHUB_OAUTH_CLIENT_SECRET"] = config.get('auth', {}).get('g
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 
-github_bp = make_github_blueprint()
-application.register_blueprint(github_bp, url_prefix="/admin/login", redirect_url='/admin')
+github_bp = make_github_blueprint(redirect_url='/admin')
+application.register_blueprint(github_bp, url_prefix="/admin/login")
 
 bot_stats = BotStats()
 log = setup_logger()
