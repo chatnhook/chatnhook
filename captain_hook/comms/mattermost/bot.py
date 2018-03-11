@@ -44,3 +44,26 @@ class MattermostComm(BaseComm):
                 'description': 'If the project doesn\'t has a bot name configured.<br />This name will be used'
             },
         ]
+
+
+    def get_comm_project_config_model(self):
+        return [
+            {
+                'name': 'enabled',
+                'label': 'Enabled',
+                'type': 'checkbox',
+                'description': ''
+            },
+            {
+                'name': 'bot_name',
+                'label': 'Bot name',
+                'type': 'array',
+                'description': 'If the project doesn\'t has channels configured<br />it will be send to this channel'
+            },
+            {
+                'name': 'token',
+                'label': 'Webhooks',
+                'type': 'array',
+                'description': ''
+            },
+        ]
