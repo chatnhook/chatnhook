@@ -8,11 +8,13 @@
                 <tr>
                     <th>Project name</th>
                     <th>Number of services</th>
+                    <th></th>
                 </tr>
                 {% for project in projects | reverse %}
                     <tr>
                         <td>{{ project }}</td>
                         <td>{{ projects[project] | length}}</td>
+                        <td> <a href="{{ url_for('.project_config', project=project) }}">Edit</a></td>
                     </tr>
                 {% endfor %}
             </table>

@@ -19,7 +19,7 @@
         </div>
 
         <div class="col-lg-3 col-md-6">
-            {{ count_icon(admin_view.app_config.get('hooks')|length, "Projects configured!", "cogs", "green", url_for('.project_config')) }}
+            {{ count_icon(admin_view.app_config.get('hooks')|length, "Projects configured!", "cogs", "green", url_for('.project_config_list')) }}
         </div>
         <div class="col-lg-3 col-md-6">
             {{ count_icon(admin_view.inspector.get_inspections()|length, "Webhook inspections preformed!", "search", "green", url_for('.webhook_inspector')) }}

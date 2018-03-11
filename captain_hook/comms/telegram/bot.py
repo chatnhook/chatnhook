@@ -46,4 +46,17 @@ class TelegramComm(BaseComm):
         ]
 
     def get_comm_project_config_model(self):
-        return {}
+        return [
+            {
+                'name': 'token',
+                'label': 'Token',
+                'type': 'text',
+                'description': ''
+            },
+            {
+                'name': 'channel',
+                'label': 'Channel',
+                'type': 'text',
+                'description': 'If the project doesn\'t has channels configured<br />it will be send to this channel'
+            },
+        ]

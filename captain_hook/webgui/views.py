@@ -61,14 +61,32 @@ class AdminIndexView(admin.AdminIndexView):
 
         return render_template('admin/configuration/services.html', admin_view=self, services=services)
 
+    @expose('/configuration/projects/<string:project>')
+    def project_config(self, project):
+        if not login.current_user.is_authenticated:
+            return redirect(url_for('.login_view'))
+
+        self.header = 'Editing project '+ project
+        project_config = self.app_config.get('hooks', {}).get(project, {})
+        services = find_and_load_services(self.app_config, None)
+        comms = find_and_load_comms(self.app_config)
+
+        return render_template('admin/configuration/projects/edit.html',
+                               admin_view=self,
+                               project=project_config,
+                               project_name=project,
+                               comms=comms,
+                               services=services
+                               )
+
     @expose('/configuration/projects')
-    def project_config(self):
+    def project_config_list(self):
         if not login.current_user.is_authenticated:
             return redirect(url_for('.login_view'))
 
         self.header = 'Projects configuration'
         projects = self.app_config.get('hooks', {})
-        return render_template('admin/configuration/projects.html', admin_view=self, projects=projects)
+        return render_template('admin/configuration/projects/list.html', admin_view=self, projects=projects)
 
     @expose('/inspector')
     def webhook_inspector(self):

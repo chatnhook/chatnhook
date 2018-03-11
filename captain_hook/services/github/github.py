@@ -49,3 +49,15 @@ class GithubService(BaseService):
                 'description': 'Token to use when using Github API'
             },
         ]
+
+    def get_service_project_config_model(self):
+        desc = 'This is the global secret, and will be used at all projects.<br />' \
+               'Unless configured on project level'
+        return [
+            {
+                'name': 'secret',
+                'label': 'Secret',
+                'type': 'text',
+                'description': desc
+            }
+        ]

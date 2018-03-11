@@ -1,0 +1,73 @@
+<!-- extend base layout -->
+{% extends "admin/master.html" %}
+
+{% block body %}
+    <textarea>{{ project | tojson }}</textarea>
+    <h3>Configured services</h3>
+    <div class="panel-group" id="project-service-config">
+        {% for service in project %}
+            {% set inactive="" %}
+            {% if loop.index == 1 %}
+                {% set inactive="collapse" %}
+            {% endif %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#project-service-config"
+                       href="#collapse{{ service }}">
+                        <h4 class="panel-title">
+                            {{ service | title }}
+                        </h4>
+                    </a>
+                </div>
+                <div id="collapse{{ service }}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                Webhook
+                                url: {{ admin_view.app_config.global.bot_url }}/{{ project_name }}/{{ service }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <h4>Service config</h4>
+                                {% if service in project and services[service].get_service_project_config_model() %}
+                                    {% with fields=services[service].get_service_project_config_model(), config=project.get(service, {}), wide=true %}
+                                        {% include "admin/helper/form/form.html" %}
+                                    {% endwith %}
+                                {% else %}
+                                    No config options available!
+                                {% endif %}
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <h4>Comms</h4>
+                                <div class="panel-group" id="project-comm-config">
+                                {% for comm in project[service]['send_to'] %}
+
+                                        <div class="panel-heading">
+                                            <a data-toggle="collapse"
+                                               data-parent="#project-comm-config"
+                                               href="#collapse-{{ service }}-{{ comm }}">
+                                                <h4 class="panel-title">
+                                                    {{ comm | title }}
+                                                </h4>
+                                            </a>
+                                        </div>
+                                        <div id="collapse-{{ service }}-{{ comm }}"
+                                             class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                {% with fields=comms[comm].get_comm_project_config_model(), config=project[service]['send_to'][comm], wide=true %}
+                                                    {% include "admin/helper/form/form.html" %}
+                                                {% endwith %}
+                                            </div>
+                                        </div>
+
+                                {% endfor %}
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
