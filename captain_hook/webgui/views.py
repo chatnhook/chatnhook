@@ -12,7 +12,7 @@ from loginform import LoginForm
 from services import find_and_load_services
 from comms import find_and_load_comms
 from utils import config
-
+import auth
 
 # Create customized index view class that handles login & registration
 class AdminIndexView(admin.AdminIndexView):
@@ -26,7 +26,11 @@ class AdminIndexView(admin.AdminIndexView):
         self.hook_log = hook_log
         self.app = app
 
+        self.app.config["GITHUB_OAUTH_CLIENT_ID"] = self.app_config.get('auth', {}).get('github', {}).get('client_id')
+        self.app.config["GITHUB_OAUTH_CLIENT_SECRET"] = self.app_config.get('auth', {}).get('github', {}).get('client_secret')
 
+        github_bp = make_github_blueprint(redirect_url='/admin')
+        self.app.register_blueprint(github_bp, url_prefix="/admin/login")
 
         super(AdminIndexView, self).__init__(*args, **kwargs)
 
@@ -35,7 +39,7 @@ class AdminIndexView(admin.AdminIndexView):
 
     @expose('/')
     def index(self):
-        if not github.authorized:
+        if not auth.is_authorized(self.app_config, 'github'):
             return redirect(url_for('.login_view'))
 
         self.header = 'Dashboard'

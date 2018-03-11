@@ -30,17 +30,11 @@ CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
 config = load_config(CONFIG_FOLDER)
 application = Flask(__name__)
 application.wsgi_app = ProxyFix(application.wsgi_app)
-application.secret_key = os.environ.get("FLASK_SECRET_KEY", "supersekrit")
-application.config['SECRET_KEY'] = '123456790'
 
-application.config["GITHUB_OAUTH_CLIENT_ID"] = config.get('auth', {}).get('github', {}).get('client_id')
-application.config["GITHUB_OAUTH_CLIENT_SECRET"] = config.get('auth', {}).get('github', {}).get('client_secret')
+application.config['SECRET_KEY'] = '123456790'
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-
-github_bp = make_github_blueprint(redirect_url='/admin')
-application.register_blueprint(github_bp, url_prefix="/admin/login")
 
 bot_stats = BotStats()
 log = setup_logger()
