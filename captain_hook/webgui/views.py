@@ -2,8 +2,10 @@ import json
 
 import flask_login as login
 import flask_admin as admin
+import os
 from flask_admin import helpers, expose
-from flask import redirect, url_for, request, render_template, jsonify, make_response, session
+from flask import redirect, url_for, request, render_template, jsonify, make_response, session, \
+    send_from_directory
 from datetime import datetime
 
 from flask_dance.contrib.github import make_github_blueprint, github
@@ -36,6 +38,14 @@ class AdminIndexView(admin.AdminIndexView):
 
     def parseTime(self, timestamp):
         return datetime.fromtimestamp(timestamp).strftime('%d-%m-%Y %H:%M:%S')
+
+    @expose('/dist/<path:path>')
+    def send_dist(self, path):
+        first_dir = path.split('/')[0]
+        if first_dir in ['css', 'js', 'fonts']:
+            return send_from_directory(os.path.join(self.app.root_path, 'webgui/dist'), path)
+        else:
+            return render_template('404.html'), 404
 
     @expose('/')
     def index(self):
