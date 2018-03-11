@@ -57,7 +57,7 @@ class MattermostComm(BaseComm):
             {
                 'name': 'bot_name',
                 'label': 'Bot name',
-                'type': 'array',
+                'type': 'text',
                 'description': 'If the project doesn\'t has channels configured<br />it will be send to this channel'
             },
             {
