@@ -16,7 +16,7 @@
         {% else %}
             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
         {% endif %}
-                {% with name=field.name, value=config[field.name] %}
+                {% with name=field.name, value=config[field.name],field_prefix=field_prefix %}
                     {% include "admin/helper/form/"+ field.type +".html" %}
                 {% endwith %}
             </div>

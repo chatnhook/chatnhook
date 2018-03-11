@@ -58,6 +58,18 @@ class GithubService(BaseService):
                 'name': 'secret',
                 'label': 'Secret',
                 'type': 'text',
-                'description': desc
+                'description': ''
+            },
+            {
+                'name': 'notify_branches',
+                'label': 'Notify branches',
+                'type': 'array',
+                'description': ''
+            },
+            {
+                'name': 'disabled_events',
+                'label': 'Disabled events',
+                'type': 'array',
+                'description': ''
             }
         ]

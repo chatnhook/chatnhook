@@ -31,7 +31,7 @@
                             <div class="col-xs-12 col-md-6">
                                 <h4>Service config</h4>
                                 {% if service in project and services[service].get_service_project_config_model() %}
-                                    {% with fields=services[service].get_service_project_config_model(), config=project.get(service, {}), wide=true %}
+                                    {% with fields=services[service].get_service_project_config_model(), config=project.get(service, {}), wide=true, field_prefix='settings' %}
                                         {% include "admin/helper/form/form.html" %}
                                     {% endwith %}
                                 {% else %}
@@ -55,7 +55,7 @@
                                         <div id="collapse-{{ service }}-{{ comm }}"
                                              class="panel-collapse collapse">
                                             <div class="panel-body project-config">
-                                                {% with fields=comms[comm].get_comm_project_config_model(), config=project[service]['send_to'][comm], wide=true %}
+                                                {% with fields=comms[comm].get_comm_project_config_model(), config=project[service]['send_to'][comm], wide=true, field_prefix=comm %}
                                                     {% include "admin/helper/form/form.html" %}
                                                 {% endwith %}
                                             </div>
