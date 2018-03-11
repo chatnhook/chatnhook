@@ -4,7 +4,6 @@ from flask_admin import helpers, expose
 from flask import redirect, url_for, request, render_template
 from datetime import datetime
 from loginform import LoginForm
-import stub as stub
 from services import find_and_load_services
 from comms import find_and_load_comms
 
@@ -23,22 +22,12 @@ class AdminIndexView(admin.AdminIndexView):
     def parseTime(self, timestamp):
         return datetime.fromtimestamp(timestamp).strftime('%d-%m-%Y %H:%M:%S')
 
-    def _stubs(self):
-        self.nav = {
-            "alerts": stub.get_alerts()
-        }
-
-        self.panelswells = {
-            "accordion": stub.get_accordion_items(),
-            "tabitems": stub.get_tab_items()
-        }
 
     @expose('/')
     def index(self):
         if not login.current_user.is_authenticated:
             return redirect(url_for('.login_view'))
 
-        self._stubs()
         self.header = 'Dashboard'
         self.db_inspections = self.inspector.get_inspections(5)
         self.db_hooklog = self.hook_log.get_logged_hooks(5)
@@ -50,7 +39,6 @@ class AdminIndexView(admin.AdminIndexView):
         if not login.current_user.is_authenticated:
             return redirect(url_for('.login_view'))
 
-        self._stubs()
         self.header = "Panels Wells"
         return render_template('admin/pages/ui/panels-wells.html', admin_view=self)
 
@@ -59,7 +47,6 @@ class AdminIndexView(admin.AdminIndexView):
         if not login.current_user.is_authenticated:
             return redirect(url_for('.login_view'))
 
-        self._stubs()
         self.header = 'Comms configuration'
         comms = find_and_load_comms(self.app_config)
         return render_template('admin/configuration/comms.html', admin_view=self, comms=comms)
@@ -69,7 +56,6 @@ class AdminIndexView(admin.AdminIndexView):
         if not login.current_user.is_authenticated:
             return redirect(url_for('.login_view'))
 
-        self._stubs()
         self.header = 'Service configuration'
         services = find_and_load_services(self.app_config, None)
 
