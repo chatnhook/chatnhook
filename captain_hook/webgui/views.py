@@ -184,9 +184,3 @@ class AdminIndexView(admin.AdminIndexView):
         login.logout_user()
         session.clear()
         return redirect(url_for('.index'))
-
-
-class BlankView(admin.BaseView):
-    @expose('/')
-    def index(self):
-        return render_template('admin/pages/blank.html', admin_view=self)
