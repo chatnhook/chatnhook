@@ -1,3 +1,20 @@
-array field
-{{ name }}
-{{ value }}
+<ul class="array-input">
+{% for v in value %}
+    <li>
+        <div class="input-group">
+            <input name="[{{ field_prefix }}[{{ name }}][]" value="{{ v }}" class="form-control" />
+            <div class="input-group-addon">
+                <i class="fa fa-times"></i>
+            </div>
+        </div>
+    </li>
+{% endfor %}
+    <li>
+        <div class="input-group">
+            <input name="[{{ field_prefix }}[{{ name }}][]"  class="form-control" />
+            <div class="input-group-addon">
+                <i class="fa fa-plus"></i>
+            </div>
+        </div>
+    </li>
+</ul>

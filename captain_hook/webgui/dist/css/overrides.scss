@@ -61,8 +61,30 @@ $menuLinkActiveColor: #5cb85c;
         margin-bottom: 10px;
     }
 }
+
 .panel-heading {
     color: #333;
     background-color: #f5f5f5;
     border-color: #ddd;
+}
+
+.field-array {
+    &.row {
+        .form-control {
+            margin: 0;
+        }
+    }
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.array-input {
+    margin: 0;
+    padding: 0;
+    li {
+        margin: 0;
+        margin-bottom: 10px;
+        padding: 0;
+        list-style: none;
+    }
 }

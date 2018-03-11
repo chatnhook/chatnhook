@@ -42,4 +42,19 @@
   background-color: #f5f5f5;
   border-color: #ddd; }
 
+.field-array {
+  margin-top: 10px;
+  margin-bottom: 10px; }
+  .field-array.row .form-control {
+    margin: 0; }
+
+.array-input {
+  margin: 0;
+  padding: 0; }
+  .array-input li {
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    list-style: none; }
+
 /*# sourceMappingURL=overrides.css.map */

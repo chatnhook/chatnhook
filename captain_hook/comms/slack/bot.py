@@ -46,7 +46,7 @@ class SlackComm(BaseComm):
                 'description': 'If the project doesn\'t has channels configured<br />it will be send to this channel'
             },
             {
-                'name': 'token',
+                'name': 'webhooks',
                 'label': 'Webhooks',
                 'type': 'array',
                 'description': ''

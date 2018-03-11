@@ -1,5 +1,5 @@
 {% for field in fields %}
-    <div class="row">
+    <div class="row field-{{ field.type }}">
         {% if not wide %}
             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-2">
         {% else %}
@@ -16,7 +16,12 @@
         {% else %}
             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
         {% endif %}
-                {% with name=field.name, value=config[field.name],field_prefix=field_prefix %}
+                {% if field_prefix in config %}
+                    {% set value=config[field_prefix][field.name] %}
+                {% else %}
+                    {% set value=config[field.name] %}
+                {% endif %}
+                {% with name=field.name, value=value,field_prefix=field_prefix %}
                     {% include "admin/helper/form/"+ field.type +".html" %}
                 {% endwith %}
             </div>
