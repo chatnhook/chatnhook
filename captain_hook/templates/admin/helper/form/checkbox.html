@@ -1,1 +1,6 @@
-<input type="checkbox" name="{{ field_prefix }}.{{ name }}" {% if value  %} checked="checked" {% endif %}/>
+{% if field_prefix %}
+    <input type="checkbox" name="[{{ field_prefix }}][{{ name }}]" {% if value %}
+           checked="checked" {% endif %}/>
+{% else %}
+    <input type="checkbox" name="{{ name }}" {% if value %} checked="checked" {% endif %}/>
+{% endif %}

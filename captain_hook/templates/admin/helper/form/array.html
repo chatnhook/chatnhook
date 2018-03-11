@@ -3,16 +3,16 @@
     <li>
         <div class="input-group">
             <input name="[{{ field_prefix }}[{{ name }}][]" value="{{ v }}" class="form-control" />
-            <div class="input-group-addon">
+            <div class="input-group-addon delete">
                 <i class="fa fa-times"></i>
             </div>
         </div>
     </li>
 {% endfor %}
-    <li>
+    <li class="addItem">
         <div class="input-group">
-            <input name="[{{ field_prefix }}[{{ name }}][]"  class="form-control" />
-            <div class="input-group-addon">
+            <input class="form-control" data-prefix="{{ field_prefix }}" data-field="{{ field }}" />
+            <div class="input-group-addon add">
                 <i class="fa fa-plus"></i>
             </div>
         </div>
