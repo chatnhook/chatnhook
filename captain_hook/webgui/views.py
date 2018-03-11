@@ -3,14 +3,13 @@ import json
 import flask_login as login
 import flask_admin as admin
 import os
-from flask_admin import helpers, expose
-from flask import redirect, url_for, request, render_template, jsonify, make_response, session, \
-    send_from_directory
+from flask_admin import expose
+from flask import redirect, url_for, request, render_template, jsonify, session, send_from_directory
 from datetime import datetime
 
-from flask_dance.contrib.github import make_github_blueprint, github
+from flask_dance.contrib.github import make_github_blueprint
 
-from loginform import LoginForm
+
 from services import find_and_load_services
 from comms import find_and_load_comms
 from utils import config
