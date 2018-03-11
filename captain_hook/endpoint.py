@@ -4,7 +4,7 @@ import os
 import json
 from os.path import abspath, dirname
 from werkzeug.contrib.fixers import ProxyFix
-from flask import abort, g, jsonifyr
+from flask import abort, g
 from raven.contrib.flask import Sentry
 
 from flask import Flask, render_template, request
@@ -12,7 +12,7 @@ from flask import Flask, render_template, request
 import flask_admin as admin
 import flask_login as login
 
-from webgui.views import AdminIndexView, BlankView
+from webgui.views import AdminIndexView
 from webgui.user import User
 
 from comms import find_and_load_comms

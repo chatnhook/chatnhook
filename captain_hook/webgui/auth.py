@@ -1,10 +1,20 @@
 import sys
 from flask_dance.contrib.github import make_github_blueprint, github
 from flask import Flask, redirect, url_for
+from flask_login import login_user, UserMixin
 
 login_services = {
     'github': github
 }
+
+
+class UserNotFoundError(Exception):
+    pass
+
+
+class User(UserMixin):
+    def __init__(self, id):
+        self.id = id
 
 
 def is_authorized(app_config, service):
@@ -24,6 +34,7 @@ def check_github(app_config):
     username = resp.json()["login"]
 
     if username in user_array:
-        return username
+        login_user(User(username))
+        return True
     else:
-        return False
+        raise UserNotFoundError()

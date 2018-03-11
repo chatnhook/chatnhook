@@ -88,3 +88,14 @@ $menuLinkActiveColor: #5cb85c;
         list-style: none;
     }
 }
+
+.login-panel {
+    max-height: 520px;
+    max-width: 400px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
