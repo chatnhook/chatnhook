@@ -71,12 +71,12 @@ class AdminIndexView(admin.AdminIndexView):
             return redirect(url_for('.login_view'))
 
         if request.method == 'POST':
-            print 'Got post'
             data = json.loads(request.data)
             service = data.get('service_name')
-            print self.app_config.get('hooks', {}).get(project, {}).get(service)
+            del data['service_name']
             self.app_config['hooks'][project][service] = data
-            # config.save_config(self.app_config)
+
+            config.save_config(self.app_config)
 
         self.header = 'Editing project ' + project
         project_config = self.app_config.get('hooks', {}).get(project, {})

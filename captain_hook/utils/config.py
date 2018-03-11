@@ -17,4 +17,12 @@ def test_config(config=None):
     return True
 
 def save_config(config):
-    print yaml.dump(config)
+    stream = open('test.yaml', 'w')
+
+    yaml.safe_dump(config, stream, default_flow_style=False)
+    stream.close()
+
+    stream = open('test.yaml', 'r')
+    data = yaml.load(stream)
+    stream.close()
+    print data
