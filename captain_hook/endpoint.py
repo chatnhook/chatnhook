@@ -4,6 +4,8 @@ import os
 import json
 from os.path import abspath, dirname
 
+from flask_dance.contrib.github import make_github_blueprint, github
+from werkzeug.contrib.fixers import ProxyFix
 from flask import Flask, abort, g, jsonify, render_template, request, send_from_directory, url_for
 from raven.contrib.flask import Sentry
 
@@ -26,6 +28,16 @@ CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
 
 config = load_config(CONFIG_FOLDER)
 application = Flask(__name__)
+application.wsgi_app = ProxyFix(application.wsgi_app)
+application.secret_key = os.environ.get("FLASK_SECRET_KEY", "supersekrit")
+application.config['SECRET_KEY'] = '123456790'
+
+application.config["GITHUB_OAUTH_CLIENT_ID"] = config.get('auth', {}).get('github', {}).get('client_id')
+application.config["GITHUB_OAUTH_CLIENT_SECRET"] = config.get('auth', {}).get('github', {}).get('5e3e4c46014f4b2e81fb807486e5468a66f7d244')
+
+github_bp = make_github_blueprint()
+application.register_blueprint(github_bp, url_prefix="/login")
+
 bot_stats = BotStats()
 log = setup_logger()
 hook_log = Hooklog()
@@ -79,7 +91,6 @@ def send_css(path):
 
 
 # Create dummy secrey key so we can use sessions
-application.config['SECRET_KEY'] = '123456790'
 
 
 @application.errorhandler(500)
@@ -150,8 +161,9 @@ def favIcon():
 
 @application.route('/', methods=['GET'])
 def index():
-    return render_template("captain_hook/webgui/templates/admin/redirect.html")
-
+    if github.authorized:
+        return redirect('/admin')
+    return 'false!'
 
 @application.route('/stats', methods=['GET'])
 def getstats():
@@ -197,7 +209,8 @@ admin = admin.Admin(application,
                     'Chat \'n\' Hook',
                     index_view=AdminIndexView(config=config,
                                               inspector=inspector,
-                                              hook_log=hook_log
+                                              hook_log=hook_log,
+                                              app=application
                                               ))
 # admin.add_view(BlankView(name='Blank', url='blank', endpoint='blank'))
 

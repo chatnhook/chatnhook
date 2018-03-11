@@ -4,6 +4,23 @@ $(function () {
 
 });
 
+function notify(text, type) {
+    if(!type){
+        type = 'success'
+    }
+    $.notify({
+        // options
+        message: text
+    }, {
+        // settings
+        type: type,
+        position: 'fixed',
+        placement: {
+            align: 'center'
+        }
+    });
+}
+
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.
 // Sets the min-height of #page-wrapper to window size
@@ -40,15 +57,15 @@ $(function () {
         e.preventDefault();
         var data = $(this).serializeJSON();
         $.ajax({
-            url: window.location.href, // url where to submit the request
-            type: "POST", // type of action POST || GET
-            dataType: 'json', // data type
-            data: data, // post data || get data
-            contentType:"application/json; charset=utf-8",
+            url: window.location.href,
+            type: "POST",
+            dataType: 'json',
+            data: data,
+            contentType: "application/json; charset=utf-8",
             success: function (result) {
-                // you can see the result from the console
-                // tab of the developer tools
-                console.log(result);
+                if (result.hasOwnProperty('success') && result.success) {
+                    notify('Configuration saved!');
+                }
             },
             error: function (xhr, resp, text) {
                 console.log(xhr, resp, text);

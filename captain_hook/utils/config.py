@@ -25,4 +25,4 @@ def save_config(config):
     stream = open('test.yaml', 'r')
     data = yaml.load(stream)
     stream.close()
-    print data
+    return True

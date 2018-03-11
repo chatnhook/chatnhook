@@ -3,8 +3,11 @@ import json
 import flask_login as login
 import flask_admin as admin
 from flask_admin import helpers, expose
-from flask import redirect, url_for, request, render_template
+from flask import redirect, url_for, request, render_template, jsonify
 from datetime import datetime
+
+from flask_dance.contrib.github import make_github_blueprint, github
+
 from loginform import LoginForm
 from services import find_and_load_services
 from comms import find_and_load_comms
@@ -17,9 +20,13 @@ class AdminIndexView(admin.AdminIndexView):
         config = kwargs.pop('config')
         inspector = kwargs.pop('inspector')
         hook_log = kwargs.pop('hook_log')
+        app = kwargs.pop('app')
         self.app_config = config
         self.inspector = inspector
         self.hook_log = hook_log
+        self.app = app
+
+
 
         super(AdminIndexView, self).__init__(*args, **kwargs)
 
@@ -28,7 +35,7 @@ class AdminIndexView(admin.AdminIndexView):
 
     @expose('/')
     def index(self):
-        if not login.current_user.is_authenticated:
+        if not github.authorized:
             return redirect(url_for('.login_view'))
 
         self.header = 'Dashboard'
@@ -75,8 +82,9 @@ class AdminIndexView(admin.AdminIndexView):
             service = data.get('service_name')
             del data['service_name']
             self.app_config['hooks'][project][service] = data
-
             config.save_config(self.app_config)
+            print 'Config saved'
+            return jsonify({'success': True})
 
         self.header = 'Editing project ' + project
         project_config = self.app_config.get('hooks', {}).get(project, {})
@@ -149,6 +157,8 @@ class AdminIndexView(admin.AdminIndexView):
 
     @expose('/login/', methods=('GET', 'POST'))
     def login_view(self):
+
+        github_login = url_for("github.login")
         # handle user login
         form = LoginForm(request.form)
         if helpers.validate_form_on_submit(form):
@@ -158,7 +168,7 @@ class AdminIndexView(admin.AdminIndexView):
         if login.current_user.is_authenticated:
             return redirect(url_for('.index'))
         self._template_args['form'] = form
-        return render_template('admin/login.html', form=form)
+        return render_template('admin/login.html', form=form, github_login=github_login)
 
     @expose('/logout/')
     def logout_view(self):

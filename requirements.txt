@@ -11,3 +11,4 @@ raven[flask]
 Flask
 Flask-Admin
 Flask-Login
+Flask-Dance
