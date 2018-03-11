@@ -68,6 +68,11 @@ def send_js(path):
     return send_from_directory(os.path.join(application.root_path, 'webgui/js'), path)
 
 
+@application.route('/admin/fonts/<path:path>')
+def send_fonts(path):
+    return send_from_directory(os.path.join(application.root_path, 'webgui/fonts'), path)
+
+
 @application.route('/admin/css/<path:path>')
 def send_css(path):
     return send_from_directory(os.path.join(application.root_path, 'webgui/css'), path)
