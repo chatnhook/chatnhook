@@ -28,7 +28,7 @@
 
                         <div class="row-striped service-config">
                              {% if services[service].get_service_config_model() %}
-                             {% with fields=services[service].get_service_config_model(), config=admin_view.app_config.services[service] %}
+                             {% with fields=services[service].get_service_config_model(), config=admin_view.app_config.services[service], field_prefix=service %}
                                 {% include "admin/helper/form/form.html" %}
                             {% endwith %}
                                  {% else %}

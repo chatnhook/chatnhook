@@ -26,7 +26,7 @@
                         <h4>{{ comm | title }}</h4>
                         <div class="row-striped service-config">
                              {% if comms[comm].get_comm_config_model() %}
-                             {% with fields=comms[comm].get_comm_config_model(), config=admin_view.app_config.comms[comm] %}
+                             {% with fields=comms[comm].get_comm_config_model(), config=admin_view.app_config.comms[comm], field_prefix=comm %}
                                 {% include "admin/helper/form/form.html" %}
                             {% endwith %}
                                  {% else %}
