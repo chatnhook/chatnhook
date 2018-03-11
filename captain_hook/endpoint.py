@@ -3,14 +3,11 @@ from __future__ import absolute_import
 import os
 import json
 from os.path import abspath, dirname
-
-from flask_dance import OAuth2ConsumerBlueprint
-from flask_dance.contrib.github import make_github_blueprint, github
 from werkzeug.contrib.fixers import ProxyFix
-from flask import Flask, abort, g, jsonify, render_template, request, send_from_directory, url_for
+from flask import abort, g, jsonifyr
 from raven.contrib.flask import Sentry
 
-from flask import Flask, url_for, redirect, render_template, request, send_from_directory
+from flask import Flask, render_template, request
 
 import flask_admin as admin
 import flask_login as login
@@ -25,6 +22,7 @@ from stats import BotStats
 from utils.config import load_config
 from inspections import WebhookInspector
 from hooklog import Hooklog
+
 CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
 
 config = load_config(CONFIG_FOLDER)
@@ -32,9 +30,6 @@ application = Flask(__name__)
 application.wsgi_app = ProxyFix(application.wsgi_app)
 
 application.config['SECRET_KEY'] = '123456790'
-
-
-
 
 bot_stats = BotStats()
 log = setup_logger()
@@ -61,9 +56,6 @@ def get_comms():
     if comms is None:
         comms = g._comms = find_and_load_comms(config)
     return comms
-
-
-# Create dummy secrey key so we can use sessions
 
 
 @application.errorhandler(500)
@@ -127,6 +119,7 @@ def inspect(path=''):
     inspector.inspect(path, request)
     return ''
 
+
 @application.route('/favicon.ico', methods=['GET'])
 def favIcon():
     return ''
@@ -134,9 +127,8 @@ def favIcon():
 
 @application.route('/', methods=['GET'])
 def index():
-    if github.authorized:
-        return 'logged in'
-    return 'false!'
+    return ''
+
 
 @application.route('/stats', methods=['GET'])
 def getstats():
