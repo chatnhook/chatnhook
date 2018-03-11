@@ -4,6 +4,7 @@ import os
 import json
 from os.path import abspath, dirname
 
+from flask_dance import OAuth2ConsumerBlueprint
 from flask_dance.contrib.github import make_github_blueprint, github
 from werkzeug.contrib.fixers import ProxyFix
 from flask import Flask, abort, g, jsonify, render_template, request, send_from_directory, url_for
@@ -35,8 +36,12 @@ application.config['SECRET_KEY'] = '123456790'
 application.config["GITHUB_OAUTH_CLIENT_ID"] = config.get('auth', {}).get('github', {}).get('client_id')
 application.config["GITHUB_OAUTH_CLIENT_SECRET"] = config.get('auth', {}).get('github', {}).get('5e3e4c46014f4b2e81fb807486e5468a66f7d244')
 
+application.config['PREFERRED_URL_SCHEME'] = 'HTTPS'
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
+
 github_bp = make_github_blueprint()
-application.register_blueprint(github_bp, url_prefix="/login")
+application.register_blueprint(github_bp, url_prefix="/admin/login")
 
 bot_stats = BotStats()
 log = setup_logger()
