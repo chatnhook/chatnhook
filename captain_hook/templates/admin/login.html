@@ -14,7 +14,7 @@
                             {% if error == 'denied' %}
                                 <div class="alert alert-warning" id="denied">
                                     Oops! Seems that you account doesn't has access!<br />
-                                    <div class="btn btn-success">Request access</div>
+                                    <div class="btn btn-success" data-user-id="{{ github_authenticated_user.id }}" data-auth-provider="{{ github_authenticated_user.auth_provider }}">Request access</div>
                                 </div>
                             {% endif %}
                             <a class="btn btn-block btn-social btn-github"

@@ -222,9 +222,10 @@ class AdminIndexView(admin.AdminIndexView):
         try:
             if auth.is_authorized(self.app_config, 'github'):
                 return redirect(url_for('.index'))
-        except auth.UserNotFoundError:
+        except auth.UserNotFoundError as e:
+            github_authenticated_user = e.user
             pass
-        return render_template('admin/login.html', github_login=github_login, error=error)
+        return render_template('admin/login.html', github_login=github_login, error=error, github_authenticated_user=github_authenticated_user)
 
     @expose('/logout/')
     def logout_view(self):
