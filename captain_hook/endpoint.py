@@ -33,7 +33,7 @@ application.wsgi_app = ProxyFix(application.wsgi_app)
 
 application.config['SECRET_KEY'] = '123456790'
 
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
 
 
 bot_stats = BotStats()

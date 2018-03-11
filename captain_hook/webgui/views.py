@@ -3,7 +3,7 @@ import json
 import flask_login as login
 import flask_admin as admin
 from flask_admin import helpers, expose
-from flask import redirect, url_for, request, render_template, jsonify
+from flask import redirect, url_for, request, render_template, jsonify, make_response, session
 from datetime import datetime
 
 from flask_dance.contrib.github import make_github_blueprint, github
@@ -29,7 +29,7 @@ class AdminIndexView(admin.AdminIndexView):
         self.app.config["GITHUB_OAUTH_CLIENT_ID"] = self.app_config.get('auth', {}).get('github', {}).get('client_id')
         self.app.config["GITHUB_OAUTH_CLIENT_SECRET"] = self.app_config.get('auth', {}).get('github', {}).get('client_secret')
 
-        github_bp = make_github_blueprint(redirect_url='/admin')
+        github_bp = make_github_blueprint(redirect_url='/admin/')
         self.app.register_blueprint(github_bp, url_prefix="/admin/login")
 
         super(AdminIndexView, self).__init__(*args, **kwargs)
@@ -165,20 +165,15 @@ class AdminIndexView(admin.AdminIndexView):
     def login_view(self):
 
         github_login = url_for("github.login")
-        # handle user login
-        form = LoginForm(request.form)
-        if helpers.validate_form_on_submit(form):
-            user = form.get_user()
-            login.login_user(user)
 
-        if login.current_user.is_authenticated:
+        if auth.is_authorized(self.app_config, 'github'):
             return redirect(url_for('.index'))
-        self._template_args['form'] = form
-        return render_template('admin/login.html', form=form, github_login=github_login)
+        return render_template('admin/login.html', github_login=github_login)
 
     @expose('/logout/')
     def logout_view(self):
         login.logout_user()
+        session.clear()
         return redirect(url_for('.index'))
 
 
