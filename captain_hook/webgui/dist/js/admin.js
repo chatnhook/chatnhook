@@ -5,7 +5,7 @@ $(function () {
 });
 
 function notify(text, type) {
-    if(!type){
+    if (!type) {
         type = 'success'
     }
     $.notify({
@@ -71,5 +71,10 @@ $(function () {
                 console.log(xhr, resp, text);
             }
         });
-    })
+    });
+
+    $('.counter').counterUp({
+        delay: 5,
+        time: 1000
+    });
 });

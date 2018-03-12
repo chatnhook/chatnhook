@@ -23,24 +23,46 @@ class User(UserMixin):
                           sort_keys=True, indent=4)
 
 
-def is_authorized(app_config, service):
-    if not login_services[service].authorized:
-        return False
-
-    if app_config.get('auth', {}).get(service).get('allowed_users'):
+class Authorization:
+    def __init__(self):
+        self.pending_authorizations = []
         pass
 
-    return getattr(sys.modules[__name__], "check_%s" % service)(app_config)
+    @staticmethod
+    def is_authorized(app_config, service):
+        if not login_services[service].authorized:
+            return False
 
+        if app_config.get('auth', {}).get(service).get('allowed_users'):
+            pass
 
-def check_github(app_config):
-    resp = github.get("/user")
-    assert resp.ok
-    user_array = app_config.get('auth', {}).get('github').get('allowed_users')
-    username = resp.json()["login"]
+        return getattr(Authorization, "check_%s" % service)(app_config)
 
-    if username in user_array:
-        login_user(User('github', username))
-        return True
-    else:
-        raise UserNotFoundError(User('github', username))
+    @staticmethod
+    def check_github(app_config):
+        resp = github.get("/user")
+        if not resp.ok:
+            return False
+        user_array = app_config.get('auth', {}).get('github').get('allowed_users')
+        username = resp.json()["login"]
+
+        if username in user_array:
+            login_user(User('github', username))
+            return True
+        else:
+            raise UserNotFoundError(User('github', username))
+
+    def add_user_to_pending_authorization(self, user):
+        self.pending_authorizations.append(user)
+
+    def get_pending_list(self):
+        return self.pending_authorizations
+
+    def has_pending_request(self, user):
+        return user in self.pending_authorizations
+
+    def remove_user_from_pending_list(self, service, user_id):
+        try:
+            self.pending_authorizations.remove(User(service, user_id))
+        except ValueError:
+            pass

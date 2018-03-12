@@ -12,7 +12,7 @@ from flask_dance.contrib.github import make_github_blueprint
 from services import find_and_load_services
 from comms import find_and_load_comms
 from utils import config
-import auth
+from auth import UserNotFoundError, Authorization
 
 
 # Create customized index view class that handles login & registration
@@ -58,10 +58,10 @@ class AdminIndexView(admin.AdminIndexView):
     @expose('/')
     def index(self):
         try:
-            if not auth.is_authorized(self.app_config, 'github'):
+            if not Authorization.is_authorized(self.app_config, 'github'):
                 return redirect(url_for('.login_view'))
-        except auth.UserNotFoundError:
-           return redirect(url_for('.login_view', error='denied'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
         self.set_user_data()
 
         self.header = 'Dashboard'
@@ -73,10 +73,10 @@ class AdminIndexView(admin.AdminIndexView):
     @expose('/configuration/comms')
     def comm_config(self):
         try:
-            if not auth.is_authorized(self.app_config, 'github'):
+            if not Authorization.is_authorized(self.app_config, 'github'):
                 return redirect(url_for('.login_view'))
-        except auth.UserNotFoundError:
-           return redirect(url_for('.login_view', error='denied'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
 
         self.set_user_data()
 
@@ -87,10 +87,10 @@ class AdminIndexView(admin.AdminIndexView):
     @expose('/configuration/services')
     def service_config(self):
         try:
-            if not auth.is_authorized(self.app_config, 'github'):
+            if not Authorization.is_authorized(self.app_config, 'github'):
                 return redirect(url_for('.login_view'))
-        except auth.UserNotFoundError:
-           return redirect(url_for('.login_view', error='denied'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
         self.set_user_data()
 
         self.header = 'Service configuration'
@@ -102,10 +102,10 @@ class AdminIndexView(admin.AdminIndexView):
     @expose('/configuration/projects/<string:project>', ['GET', 'POST'])
     def project_config(self, project):
         try:
-            if not auth.is_authorized(self.app_config, 'github'):
+            if not Authorization.is_authorized(self.app_config, 'github'):
                 return redirect(url_for('.login_view'))
-        except auth.UserNotFoundError:
-           return redirect(url_for('.login_view', error='denied'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
         self.set_user_data()
 
         if request.method == 'POST':
@@ -133,10 +133,10 @@ class AdminIndexView(admin.AdminIndexView):
     @expose('/configuration/projects')
     def project_config_list(self):
         try:
-            if not auth.is_authorized(self.app_config, 'github'):
+            if not Authorization.is_authorized(self.app_config, 'github'):
                 return redirect(url_for('.login_view'))
-        except auth.UserNotFoundError:
-           return redirect(url_for('.login_view', error='denied'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
         self.set_user_data()
 
         self.header = 'Projects configuration'
@@ -144,13 +144,72 @@ class AdminIndexView(admin.AdminIndexView):
         return render_template('admin/configuration/projects/list.html', admin_view=self,
                                projects=projects)
 
+    @expose('/configuration/users/')
+    def user_config(self):
+        try:
+            if not Authorization.is_authorized(self.app_config, 'github'):
+                return redirect(url_for('.login_view'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
+        self.set_user_data()
+
+        self.header = 'Projects configuration'
+        auth_user_list = self.app_config.get('auth', {})
+        return render_template('admin/configuration/users/list.html', admin_view=self,
+                               auth_user_list=auth_user_list,
+                               pending_auth_list=self.app.auth.get_pending_list()
+                               )
+
+    @expose('/configuration/users/accept', methods=['POST'])
+    def user_config_accept(self):
+        try:
+            if not Authorization.is_authorized(self.app_config, 'github'):
+                return redirect(url_for('.login_view'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
+        self.set_user_data()
+        if request.data:
+            user_data = json.loads(request.data)
+
+            if not self.app_config.get('auth', {}).get(user_data.get('auth_provider')):
+                return jsonify({'success': False})
+
+            if not user_data.get('id') in self.app_config['auth'][user_data.get('auth_provider')]['allowed_users']:
+                self.app_config['auth'][user_data.get('auth_provider')]['allowed_users'].append(user_data.get('id'))
+                self.app.auth.remove_user_from_pending_list(user_data.get('auth_provider'), user_data.get('id'))
+                return jsonify({'success': True})
+
+        return jsonify({'success': False})
+
+    @expose('/configuration/users/delete', methods=['POST'])
+    def user_config_delete(self):
+        try:
+            if not Authorization.is_authorized(self.app_config, 'github'):
+                return redirect(url_for('.login_view'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
+        self.set_user_data()
+        if request.data:
+            user_data = json.loads(request.data)
+
+            if not self.app_config.get('auth', {}).get(user_data.get('auth_provider')):
+                return jsonify({'success': False})
+
+            if user_data.get('id') in self.app_config['auth'][user_data.get('auth_provider')]['allowed_users']:
+                self.app.auth.remove_user_from_pending_list(user_data.get('auth_provider'), user_data.get('id'))
+                self.app_config['auth'][user_data.get('auth_provider')]['allowed_users'].remove(user_data.get('id'))
+
+                return jsonify({'success': True})
+
+        return jsonify({'success': False})
+
     @expose('/inspector')
     def webhook_inspector(self):
         try:
-            if not auth.is_authorized(self.app_config, 'github'):
+            if not Authorization.is_authorized(self.app_config, 'github'):
                 return redirect(url_for('.login_view'))
-        except auth.UserNotFoundError:
-           return redirect(url_for('.login_view', error='denied'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
         self.set_user_data()
 
         self.header = 'Webhook inspector'
@@ -161,10 +220,10 @@ class AdminIndexView(admin.AdminIndexView):
     @expose('/webhook-log')
     def webhook_log(self):
         try:
-            if not auth.is_authorized(self.app_config, 'github'):
+            if not Authorization.is_authorized(self.app_config, 'github'):
                 return redirect(url_for('.login_view'))
-        except auth.UserNotFoundError:
-           return redirect(url_for('.login_view', error='denied'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
         self.set_user_data()
 
         self.header = 'Recently processed webhooks'
@@ -175,10 +234,10 @@ class AdminIndexView(admin.AdminIndexView):
     @expose('/inspector/show/<string:guid>')
     def webhook_inspector_show(self, guid):
         try:
-            if not auth.is_authorized(self.app_config, 'github'):
+            if not Authorization.is_authorized(self.app_config, 'github'):
                 return redirect(url_for('.login_view'))
-        except auth.UserNotFoundError:
-           return redirect(url_for('.login_view', error='denied'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
         self.set_user_data()
 
         self.header = 'Inspecting webhook'
@@ -189,10 +248,10 @@ class AdminIndexView(admin.AdminIndexView):
     @expose('/inspector/clear')
     def webhook_inspector_clear(self):
         try:
-            if not auth.is_authorized(self.app_config, 'github'):
+            if not Authorization.is_authorized(self.app_config, 'github'):
                 return redirect(url_for('.login_view'))
-        except auth.UserNotFoundError:
-           return redirect(url_for('.login_view', error='denied'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
         self.set_user_data()
 
         self.inspector.clear_inspections()
@@ -202,9 +261,9 @@ class AdminIndexView(admin.AdminIndexView):
     @expose('/webhook-log/clear')
     def webhook_processed_clear(self):
         try:
-            if not auth.is_authorized(self.app_config, 'github'):
+            if not Authorization.is_authorized(self.app_config, 'github'):
                 return redirect(url_for('.login_view'))
-        except auth.UserNotFoundError:
+        except UserNotFoundError:
             return redirect(url_for('.login_view', error='denied'))
         self.set_user_data()
 
@@ -212,20 +271,35 @@ class AdminIndexView(admin.AdminIndexView):
 
         return redirect(url_for('.webhook_log'))
 
-
     @expose('/login/<string:error>')
     @expose('/login/')
     def login_view(self, error=''):
 
         github_login = url_for("github.login")
         github_authenticated_user = None
+        has_pending_request = None
         try:
-            if auth.is_authorized(self.app_config, 'github'):
+            if Authorization.is_authorized(self.app_config, 'github'):
                 return redirect(url_for('.index'))
-        except auth.UserNotFoundError as e:
+        except UserNotFoundError as e:
             github_authenticated_user = e.user
-            pass
-        return render_template('admin/login.html', github_login=github_login, error=error, github_authenticated_user=github_authenticated_user)
+            if self.app.auth.has_pending_request(e.user):
+                has_pending_request = True
+        return render_template('admin/login.html', github_login=github_login, error=error,
+                               github_authenticated_user=github_authenticated_user,
+                               has_pending_request=has_pending_request)
+
+    @expose('/login/denied/request-access', methods=['POST'])
+    def request_access(self):
+
+        try:
+            if Authorization.is_authorized(self.app_config, 'github'):
+                return jsonify({'success': False})
+        except UserNotFoundError as e:
+            self.app.auth.add_user_to_pending_authorization(e.user)
+            return jsonify({'success': True})
+
+        return jsonify({'success': False})
 
     @expose('/logout/')
     def logout_view(self):

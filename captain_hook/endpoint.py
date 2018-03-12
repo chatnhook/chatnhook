@@ -22,7 +22,7 @@ from stats import BotStats
 from utils.config import load_config
 from inspections import WebhookInspector
 from hooklog import Hooklog
-
+from webgui.auth import Authorization
 CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
 
 config = load_config(CONFIG_FOLDER)
@@ -35,7 +35,7 @@ bot_stats = BotStats()
 log = setup_logger()
 hook_log = Hooklog()
 inspector = WebhookInspector()
-
+application.auth = Authorization()
 dsn = 'https://a3aa56ba615c4085ae8855ab78e4c021:a0f50be103034d9eb71331378e8f1da2@sentry.io/245538'
 isDev = config.get('global', {}).get('debug', False)
 if config.get('global', {}).get('enable_sentry', True) and not isDev:
@@ -181,4 +181,4 @@ admin = admin.Admin(application,
 
 if __name__ == '__main__':
     init_services()
-    application.run(debug=False, host='0.0.0.0')
+    application.run(debug=False, host='0.0.0.0', threaded=True)
