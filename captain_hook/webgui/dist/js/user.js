@@ -27,7 +27,10 @@ $(document).ready(function () {
     $('.delete').click(function () {
         var btn = $(this);
         var data = btn.data('user');
-        var row = $(this).parent().parent().parent();
+        var row = $(this).parent().parent();
+        if (btn.hasClass('auth')) {
+            row = row.parent();
+        }
         console.log(row)
         console.log(data, JSON.stringify(data))
         $.ajax({
@@ -38,12 +41,16 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             success: function (result) {
                 if (result.hasOwnProperty('success') && result.success) {
-                    if(btn.hasClass('auth')) {
+                    if (btn.hasClass('auth')) {
                         notify('Authorization request deleted', 'danger');
+
                     } else {
                         notify('User deleted', 'danger');
                     }
-                    row.remove();
+                    row.find('td').slideUp(function () {
+                        row.remove();
+                    });
+
                 }
             },
             error: function (xhr, resp, text) {
