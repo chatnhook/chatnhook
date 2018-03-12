@@ -43,9 +43,7 @@ $(document).ready(function () {
                     } else {
                         notify('User deleted', 'danger');
                     }
-                    row.find('td').slideUp(function () {
-                        row.remove();
-                    });
+                    row.remove();
                 }
             },
             error: function (xhr, resp, text) {

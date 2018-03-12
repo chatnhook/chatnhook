@@ -177,6 +177,7 @@ class AdminIndexView(admin.AdminIndexView):
             if not user_data.get('id') in self.app_config['auth'][user_data.get('auth_provider')]['allowed_users']:
                 self.app_config['auth'][user_data.get('auth_provider')]['allowed_users'].append(user_data.get('id'))
                 self.app.auth.remove_user_from_pending_list(user_data.get('auth_provider'), user_data.get('id'))
+                config.save_config(self.app_config)
                 return jsonify({'success': True})
 
         return jsonify({'success': False})
@@ -198,7 +199,7 @@ class AdminIndexView(admin.AdminIndexView):
             if user_data.get('id') in self.app_config['auth'][user_data.get('auth_provider')]['allowed_users']:
                 self.app.auth.remove_user_from_pending_list(user_data.get('auth_provider'), user_data.get('id'))
                 self.app_config['auth'][user_data.get('auth_provider')]['allowed_users'].remove(user_data.get('id'))
-
+                config.save_config(self.app_config)
                 return jsonify({'success': True})
 
         return jsonify({'success': False})
