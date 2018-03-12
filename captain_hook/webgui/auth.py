@@ -1,7 +1,6 @@
 import json
 import sys
-from flask_dance.contrib.github import make_github_blueprint, github
-from flask import Flask, redirect, url_for
+from flask_dance.contrib.github import github
 from flask_login import login_user, UserMixin
 
 login_services = {
@@ -13,6 +12,7 @@ class UserNotFoundError(Exception):
     def __init__(self, user):
         self.user = user
 
+
 class User(UserMixin):
     def __init__(self, provider, id):
         self.id = id
@@ -21,6 +21,7 @@ class User(UserMixin):
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__,
                           sort_keys=True, indent=4)
+
 
 def is_authorized(app_config, service):
     if not login_services[service].authorized:
