@@ -1,0 +1,92 @@
+<!-- extend base layout -->
+{% extends "admin/master.html" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="panel-body">
+                <ul class="nav nav-tabs">
+                    {% for service in auth_user_list %}
+                        {% set inactive="" %}
+                        {% if loop.index == 1 %}
+                            {% set inactive="active" %}
+                        {% endif %}
+                        <li class="{{ inactive }}">
+                            <a href="#user-services-{{ service }}"
+                               data-toggle="tab">{{ service | title }}</a>
+                        </li>
+                    {% endfor %}
+                    <li>
+                        <a href="#pending" data-toggle="tab">Pending access requests</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    {% for service in auth_user_list %}
+                        {% set inactive="" %}
+                        {% if loop.index == 1 %}
+                            {% set inactive="in active" %}
+                        {% endif %}
+                        <div class="tab-pane fade {{ inactive }}" id="user-services-{{ service }}">
+                            <h4>{{ comm | title }}</h4>
+                            <table class="table table-responsive table-striped">
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Username</th>
+                                    <th></th>
+                                </tr>
+
+                                {% for user in auth_user_list[service].get('allowed_users', []) %}
+                                    <tr>
+                                        <td>{{ service | title }}</td>
+                                        <td>{{ user }}</td>
+                                        <td>
+                                            {% if user != admin_view.logged_in_user %}
+                                                <span class="btn btn-danger delete" data-user='{"auth_provider": {{ service | tojson }},"id": {{ user | tojson }}}'>Delete</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    {% endfor %}
+                        <div class="tab-pane fade" id="pending">
+                            {% if pending_auth_list  %}
+                            <table class="table table-responsive table-striped">
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Username</th>
+                                    <th></th>
+                                </tr>
+
+                                {% for user in pending_auth_list %}
+                                    <tr>
+                                        <td>{{ user.auth_provider | title }}</td>
+                                        <td>{{ user.id }}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <span class="btn btn-success accept" data-user="{{ user.toJSON() }}">Accept</span>
+                                                <span class="btn btn-danger delete auth" data-user="{{ user.toJSON()}}">Delete</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                                    {% else %}
+                                No pending access requests.
+                            {% endif %}
+                        </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="/admin/dist/js/user.js"></script>
+{% endblock %}
