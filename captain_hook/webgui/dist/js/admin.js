@@ -117,7 +117,7 @@ $(function () {
 
         $newProjectInput.keyup(function () {
             if ($newProjectInput.val().trim() !== '') {
-                $btn.removeAttr('disabled')
+                $btn.removeAttr('disabled');
                 $btn.tooltip('destroy');
             } else {
                 disableServiceModalBtn();
