@@ -4,26 +4,23 @@ import importlib
 import json
 import logging
 import subprocess
-
-import imp
-
 import os
-
+from os.path import abspath, dirname
 import sys
-from string import join
-
 import utils.config
 from comms import load_comm
 from utils import strings
 
 log = logging.getLogger('hookbot')
+CONFIG_FOLDER = dirname(dirname(dirname(dirname(abspath(__file__)))))
+log.info(CONFIG_FOLDER)
 
 
 class BaseService:
     def __init__(self, config, project_service_config):
         self.config = config
         self.project_service_config = project_service_config
-        self.global_config = utils.config.load_config('.')
+        self.global_config = utils.config.load_config(CONFIG_FOLDER)
         self.log = log
 
     def setup(self):
