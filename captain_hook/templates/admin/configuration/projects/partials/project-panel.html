@@ -73,15 +73,15 @@
                                                 <div class="tab-pane fade"
                                                      id="services-{{ service }}-scripts">
                                                     <div class="row-striped service-config">
-                                                        {{ services[service].get_events() }}
-                                                        {% if 'scripts' in project[service] %}
-                                                            {% for event in project.get(service,{}).get('scripts', []) %}
-                                                                <h4>{{ event }}</h4>
-                                                                {% with name=event, value=project.get(service,{}).get('scripts', []).get(event),field_prefix='scripts' %}
-                                                                    {% include "admin/helper/form/array.html" %}
-                                                                {% endwith %}
-                                                            {% endfor %}
-                                                        {% endif %}
+
+
+                                                        {% for event in admin_view.get_service_events(service) %}
+                                                            <h4>{{ event }}</h4>
+                                                            {% with name=event, value=project.get(service,{}).get('scripts', {}).get(event, []),field_prefix='scripts' %}
+                                                                {% include "admin/helper/form/array.html" %}
+                                                            {% endwith %}
+                                                        {% endfor %}
+
 
                                                     </div>
                                                 </div>

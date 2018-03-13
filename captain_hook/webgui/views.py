@@ -27,6 +27,9 @@ class AdminIndexView(admin.AdminIndexView):
         self.hook_log = hook_log
         self.app = app
         self.logged_in_user = ''
+        self.services = find_and_load_services(self.app_config, None)
+        self.comms = find_and_load_comms(self.app_config)
+
         self.app.config["GITHUB_OAUTH_CLIENT_ID"] = self.app_config.get('auth', {}).get('github',
                                                                                         {}).get(
             'client_id')
@@ -35,6 +38,8 @@ class AdminIndexView(admin.AdminIndexView):
 
         github_bp = make_github_blueprint(redirect_url='/admin/')
         self.app.register_blueprint(github_bp, url_prefix="/admin/login")
+
+        self.cache_service_events = {}
 
         super(AdminIndexView, self).__init__(*args, **kwargs)
 
@@ -46,6 +51,13 @@ class AdminIndexView(admin.AdminIndexView):
             self.logged_in_user = login.current_user.get_id()  # return username in get_id()
         else:
             self.logged_in_user = None  # or 'some fake value', whatever
+
+    def get_service_events(self, service):
+        if service not in self.cache_service_events:
+            self.cache_service_events[service] = self.services[service].get_events()
+            return self.cache_service_events[service]
+        else:
+            return self.cache_service_events[service]
 
     @expose('/dist/<path:path>')
     def send_dist(self, path):
@@ -102,11 +114,9 @@ class AdminIndexView(admin.AdminIndexView):
     @expose('/configuration/projects/new', ['GET', 'POST'])
     def new_project(self):
         self.header = 'Creating new project'
-        services = find_and_load_services(self.app_config, None)
-        comms = find_and_load_comms(self.app_config)
 
-        comm_list = list(comms.keys())
-        services_list = list(services.keys())
+        comm_list = list(self.comms.keys())
+        services_list = list(self.services.keys())
         return render_template('admin/configuration/projects/new.html',
                                admin_view=self,
                                comm_list=comm_list,
@@ -122,8 +132,6 @@ class AdminIndexView(admin.AdminIndexView):
             return redirect(url_for('.login_view', error='denied'))
         self.set_user_data()
 
-        services = find_and_load_services(self.app_config, None)
-        comms = find_and_load_comms(self.app_config)
         project = {
             service: {
                 'send_to': {
@@ -133,9 +141,9 @@ class AdminIndexView(admin.AdminIndexView):
         }
         return render_template('admin/configuration/projects/partials/project-panel.html',
                                admin_view=self,
-                               comms=comms,
+                               comms=self.comms,
                                service=service,
-                               services=services,
+                               services=self.services,
                                project=project,
                                project_name=project_name
                                )
@@ -170,18 +178,16 @@ class AdminIndexView(admin.AdminIndexView):
 
         self.header = 'Editing project ' + project
         project_config = self.app_config.get('hooks', {}).get(project, {})
-        services = find_and_load_services(self.app_config, None)
-        comms = find_and_load_comms(self.app_config)
 
-        comm_list = list(comms.keys())
-        services_list = list(services.keys())
+        comm_list = list(self.comms.keys())
+        services_list = list(self.services.keys())
         services_list.remove('telegram')
         return render_template('admin/configuration/projects/edit_main.html',
                                admin_view=self,
                                project=project_config,
                                project_name=project,
-                               comms=comms,
-                               services=services,
+                               comms=self.comms,
+                               services=self.services,
                                comm_list=comm_list,
                                services_list=services_list
                                )

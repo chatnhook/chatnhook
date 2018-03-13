@@ -6,6 +6,12 @@ import logging
 import subprocess
 
 import imp
+
+import os
+
+import sys
+from string import join
+
 import utils.config
 from comms import load_comm
 from utils import strings
@@ -38,7 +44,7 @@ class BaseService:
 
         if self.project_service_config.get('scripts', {}).get(event, False):
             for script in self.project_service_config \
-                    .get('scripts', {}).get(event, False):
+                .get('scripts', {}).get(event, False):
                 command = script.split(' ')
                 command.append(event)
                 command.append(json.dumps(body))
@@ -144,6 +150,15 @@ class BaseService:
         return {}
 
     def get_events(self):
+        package = "services.{}".format(
+            strings.toSnakeCase(
+                self.__class__.__name__.split('Service')[0]
+            )
+        )
+        path = sys.modules[package].__file__.replace('__init__.pyc', '') + '/events'
+        events = []
+        for f in os.listdir(path):
 
-        print   self.__class__.__name__.split('Service')[0]
-        pass
+            if '.pyc' not in f and f is not '__init__.py':
+                events.append(f.replace('.py', ''))
+        return events
