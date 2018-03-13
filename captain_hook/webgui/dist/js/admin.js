@@ -47,8 +47,8 @@ $(function () {
         var project;
         if (window.location.href.indexOf('configuration/projects/') > 0) {
             project = window.location.href.split('configuration/projects/').pop();
-            if(project == 'new'){
-            project = $('#new_project_name').val();
+            if (project == 'new') {
+                project = $('#new_project_name').val();
             }
         }
         return project
@@ -72,7 +72,7 @@ $(function () {
         var data = $(this).serializeJSON();
         var project_name = getProjectName()
         $.ajax({
-            url: '/admin/configuration/projects/'+ project_name,
+            url: '/admin/configuration/projects/' + project_name,
             type: "POST",
             dataType: 'json',
             data: data,
@@ -80,6 +80,9 @@ $(function () {
             success: function (result) {
                 if (result.hasOwnProperty('success') && result.success) {
                     notify('Configuration saved!');
+                    if ($('#new_project_name').length > 0) {
+                        window.location.href = '/admin/configuration/projects/' + project_name
+                    }
                 }
             },
             error: function (xhr, resp, text) {
@@ -98,11 +101,40 @@ $(function () {
         $('.service_col').height(height);
     });
 
+    function disableServiceModalBtn() {
+        var $btn = $('#addServiceModalBtn');
+        $btn.attr("disabled", "disabled");
+        $btn.attr('title', 'You need to enter a project name <br /> before you can add services.');
+        $btn.data('html', true);
+        $btn.tooltip();
+    }
+    var $newProjectInput = $('#new_project_name');
+    if ($newProjectInput.length > 0) {
+        var $btn = $('#addServiceModalBtn');
+        if ($newProjectInput.val().trim() === '') {
+            disableServiceModalBtn()
+        }
+
+        $newProjectInput.keyup(function () {
+            if ($newProjectInput.val().trim() !== '') {
+                $btn.removeAttr('disabled')
+                $btn.tooltip('destroy');
+            } else {
+                disableServiceModalBtn();
+            }
+        });
+    }
+
     $('body').on('click', '.service_col', function () {
         $('#addServiceModal').modal('hide');
         var project_name = getProjectName();
         var service = $(this).data('service');
         var abort;
+        if ($('#new_project_name').length > 0 && $('#new_project_name').is(':empty')) {
+            notify('You need to enter a project name!', 'warning');
+            abort = true;
+        }
+
         $('[name="service_name"]').each(function () {
             if ($(this).val() == service) {
                 notify('This service already exists!', 'warning');
@@ -125,6 +157,7 @@ $(function () {
             }
         });
     });
+
 
     $('.counter').counterUp({
         delay: 5,
