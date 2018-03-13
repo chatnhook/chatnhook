@@ -130,7 +130,7 @@ $(function () {
         var project_name = getProjectName();
         var service = $(this).data('service');
         var abort;
-        if ($('#new_project_name').length > 0 && $('#new_project_name').is(':empty')) {
+        if ($newProjectInput.length > 0 && $newProjectInput.val().trim() === '') {
             notify('You need to enter a project name!', 'warning');
             abort = true;
         }
@@ -144,13 +144,17 @@ $(function () {
         if (abort) {
             return false;
         }
+        var $addServiceBtn = $('#addServiceModalBtn');
+        $addServiceBtn.text('Adding..');
+        $addServiceBtn.attr("disabled", "disabled");
         $.ajax({
             url: '/admin/templates/' + project_name + '/' + service,
             type: "GET",
             contentType: "application/json; charset=utf-8",
             success: function (result) {
-                console.log(result)
                 $('#project-service-config').append(result);
+                $addServiceBtn.removeAttr("disabled");
+                $addServiceBtn.text('Add service');
             },
             error: function (xhr, resp, text) {
                 console.log(xhr, resp, text);
