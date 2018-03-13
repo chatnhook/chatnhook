@@ -12,7 +12,7 @@
 {% block body %}
     <div class="row">
         <div class="col-lg-3 col-md-6">
-            {{ count_icon(99999, "Hooks processed!", "check-square", "primary", url_for('.webhook_log')) }}
+            {{ count_icon(admin_view.hook_log.get_logged_hooks() | length, "Hooks processed!", "check-square", "primary", url_for('.webhook_log')) }}
         </div>
         <div class="col-lg-3 col-md-6">
             {{ count_icon(0, "Errors during processing!", "exclamation-circle", "red", "#") }}
