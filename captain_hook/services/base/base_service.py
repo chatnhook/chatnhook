@@ -13,7 +13,6 @@ from utils import strings
 
 log = logging.getLogger('hookbot')
 CONFIG_FOLDER = dirname(dirname(dirname(dirname(abspath(__file__)))))
-log.info(CONFIG_FOLDER)
 
 
 class BaseService:
