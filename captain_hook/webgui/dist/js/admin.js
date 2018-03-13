@@ -153,6 +153,7 @@ $(function () {
             contentType: "application/json; charset=utf-8",
             success: function (result) {
                 result = result.replace('newpanel', 'in');
+                $('.panel-collapse').removeClass('in');
                 $('#project-service-config').append(result);
                 $addServiceBtn.removeAttr("disabled");
                 $addServiceBtn.text('Add service');

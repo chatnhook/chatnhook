@@ -142,3 +142,8 @@ class BaseService:
 
     def get_service_project_config_model(self):
         return {}
+
+    def get_events(self):
+
+        print   self.__class__.__name__.split('Service')[0]
+        pass
