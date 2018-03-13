@@ -152,12 +152,15 @@ $(function () {
             type: "GET",
             contentType: "application/json; charset=utf-8",
             success: function (result) {
+                result = result.replace('newpanel', 'in');
                 $('#project-service-config').append(result);
                 $addServiceBtn.removeAttr("disabled");
                 $addServiceBtn.text('Add service');
             },
             error: function (xhr, resp, text) {
-                console.log(xhr, resp, text);
+                $addServiceBtn.removeAttr("disabled");
+                $addServiceBtn.text('Add service');
+                notify('Error while fetching service info', 'danger');
             }
         });
     });
