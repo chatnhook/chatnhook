@@ -1,112 +1,45 @@
-<!-- extend base layout -->
-{% extends "admin/master.html" %}
+<h3>Configured services</h3>
+<script>
+    var services =
+    {{ services_list | tojson }}
+</script>
 
-{% block body %}
-    <textarea>{{ project | tojson }}</textarea>
-    <h3>Configured services</h3>
-    <div class="panel-group" id="project-service-config">
-        {% for service in project %}
-            {% set inactive="" %}
-            {% if loop.index == 1 %}
-                {% set inactive="collapse" %}
-            {% endif %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <a data-toggle="collapse" data-parent="#project-service-config"
-                       href="#collapse{{ service }}">
-                        <h4 class="panel-title">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addServiceModal">
+    Add service
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Select service</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                {% for service in services_list %}
+                    <div class="col-xs-2 service_col" data-service="{{ service }}">
+                        <img src="/admin/dist/images/{{ service }}.png" class="img-responsive" />
+                        <h4 class="text-center service-title">
                             {{ service | title }}
                         </h4>
-                    </a>
-                </div>
-                <div id="collapse{{ service }}" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <form method="POST" class="project_edit_form">
-                            <input type="hidden" name="service_name" value="{{ service }}"/>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    Webhook
-                                    url: {{ admin_view.app_config.global.bot_url }}/{{ project_name }}/{{ service }}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-md-6">
-                                    <h4>Service config</h4>
-                                    {% if service in project and services[service].get_service_project_config_model() %}
-                                        {% with fields=services[service].get_service_project_config_model(), config=project.get(service, {}), wide=true, field_prefix='settings' %}
-                                            {% include "admin/helper/form/form.html" %}
-                                        {% endwith %}
-                                    {% else %}
-                                        No config options available!
-                                    {% endif %}
-                                </div>
-                                <div class="col-xs-12 col-md-6">
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <ul class="nav nav-tabs">
-                                                <li class="active">
-                                                    <a href="#services-{{ service }}-comms"
-                                                       data-toggle="tab">Comms</a>
-                                                </li>
-                                                <li class="">
-                                                    <a href="#services-{{ service }}-scripts"
-                                                       data-toggle="tab">Scripts</a>
-                                                </li>
-                                            </ul>
-
-                                            <div class="tab-content">
-                                                <div class="tab-pane fade in active"
-                                                     id="services-{{ service }}-comms">
-                                                    <div class="panel-group"
-                                                         id="project-comm-config-{{ service }}">
-                                                        {% for comm in project[service]['send_to'] %}
-
-                                                            <div class="panel-heading">
-                                                                <a data-toggle="collapse"
-                                                                   data-parent="#project-comm-config-{{ service }}"
-                                                                   href="#collapse-{{ service }}-{{ comm }}">
-                                                                    <h4 class="panel-title">
-                                                                        {{ comm | title }}
-                                                                    </h4>
-                                                                </a>
-                                                            </div>
-                                                            <div id="collapse-{{ service }}-{{ comm }}"
-                                                                 class="panel-collapse collapse">
-                                                                <div class="panel-body project-config">
-                                                                    {% with fields=comms[comm].get_comm_project_config_model(), config=project[service]['send_to'][comm], wide=true, field_prefix='send_to.'+comm %}
-                                                                        {% include "admin/helper/form/form.html" %}
-                                                                    {% endwith %}
-                                                                </div>
-                                                            </div>
-
-                                                        {% endfor %}
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane fade"
-                                                     id="services-{{ service }}-scripts">
-                                                    <div class="row-striped service-config">
-                                                        {% if 'scripts' in project[service] %}
-                                                            {% for event in project.get(service,{}).get('scripts', []) %}
-                                                                <h4>{{ event }}</h4>
-                                                                {% with name=event, value=project.get(service,{}).get('scripts', []).get(event),field_prefix='scripts' %}
-                                                                    {% include "admin/helper/form/array.html" %}
-                                                                {% endwith %}
-                                                            {% endfor %}
-                                                        {% endif %}
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <input type="submit" class="btn btn-success" value="Save"/>
-                        </form>
                     </div>
+                {% endfor %}
                 </div>
             </div>
-        {% endfor %}
+        </div>
     </div>
-{% endblock %}
+</div>
+
+<div class="panel-group" id="project-service-config">
+    {% for service in project %}
+        {% set inactive="" %}
+        {% if loop.index == 1 %}
+            {% set inactive="collapse" %}
+        {% endif %}
+        {% include 'admin/configuration/projects/partials/project-panel.html' %}
+    {% endfor %}
+</div>

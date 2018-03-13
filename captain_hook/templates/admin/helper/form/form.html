@@ -30,9 +30,11 @@
                     {% endif %}
                 {% endfor %}
                 {% if field_prefix in config %}
-                    {% set value=config[field_prefix][field.name] %}
-                {% else %}
-                    {% set value=config[field.name] %}
+                    {% set value=config.get(field_prefix, {}).get(field.name, '') %}
+                {% elif field.name in config %}
+                    {% set value=config.get(field.name, '') %}
+                    {% else %}
+                    {% set value='' %}
                 {% endif %}
 
 

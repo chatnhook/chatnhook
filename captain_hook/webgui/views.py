@@ -50,7 +50,7 @@ class AdminIndexView(admin.AdminIndexView):
     @expose('/dist/<path:path>')
     def send_dist(self, path):
         first_dir = path.split('/')[0]
-        if first_dir in ['css', 'js', 'fonts']:
+        if first_dir in ['css', 'js', 'fonts', 'images']:
             return send_from_directory(os.path.join(self.app.root_path, 'webgui/dist'), path)
         else:
             return render_template('404.html'), 404
@@ -99,6 +99,47 @@ class AdminIndexView(admin.AdminIndexView):
         return render_template('admin/configuration/services.html', admin_view=self,
                                services=services)
 
+    @expose('/configuration/projects/new', ['GET', 'POST'])
+    def new_project(self):
+        self.header = 'Creating new project'
+        services = find_and_load_services(self.app_config, None)
+        comms = find_and_load_comms(self.app_config)
+
+        comm_list = list(comms.keys())
+        services_list = list(services.keys())
+        return render_template('admin/configuration/projects/new.html',
+                               admin_view=self,
+                               comm_list=comm_list,
+                               services_list=services_list
+                               )
+
+    @expose('/templates/<string:project_name>/<string:service>', ['GET', 'POST'])
+    def get_template(self, project_name, service):
+        try:
+            if not Authorization.is_authorized(self.app_config, 'github'):
+                return redirect(url_for('.login_view'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
+        self.set_user_data()
+
+        services = find_and_load_services(self.app_config, None)
+        comms = find_and_load_comms(self.app_config)
+        project = {
+            service: {
+                'send_to': {
+
+                }
+            }
+        }
+        return render_template('admin/configuration/projects/partials/project-panel.html',
+                               admin_view=self,
+                               comms=comms,
+                               service=service,
+                               services=services,
+                               project=project,
+                               project_name=project_name
+                               )
+
     @expose('/configuration/projects/<string:project>', ['GET', 'POST'])
     def project_config(self, project):
         try:
@@ -112,6 +153,16 @@ class AdminIndexView(admin.AdminIndexView):
             data = json.loads(request.data)
             service = data.get('service_name')
             del data['service_name']
+
+            if not self.app_config.get('hooks'):
+                self.app_config['hooks'] = {}
+
+            if not self.app_config.get('hooks', {}).get(project):
+                self.app_config['hooks'][project] = {}
+
+            if not self.app_config.get('hooks').get(project).get(service):
+                self.app_config['hooks'][project][service] = {}
+
             self.app_config['hooks'][project][service] = data
             config.save_config(self.app_config)
             print 'Config saved'
@@ -122,12 +173,17 @@ class AdminIndexView(admin.AdminIndexView):
         services = find_and_load_services(self.app_config, None)
         comms = find_and_load_comms(self.app_config)
 
-        return render_template('admin/configuration/projects/edit.html',
+        comm_list = list(comms.keys())
+        services_list = list(services.keys())
+        services_list.remove('telegram')
+        return render_template('admin/configuration/projects/edit_main.html',
                                admin_view=self,
                                project=project_config,
                                project_name=project,
                                comms=comms,
-                               services=services
+                               services=services,
+                               comm_list=comm_list,
+                               services_list=services_list
                                )
 
     @expose('/configuration/projects')
@@ -174,9 +230,12 @@ class AdminIndexView(admin.AdminIndexView):
             if not self.app_config.get('auth', {}).get(user_data.get('auth_provider')):
                 return jsonify({'success': False})
 
-            if not user_data.get('id') in self.app_config['auth'][user_data.get('auth_provider')]['allowed_users']:
-                self.app_config['auth'][user_data.get('auth_provider')]['allowed_users'].append(user_data.get('id'))
-                self.app.auth.remove_user_from_pending_list(user_data.get('auth_provider'), user_data.get('id'))
+            if not user_data.get('id') in self.app_config['auth'][user_data.get('auth_provider')][
+                'allowed_users']:
+                self.app_config['auth'][user_data.get('auth_provider')]['allowed_users'].append(
+                    user_data.get('id'))
+                self.app.auth.remove_user_from_pending_list(user_data.get('auth_provider'),
+                                                            user_data.get('id'))
                 config.save_config(self.app_config)
                 return jsonify({'success': True})
 
@@ -196,10 +255,11 @@ class AdminIndexView(admin.AdminIndexView):
             if not self.app_config.get('auth', {}).get(user_data.get('auth_provider')):
                 return jsonify({'success': False})
 
-
-            self.app.auth.remove_user_from_pending_list(user_data.get('auth_provider'), user_data.get('id'))
+            self.app.auth.remove_user_from_pending_list(user_data.get('auth_provider'),
+                                                        user_data.get('id'))
             try:
-                self.app_config['auth'][user_data.get('auth_provider')]['allowed_users'].remove(user_data.get('id'))
+                self.app_config['auth'][user_data.get('auth_provider')]['allowed_users'].remove(
+                    user_data.get('id'))
             except ValueError:
                 pass
 

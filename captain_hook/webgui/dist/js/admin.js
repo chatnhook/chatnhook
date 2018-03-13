@@ -43,6 +43,17 @@ $(function () {
         }
     });
 
+    function getProjectName() {
+        var project;
+        if (window.location.href.indexOf('configuration/projects/') > 0) {
+            project = window.location.href.split('configuration/projects/').pop();
+            if(project == 'new'){
+            project = $('#new_project_name').val();
+            }
+        }
+        return project
+    }
+
     var url = window.location;
     var element = $('ul.nav a').filter(function () {
         return this.href == url;
@@ -53,11 +64,15 @@ $(function () {
 
     $('[data-toggle="tooltip"]').tooltip();
 
-    $('.project_edit_form').submit(function (e) {
+    $('body').on('submit', '.project_edit_form', function (e) {
         e.preventDefault();
+        if (!confirm('save?')) {
+            return false;
+        }
         var data = $(this).serializeJSON();
+        var project_name = getProjectName()
         $.ajax({
-            url: window.location.href,
+            url: '/admin/configuration/projects/'+ project_name,
             type: "POST",
             dataType: 'json',
             data: data,
@@ -66,6 +81,44 @@ $(function () {
                 if (result.hasOwnProperty('success') && result.success) {
                     notify('Configuration saved!');
                 }
+            },
+            error: function (xhr, resp, text) {
+                console.log(xhr, resp, text);
+            }
+        });
+    });
+
+    $('#addServiceModal').on('shown.bs.modal', function (e) {
+        var height = 0;
+        $('.service_col').each(function () {
+            if ($(this).height() > height) {
+                height = $(this).height();
+            }
+        });
+        $('.service_col').height(height);
+    });
+
+    $('body').on('click', '.service_col', function () {
+        $('#addServiceModal').modal('hide');
+        var project_name = getProjectName();
+        var service = $(this).data('service');
+        var abort;
+        $('[name="service_name"]').each(function () {
+            if ($(this).val() == service) {
+                notify('This service already exists!', 'warning');
+                abort = true;
+            }
+        });
+        if (abort) {
+            return false;
+        }
+        $.ajax({
+            url: '/admin/templates/' + project_name + '/' + service,
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                console.log(result)
+                $('#project-service-config').append(result);
             },
             error: function (xhr, resp, text) {
                 console.log(xhr, resp, text);
