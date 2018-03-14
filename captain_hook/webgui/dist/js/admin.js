@@ -69,8 +69,9 @@ $(function () {
         if (!confirm('save?')) {
             return false;
         }
-        var data = $(this).serializeJSON();
-        var project_name = getProjectName()
+        var data = $('.project_edit_form').serializeJSON();
+        var project_name = getProjectName();
+
         $.ajax({
             url: '/admin/configuration/projects/' + project_name,
             type: "POST",

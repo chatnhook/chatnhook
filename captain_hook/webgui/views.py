@@ -159,19 +159,14 @@ class AdminIndexView(admin.AdminIndexView):
 
         if request.method == 'POST':
             data = json.loads(request.data)
-            service = data.get('service_name')
             del data['service_name']
-
             if not self.app_config.get('hooks'):
                 self.app_config['hooks'] = {}
 
             if not self.app_config.get('hooks', {}).get(project):
                 self.app_config['hooks'][project] = {}
 
-            if not self.app_config.get('hooks').get(project).get(service):
-                self.app_config['hooks'][project][service] = {}
-
-            self.app_config['hooks'][project][service] = data
+            self.app_config['hooks'][project] = data[project]
             config.save_config(self.app_config)
             print 'Config saved'
             return jsonify({'success': True})

@@ -5,12 +5,14 @@
 </script>
 
 <!-- Button trigger modal -->
-<button type="button" id="addServiceModalBtn" class="btn btn-primary m-b" data-toggle="modal" data-target="#addServiceModal">
+<button type="button" id="addServiceModalBtn" class="btn btn-primary m-b" data-toggle="modal"
+        data-target="#addServiceModal">
     Add service
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -20,26 +22,27 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                {% for service in services_list %}
-                    <div class="col-xs-2 service_col" data-service="{{ service }}">
-                        <img src="/admin/dist/images/{{ service }}.png" class="img-responsive" />
-                        <h4 class="text-center service-title">
-                            {{ service | title }}
-                        </h4>
-                    </div>
-                {% endfor %}
+                    {% for service in services_list %}
+                        <div class="col-xs-2 service_col" data-service="{{ service }}">
+                            <img src="/admin/dist/images/{{ service }}.png" class="img-responsive"/>
+                            <h4 class="text-center service-title">
+                                {{ service | title }}
+                            </h4>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<div class="panel-group" id="project-service-config">
-    {% for service in project %}
-        {% set inactive="" %}
-        {% if loop.index == 1 %}
-            {% set inactive="collapse" %}
-        {% endif %}
-        {% include 'admin/configuration/projects/partials/project-panel.html' %}
-    {% endfor %}
-</div>
+<form method="POST" class="project_edit_form">
+    <div class="panel-group" id="project-service-config">
+        {% for service in project %}
+            {% set inactive="" %}
+            {% if loop.index == 1 %}
+                {% set inactive="collapse" %}
+            {% endif %}
+            {% include 'admin/configuration/projects/partials/project-panel.html' %}
+        {% endfor %}
+    </div>
+</form>
