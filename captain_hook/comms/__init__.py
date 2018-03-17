@@ -38,7 +38,10 @@ def load_comms(comms, config):
     return loaded_comms
 
 
-def load_comm(comm, config, project_service_config={}):
+def load_comm(comm, config, project_service_config=None):
+    if not project_service_config:
+        project_service_config = []
+
     comm = import_service_module(comm)(config, project_service_config)
     comm.setup()
     return comm
