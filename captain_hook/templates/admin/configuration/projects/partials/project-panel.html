@@ -11,10 +11,19 @@
         <div class="panel-body">
 
             <input type="hidden" name="service_name" value="{{ service }}"/>
-            <div class="row">
+            <div class="row m-b">
                 <div class="col-xs-12">
-                    Webhook
-                    url: {{ admin_view.app_config.global.bot_url }}/{{ project_name }}/{{ service }}
+                    <label for="webhook_url">Webhook
+                    url:</label>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                     {% set webhook_url =  admin_view.app_config.global.bot_url  +'/'+ project_name+'/'+ service %}
+                    <div class="input-group">
+                        <input class="form-control select-all" id="webhook_url" type="text" value="{{webhook_url }}" name="webhook_url">
+                        <div class="input-group-addon copy" data-copy="{{ webhook_url }}" data-toggle="tooltip" title="Copy">
+                            <i class="fa fa-copy"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">

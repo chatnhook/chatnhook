@@ -25,6 +25,7 @@ function notify(text, type) {
 //collapses the sidebar on window resize.
 // Sets the min-height of #page-wrapper to window size
 $(function () {
+    var $body = $('body');
     $(window).bind("load resize", function () {
         topOffset = 50;
         width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
@@ -74,9 +75,47 @@ $(function () {
         element.addClass('active');
     }
 
+
+    $body.on('click', '.select-all', function () {
+        $(this).select();
+    });
+    $body.on('click', '[data-copy]', function () {
+        var targetId = "_hiddenCopyText_";
+        var origSelectionStart, origSelectionEnd;
+        // must use a temporary form element for the selection and copy
+        target = document.getElementById(targetId);
+        if (!target) {
+            var target = document.createElement("textarea");
+            target.style.position = "absolute";
+            target.style.left = "-9999px";
+            target.style.top = "0";
+            target.id = targetId;
+            document.body.appendChild(target);
+            target.textContent = $(this).data('copy');
+        }
+        console.log($(this).data('copy'));
+        // select the content
+        var currentFocus = document.activeElement;
+        target.focus();
+        target.setSelectionRange(0, target.value.length);
+
+        // copy the selection
+        var succeed;
+        try {
+            succeed = document.execCommand("copy");
+        } catch (e) {
+            succeed = false;
+        }
+        // restore original focus
+        if (currentFocus && typeof currentFocus.focus === "function") {
+            currentFocus.focus();
+        }
+        target.textContent = "";
+    });
+
     $('[data-toggle="tooltip"]').tooltip();
 
-    $('body').on('submit', '.project_edit_form', function (e) {
+    $body.on('submit', '.project_edit_form', function (e) {
         e.preventDefault();
         if (!confirm('save?')) {
             return false;
@@ -93,7 +132,7 @@ $(function () {
         });
     });
 
-    $('body').on('submit', '.comms_editing_form', function (e) {
+    $body.on('submit', '.comms_editing_form', function (e) {
         e.preventDefault();
         if (!confirm('save?')) {
             return false;
@@ -107,7 +146,7 @@ $(function () {
         });
     });
 
-    $('body').on('submit', '.settings_editing_form', function (e) {
+    $body.on('submit', '.settings_editing_form', function (e) {
         e.preventDefault();
         if (!confirm('save?')) {
             return false;
@@ -156,7 +195,7 @@ $(function () {
         });
     }
 
-    $('body').on('click', '.service_col', function () {
+    $body.on('click', '.service_col', function () {
         $('#addServiceModal').modal('hide');
         var project_name = getProjectName();
         var service = $(this).data('service');
