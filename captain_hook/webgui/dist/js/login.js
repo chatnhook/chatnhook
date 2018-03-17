@@ -19,6 +19,6 @@ $(document).ready(function () {
             }
         });
     });
-    $('#login_container').fadeIn(1000)
+    $('#login_container').fadeIn(1000);
 
 });
