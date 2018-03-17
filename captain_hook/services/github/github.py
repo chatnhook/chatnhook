@@ -13,10 +13,7 @@ class GithubService(BaseService):
         if not secret:
             secret = self.config.get('secret')
 
-        print 'Got secret: '+ secret
-        print(self.config)
-        print(self.project_service_config)
-        if secret:
+        if secret or request.headers.get('X-Hub-Signature', None):
             header_signature = request.headers.get('X-Hub-Signature', '')
             if header_signature is None:
                 abort(403)
