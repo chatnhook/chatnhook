@@ -52,7 +52,7 @@ $(function () {
                 project = $('#new_project_name').val();
             }
         }
-        return project
+        return project;
     }
 
     function doPost(url, data, callback, errorCallback) {
@@ -83,7 +83,7 @@ $(function () {
         var targetId = "_hiddenCopyText_";
         var origSelectionStart, origSelectionEnd;
         // must use a temporary form element for the selection and copy
-        target = document.getElementById(targetId);
+        var target = document.getElementById(targetId);
         if (!target) {
             var target = document.createElement("textarea");
             target.style.position = "absolute";
