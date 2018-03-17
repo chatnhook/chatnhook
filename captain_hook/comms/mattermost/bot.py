@@ -24,6 +24,11 @@ class MattermostComm(BaseComm):
             self.mattermost_bot.send(message, username=self.project_service_config['bot_name'])
 
     def get_comm_config_model(self):
+        channel_desc = 'If the project doesn\'t has channels configured.<br />' \
+                       'it will be send to this channel'
+
+        botname_desc = 'If the project doesn\'t has a bot name configured.<br />' \
+                       'This name will be used'
         return [
             {
                 'name': 'webhook_url',
@@ -35,18 +40,19 @@ class MattermostComm(BaseComm):
                 'name': 'channel',
                 'label': 'Channel',
                 'type': 'text',
-                'description': 'If the project doesn\'t has channels configured.<br />it will be send to this channel'
+                'description': channel_desc
             },
             {
                 'name': 'bot_name',
                 'label': 'Bot name',
                 'type': 'text',
-                'description': 'If the project doesn\'t has a bot name configured.<br />This name will be used'
+                'description': botname_desc
             },
         ]
 
-
     def get_comm_project_config_model(self):
+        botname = 'If the project doesn\'t has a botname configured<br />' \
+                  'it will be send to this channel'
         return [
             {
                 'name': 'enabled',
@@ -58,7 +64,7 @@ class MattermostComm(BaseComm):
                 'name': 'bot_name',
                 'label': 'Bot name',
                 'type': 'text',
-                'description': 'If the project doesn\'t has channels configured<br />it will be send to this channel'
+                'description': botname
             },
             {
                 'name': 'token',

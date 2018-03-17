@@ -24,6 +24,8 @@ class DiscordComm(BaseComm):
                                     username=self.config.get('bot_name'))
 
     def get_comm_config_model(self):
+        botname_desc = 'If the project doesn\'t has a bot name configured.<br />' \
+                       'This name will be used'
         return [
             {
                 'name': 'hook_url',
@@ -35,11 +37,13 @@ class DiscordComm(BaseComm):
                 'name': 'bot_name',
                 'label': 'Bot name',
                 'type': 'text',
-                'description': 'If the project doesn\'t has a bot name configured.<br />This name will be used'
+                'description': botname_desc
             },
         ]
 
     def get_comm_project_config_model(self):
+        botname_desc = 'If the project doesn\'t has channels configured<br />' \
+                       'it will be send to this channel'
         return [
             {
                 'name': 'enabled',
@@ -51,7 +55,7 @@ class DiscordComm(BaseComm):
                 'name': 'bot_name',
                 'label': 'Bot name',
                 'type': 'text',
-                'description': 'If the project doesn\'t has channels configured<br />it will be send to this channel'
+                'description': botname_desc
             },
             {
                 'name': 'token',

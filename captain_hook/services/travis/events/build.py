@@ -9,10 +9,12 @@ import datetime
 class BuildEvent(BaseEvent):
     def process(self, request, body):
         payload = json.loads(urllib.unquote(body.get('payload', '')))
-        if payload.get('result_message', '') not in self.project_service_config.get('settings', {}).get('results'):
+        results = self.project_service_config.get('settings', {}).get('results')
+        if payload.get('result_message', '') not in results:
             return {'default': ''}
 
-        if payload.get('branch') not in self.project_service_config.get('settings', {}).get('notify_branches'):
+        branches = self.project_service_config.get('settings', {}).get('notify_branches')
+        if payload.get('branch') not in branches:
             return {'default': ''}
 
         message = 'Build [{build_number}]({build_url}) -  [{commit}]({compare_url}) of' \

@@ -1,5 +1,4 @@
 import json
-import sys
 from flask_dance.contrib.github import github
 from flask_login import login_user, UserMixin
 

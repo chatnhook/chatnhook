@@ -9,7 +9,8 @@ class InspectionFailedEvent(BaseEvent):
         if branch not in self.project_service_config.get('settings', {}).get('notify_branches'):
             return False
 
-        if 'inspection.failed' not in self.project_service_config.get('settings', {}).get('events'):
+        events = self.project_service_config.get('settings', {}).get('events')
+        if 'inspection.failed' not in events:
             return False
 
         inspection = body.get('uuid', '').split('-')[-1]

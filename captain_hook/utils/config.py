@@ -1,6 +1,7 @@
 import yaml
 from os.path import join
 
+
 def load_config(config_path):
     config_file = open(join(config_path, 'config.yml'), 'rb')
     yaml_config = yaml.load(config_file.read())
@@ -16,6 +17,7 @@ def test_config(config=None):
         raise ValueError('Invalid config detected! Please update your config')
     return True
 
+
 def save_config(config):
     stream = open('test.yaml', 'w')
 
@@ -23,6 +25,6 @@ def save_config(config):
     stream.close()
 
     stream = open('test.yaml', 'r')
-    data = yaml.load(stream)
+    yaml.load(stream)
     stream.close()
     return True

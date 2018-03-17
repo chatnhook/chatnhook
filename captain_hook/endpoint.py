@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-import os
 import json
 from os.path import abspath, dirname
 from werkzeug.contrib.fixers import ProxyFix
-from flask import abort, g
+from flask import abort, g, jsonify
 from raven.contrib.flask import Sentry
 
 from flask import Flask, render_template, request

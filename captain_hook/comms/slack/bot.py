@@ -21,6 +21,7 @@ class SlackComm(BaseComm):
             self.slack_bot = slackweb.Slack(url=self.config.get('hook_url'))
             self.slack_bot.notify(text=message,
                                   username=self.config.get('bot_name'))
+
     def get_comm_config_model(self):
         return [
             {
@@ -32,6 +33,8 @@ class SlackComm(BaseComm):
         ]
 
     def get_comm_project_config_model(self):
+        botname_desc = 'If the project doesn\'t has channels configured<br />' \
+                       'it will be send to this channel'
         return [
             {
                 'name': 'enabled',
@@ -43,7 +46,7 @@ class SlackComm(BaseComm):
                 'name': 'bot_name',
                 'label': 'Bot name',
                 'type': 'text',
-                'description': 'If the project doesn\'t has channels configured<br />it will be send to this channel'
+                'description': botname_desc
             },
             {
                 'name': 'webhooks',

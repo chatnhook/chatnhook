@@ -40,7 +40,7 @@ class BaseService:
 
         if self.project_service_config.get('scripts', {}).get(event, False):
             for script in self.project_service_config \
-                .get('scripts', {}).get(event, False):
+                    .get('scripts', {}).get(event, False):
                 command = script.split(' ')
                 command.append(event)
                 command.append(json.dumps(body))
@@ -66,7 +66,7 @@ class BaseService:
                     'error': ''
                 }
                 if self.project_service_config \
-                    .get('send_to', {}).get(name, {}).get('enabled', True):
+                        .get('send_to', {}).get(name, {}).get('enabled', True):
                     comm = load_comm(name,
                                      self.global_config.get('comms', {}).get(name, {}),
                                      self.project_service_config.get('send_to', {}).get(name))

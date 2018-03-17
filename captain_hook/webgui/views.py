@@ -247,8 +247,8 @@ class AdminIndexView(admin.AdminIndexView):
             if not self.app_config.get('auth', {}).get(user_data.get('auth_provider')):
                 return jsonify({'success': False})
 
-            if not user_data.get('id') in self.app_config['auth'][user_data.get('auth_provider')][
-                'allowed_users']:
+            allowed_users = self.app_config['auth'][user_data.get('auth_provider')]['allowed_users']
+            if not user_data.get('id') in allowed_users:
                 self.app_config['auth'][user_data.get('auth_provider')]['allowed_users'].append(
                     user_data.get('id'))
                 self.app.auth.remove_user_from_pending_list(user_data.get('auth_provider'),

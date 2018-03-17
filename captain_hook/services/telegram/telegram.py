@@ -82,8 +82,6 @@ class TelegramService(BaseService):
         return next(iter(body))
 
     def get_service_config_model(self):
-        desc = 'This is the global %s, and will be used at all projects.<br />' \
-               'Unless configured on project level'
         return [
             {
                 'name': 'hostname',
