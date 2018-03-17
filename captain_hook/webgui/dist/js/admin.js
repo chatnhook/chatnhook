@@ -54,6 +54,18 @@ $(function () {
         return project
     }
 
+    function doPost(url, data, callback, errorCallback) {
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: 'json',
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            success: callback,
+            error: errorCallback
+        });
+    }
+
     var url = window.location;
     var element = $('ul.nav a').filter(function () {
         return this.href == url;
@@ -71,23 +83,40 @@ $(function () {
         }
         var data = $('.project_edit_form').serializeJSON();
         var project_name = getProjectName();
-
-        $.ajax({
-            url: '/admin/configuration/projects/' + project_name,
-            type: "POST",
-            dataType: 'json',
-            data: data,
-            contentType: "application/json; charset=utf-8",
-            success: function (result) {
-                if (result.hasOwnProperty('success') && result.success) {
-                    notify('Configuration saved!');
-                    if ($('#new_project_name').length > 0) {
-                        window.location.href = '/admin/configuration/projects/' + project_name
-                    }
+        doPost('/admin/configuration/projects/' + project_name, data, function (result) {
+            if (result.hasOwnProperty('success') && result.success) {
+                notify('Configuration saved!');
+                if ($('#new_project_name').length > 0) {
+                    window.location.href = '/admin/configuration/projects/' + project_name
                 }
-            },
-            error: function (xhr, resp, text) {
-                console.log(xhr, resp, text);
+            }
+        });
+    });
+
+    $('body').on('submit', '.comms_editing_form', function (e) {
+        e.preventDefault();
+        if (!confirm('save?')) {
+            return false;
+        }
+        var data = $('.comms_editing_form').serializeJSON();
+        var url = '/admin/configuration/comms';
+        doPost(url, data, function (result) {
+            if (result.hasOwnProperty('success') && result.success) {
+                notify('Configuration saved!');
+            }
+        });
+    });
+
+    $('body').on('submit', '.settings_editing_form', function (e) {
+        e.preventDefault();
+        if (!confirm('save?')) {
+            return false;
+        }
+        var data = $('.settings_editing_form').serializeJSON();
+        var url = '/admin/configuration/services';
+        doPost(url, data, function (result) {
+            if (result.hasOwnProperty('success') && result.success) {
+                notify('Configuration saved!');
             }
         });
     });
@@ -109,6 +138,7 @@ $(function () {
         $btn.data('html', true);
         $btn.tooltip();
     }
+
     var $newProjectInput = $('#new_project_name');
     if ($newProjectInput.length > 0) {
         var $btn = $('#addServiceModalBtn');

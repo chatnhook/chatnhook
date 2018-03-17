@@ -2,6 +2,7 @@
 {% extends "admin/master.html" %}
 
 {% block body %}
+    <form method="POST" class="settings_editing_form">
     <div class="panel panel-default">
         <div class="panel-body">
             <ul class="nav nav-tabs">
@@ -28,8 +29,9 @@
 
                         <div class="row-striped service-config">
                              {% if services[service].get_service_config_model() %}
-                             {% with fields=services[service].get_service_config_model(), config=admin_view.app_config.services[service], field_prefix=service %}
+                             {% with fields=services[service].get_service_config_model(), config=admin_view.app_config.services[service], field_prefix='services.'+service %}
                                 {% include "admin/helper/form/form.html" %}
+                                <input type="submit" class="btn btn-success" value="Save"/>
                             {% endwith %}
                                  {% else %}
                                  No config options available!
@@ -41,5 +43,5 @@
 
         </div>
     </div>
-
+    </form>
 {% endblock %}

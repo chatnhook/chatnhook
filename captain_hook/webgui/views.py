@@ -82,7 +82,7 @@ class AdminIndexView(admin.AdminIndexView):
         return render_template('admin/pages/dashboard.html', admin_view=self,
                                parseTime=self.parseTime)
 
-    @expose('/configuration/comms')
+    @expose('/configuration/comms', ['GET', 'POST'])
     def comm_config(self):
         try:
             if not Authorization.is_authorized(self.app_config, 'github'):
@@ -93,10 +93,18 @@ class AdminIndexView(admin.AdminIndexView):
         self.set_user_data()
 
         self.header = 'Comms configuration'
+
+        if request.method == 'POST':
+            data = json.loads(request.data)
+            data = data.get('comms', {})
+            self.app_config['comms'] = data
+            config.save_config(self.app_config)
+            return jsonify({'success': True})
+
         comms = find_and_load_comms(self.app_config)
         return render_template('admin/configuration/comms.html', admin_view=self, comms=comms)
 
-    @expose('/configuration/services')
+    @expose('/configuration/services', ['GET', 'POST'])
     def service_config(self):
         try:
             if not Authorization.is_authorized(self.app_config, 'github'):
@@ -106,6 +114,14 @@ class AdminIndexView(admin.AdminIndexView):
         self.set_user_data()
 
         self.header = 'Service configuration'
+
+        if request.method == 'POST':
+            data = json.loads(request.data)
+            data = data.get('services', {})
+            self.app_config['services'] = data
+            config.save_config(self.app_config)
+            return jsonify({'success': True})
+
         services = find_and_load_services(self.app_config, None)
 
         return render_template('admin/configuration/services.html', admin_view=self,
