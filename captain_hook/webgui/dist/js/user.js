@@ -31,8 +31,6 @@ $(document).ready(function () {
         if (btn.hasClass('auth')) {
             row = row.parent();
         }
-        console.log(row)
-        console.log(data, JSON.stringify(data))
         $.ajax({
             url: document.location.pathname + 'delete',
             type: "POST",
