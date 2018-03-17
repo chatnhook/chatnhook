@@ -1,6 +1,21 @@
 <!-- extend base layout -->
 {% extends "admin/master.html" %}
 {% block body %}
+    <div class="row m-b">
+                <div class="col-xs-12">
+                    <label for="webhook_url">Inspection
+                    url:</label>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                     {% set webhook_url =  admin_view.app_config.global.bot_url  +'/inspect' %}
+                    <div class="input-group">
+                        <input class="form-control select-all" id="webhook_url" type="text" value="{{webhook_url }}" name="webhook_url">
+                        <div class="input-group-addon copy" data-copy="{{ webhook_url }}" data-toggle="tooltip" title="Copy">
+                            <i class="fa fa-copy"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
     {% if admin_view.db_inspections is defined and  admin_view.db_inspections|length > 0 %}
     <div class="row m-b ">
         <div class="col-xs-12"><a href="{{ url_for('.webhook_inspector_clear') }}" class="btn btn-danger">Clear inspections</a></div>
