@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 from __future__ import absolute_import
+
+import SocketServer
 import json
 from os.path import abspath, dirname
 from werkzeug.contrib.fixers import ProxyFix
@@ -22,6 +25,7 @@ from utils.config import load_config
 from inspections import WebhookInspector
 from hooklog import Hooklog
 from webgui.auth import Authorization
+
 CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
 
 config = load_config(CONFIG_FOLDER)
@@ -40,6 +44,7 @@ isDev = config.get('global', {}).get('debug', False)
 if config.get('global', {}).get('enable_sentry', True) and not isDev:
     log.info('Crash reporting is enabled.')
     log.info('You can disable this by setting global.enable_sentry to false in your config')
+
     sentry = Sentry(application, dsn=dsn)
 
 
@@ -180,4 +185,10 @@ admin = admin.Admin(application,
 
 if __name__ == '__main__':
     init_services()
-    application.run(debug=False, host='0.0.0.0', threaded=True)
+    try:
+        application.run(debug=False, host='0.0.0.0', threaded=True)
+    except SocketServer.socket.error as ex:
+        if ex.args[0] != 98:
+            raise
+        else:
+            print('Port already in use')
