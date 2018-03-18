@@ -1,6 +1,5 @@
 from __future__ import absolute_import
 from ..base import BaseService
-from flask import abort
 
 class PatreonService(BaseService):
     def get_event(self, request, body):
