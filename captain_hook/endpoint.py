@@ -49,6 +49,11 @@ if config.get('global', {}).get('enable_sentry', True) and not isDev:
     log.info('You can disable this by setting global.enable_sentry to false in your config')
 
     sentry = Sentry(application, dsn=dsn)
+    sentry.extra_context(
+        {
+            'version': application.version
+        }
+    )
 
 
 def get_services(project_service_config=None):
