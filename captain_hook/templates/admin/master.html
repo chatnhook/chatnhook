@@ -3,18 +3,27 @@
 
 {% block page_body %}
 
-<div id="wrapper">
+    <div id="wrapper">
 
-    {{nav_bar(admin_view.header)}}	
+        {{ nav_bar(admin_view.header) }}
 
-	<div id="page-wrapper">
-		<div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">{{admin_view.header}}</h1>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{ admin_view.header }}</h1>
+                </div>
+                <!-- /.col-lg-12 -->
             </div>
-            <!-- /.col-lg-12 -->
+            {% block body %}{% endblock %}
+            <footer class="main-footer">
+                <div class="pull-right hidden-xs hidden-md">
+                    <b>Chat 'n' Version </b> <span id="version">v2.11.2<a class="alert-link"
+                                                                               href="https://github.com/chatnhook/chatnhook/releases">(Update available!)</a></span>
+
+                </div>
+            </footer>
         </div>
-	       {% block body %}{% endblock %}
-	</div>
-</div>
+
+    </div>
+
 {% endblock %}

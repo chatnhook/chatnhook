@@ -9,6 +9,8 @@ $menuLinkActiveColor: #5cb85c;
 
 #page-wrapper {
     min-height: calc(100vh - 51px);
+    position: relative;
+    padding-bottom: 25px;
 }
 
 .navbar-default {
@@ -101,4 +103,16 @@ $menuLinkActiveColor: #5cb85c;
 }
 .copy{
     cursor: pointer;
+}
+.main-footer{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.alert-link{
+    //display: none;
+    margin-left: 5px;
 }

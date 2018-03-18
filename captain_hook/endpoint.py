@@ -22,6 +22,7 @@ from logger import setup_logger
 from services import find_and_load_services
 from stats import BotStats
 from utils.config import load_config
+from utils.forward_request import forward_request
 from inspections import WebhookInspector
 from hooklog import Hooklog
 from webgui.auth import Authorization
@@ -83,6 +84,10 @@ def receive_webhook(service='', project=''):
         log.error('Service {} not found'.format(service))
         return 'Service not found'
 
+    if config.get('inspector', {}).get('inspect_hooks', False):
+        path = '/' + project + '/' + service
+        inspector.inspect(path, request)
+
     result = get_services(project_service_config)[service].execute(request,
                                                                    body,
                                                                    bot_stats,
@@ -119,9 +124,21 @@ def redirect(service, event, path):
 @application.route('/inspect', methods=['GET', 'POST', 'PATCH', 'DELETE'])
 @application.route('/inspect/<path:path>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
 def inspect(path=''):
+    if not config.get('inspector', {}).get('enabled', True):
+        abort(404)
+
+    key = config.get('inspector', {}).get('verification_key', False)
+    if key:
+        if key != request.args.get('verification_key', False):
+            abort(403)
+            return ''
+
     path = '/' + path
     inspector.inspect(path, request)
-    return ''
+    forward_url = config.get('inspector', {}).get('forward_url', False)
+    if forward_url:
+        response = forward_request(forward_url, request)
+        return response
 
 
 @application.route('/favicon.ico', methods=['GET'])

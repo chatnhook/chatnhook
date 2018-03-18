@@ -1,5 +1,5 @@
 {% for field in fields %}
-    <div class="row field-{{ field.type }}">
+    <div class="row field-{{ field.type }} m-b-sm">
         {% if not wide %}
             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-2">
         {% else %}
@@ -38,7 +38,7 @@
                 {% endif %}
 
 
-                {% with name=field.name, value=value,field_prefix=ns.field_prefix_joined %}
+                {% with name=field.name, value=value,field_prefix=ns.field_prefix_joined, values=field.get('values', []) %}
                     {% include "admin/helper/form/"+ field.type +".html" %}
                 {% endwith %}
             </div>

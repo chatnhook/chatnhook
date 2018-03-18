@@ -146,6 +146,21 @@ $(function () {
         });
     });
 
+
+    $body.on('submit', '.inspector_config_form', function (e) {
+        e.preventDefault();
+        if (!confirm('save?')) {
+            return false;
+        }
+        var data = $('.inspector_config_form').serializeJSON();
+        var url = '/admin/configuration/inspector';
+        doPost(url, data, function (result) {
+            if (result.hasOwnProperty('success') && result.success) {
+                notify('Configuration saved!');
+            }
+        });
+    });
+
     $body.on('submit', '.settings_editing_form', function (e) {
         e.preventDefault();
         if (!confirm('save?')) {

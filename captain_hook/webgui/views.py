@@ -127,6 +127,67 @@ class AdminIndexView(admin.AdminIndexView):
         return render_template('admin/configuration/services.html', admin_view=self,
                                services=services)
 
+    @expose('/configuration/inspector', ['GET', 'POST'])
+    def inspector_config(self):
+        try:
+            if not Authorization.is_authorized(self.app_config, 'github'):
+                return redirect(url_for('.login_view'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
+        self.set_user_data()
+
+        self.header = 'Inspector configuration'
+
+        self.inspector_config_form = [
+            {
+                'name': 'enabled',
+                'label': 'Enabled',
+                'type': 'checkbox',
+                'description': ''
+            },
+            {
+                'name': 'inspect_hooks',
+                'label': 'Inspect webhooks',
+                'type': 'checkbox',
+                'description': ''
+            },
+            {
+                'name': 'verification_key',
+                'label': 'Verification key',
+                'type': 'text',
+                'description': ''
+            },
+            {
+                'name': 'forward_url',
+                'label': 'Forward url',
+                'type': 'text',
+                'description': ''
+            },
+            {
+                'name': 'allowed_methods',
+                'label': 'Allowed methods',
+                'type': 'array_checkbox',
+                'values': [
+                    {'label': 'POST', 'value': 'POST'},
+                    {'label': 'PUT', 'value': 'PUT'},
+                    {'label': 'PATCH', 'value': 'PATCH'},
+                    {'label': 'GET', 'value': 'GET'},
+                    {'label': 'DELETE', 'value': 'DELETE'},
+                ],
+                'description': ''
+            },
+        ]
+
+        if request.method == 'POST':
+            data = json.loads(request.data)
+            data = data.get('inspector', {})
+            self.app_config['inspector'] = data
+            config.save_config(self.app_config)
+            return jsonify({'success': True})
+
+        return render_template('admin/configuration/inspector.html', admin_view=self,
+                               form=self.inspector_config_form)
+
     @expose('/configuration/projects/new', ['GET', 'POST'])
     def new_project(self):
         self.header = 'Creating new project'
