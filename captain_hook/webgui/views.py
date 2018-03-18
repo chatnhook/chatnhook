@@ -27,6 +27,7 @@ class AdminIndexView(admin.AdminIndexView):
         self.hook_log = hook_log
         self.app = app
         self.logged_in_user = ''
+        self.version = app.version
         self.services = find_and_load_services(self.app_config, None)
         self.comms = find_and_load_comms(self.app_config)
 

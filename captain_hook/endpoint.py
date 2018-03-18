@@ -35,6 +35,8 @@ application.wsgi_app = ProxyFix(application.wsgi_app)
 
 application.config['SECRET_KEY'] = '123456790'
 
+application.version = '1.0.0'
+
 bot_stats = BotStats()
 log = setup_logger()
 hook_log = Hooklog()
@@ -132,6 +134,10 @@ def inspect(path=''):
         if key != request.args.get('verification_key', False):
             abort(403)
             return ''
+
+    if request.method not in config.get('inspector', {}).get('allowed_methods'):
+        abort(403)
+        return ''
 
     path = '/' + path
     inspector.inspect(path, request)
