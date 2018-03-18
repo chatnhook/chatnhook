@@ -2,8 +2,6 @@ $(document).ready(function () {
     $('.accept').click(function () {
         var data = $(this).data('user');
         var row = $(this).parent().parent().parent();
-        console.log(row)
-        console.log(data, JSON.stringify(data))
         $.ajax({
             url: document.location.pathname + 'accept',
             type: "POST",
