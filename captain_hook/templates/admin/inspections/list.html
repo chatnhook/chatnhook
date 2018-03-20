@@ -8,7 +8,7 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4">
             {% if admin_view.app_config.get('inspector', {}).get('verification_key', '') %}
-                {% set webhook_url =  admin_view.app_config.global.bot_url  +'/inspect?verification_key='+ admin_view.app_config.get('inspector', {}).get('verification_key', '') %}
+                {% set webhook_url =  admin_view.app_config.global.bot_url  +'/inspect/'+ admin_view.app_config.get('inspector', {}).get('verification_key', '') %}
             {% else %}
                 {% set webhook_url =  admin_view.app_config.global.bot_url  +'/inspect' %}
             {% endif %}
@@ -40,7 +40,7 @@
                             <th>Method</th>
                             <th>URL</th>
                             <th>Remote ip</th>
-                            <th>Remote ip</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>

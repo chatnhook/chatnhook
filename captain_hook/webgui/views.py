@@ -176,8 +176,7 @@ class AdminIndexView(admin.AdminIndexView):
                     {'label': 'OPTIONS', 'value': 'OPTIONS'},
                     {'label': 'LINK', 'value': 'LINK'},
                     {'label': 'UNLINK', 'value': 'UNLINK'},
-                    {'label': 'PURGE', 'value': 'PURGE'},
-                    {'label': 'LOCK', 'value': 'LOCK'},
+                    {'label': 'PURGE', 'value': 'PR'},
                 ],
                 'description': ''
             },

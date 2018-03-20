@@ -129,14 +129,15 @@ def redirect(service, event, path):
 
 
 @application.route('/inspect', methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
-@application.route('/inspect/<path:path>', methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
-def inspect(path=''):
+@application.route('/inspect/<string:verification_key>', methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
+@application.route('/inspect/<string:verification_key>/<path:path>', methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
+def inspect(verification_key='', path=''):
     if not config.get('inspector', {}).get('enabled', True):
         abort(404)
 
     key = config.get('inspector', {}).get('verification_key', False)
     if key:
-        if key != request.args.get('verification_key', False):
+        if key != verification_key:
             return 'Invalid verification key', 403
 
     print(request.method)
