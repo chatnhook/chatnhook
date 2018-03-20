@@ -128,8 +128,8 @@ def redirect(service, event, path):
     return render_template('redirect.html', **data), result.get('status_code', 200)
 
 
-@application.route('/inspect', methods=['GET', 'POST', 'PATCH', 'DELETE'])
-@application.route('/inspect/<path:path>', methods=['GET', 'POST', 'PATCH', 'DELETE'])
+@application.route('/inspect', methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
+@application.route('/inspect/<path:path>', methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
 def inspect(path=''):
     if not config.get('inspector', {}).get('enabled', True):
         abort(404)
@@ -137,12 +137,12 @@ def inspect(path=''):
     key = config.get('inspector', {}).get('verification_key', False)
     if key:
         if key != request.args.get('verification_key', False):
-            abort(403)
-            return ''
+            return 'Invalid verification key', 403
 
+    print(request.method)
     if request.method not in config.get('inspector', {}).get('allowed_methods'):
-        abort(403)
-        return ''
+        abort(405)
+
 
     path = '/' + path
     inspector.inspect(path, request)
@@ -150,6 +150,8 @@ def inspect(path=''):
     if forward_url:
         response = forward_request(forward_url, request)
         return response
+    else:
+        return jsonify({'success': True})
 
 
 @application.route('/favicon.ico', methods=['GET'])

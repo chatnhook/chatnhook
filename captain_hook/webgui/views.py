@@ -102,8 +102,7 @@ class AdminIndexView(admin.AdminIndexView):
             config.save_config(self.app_config)
             return jsonify({'success': True})
 
-        comms = find_and_load_comms(self.app_config)
-        return render_template('admin/configuration/comms.html', admin_view=self, comms=comms)
+        return render_template('admin/configuration/comms.html', admin_view=self, comms=self.comms)
 
     @expose('/configuration/services', ['GET', 'POST'])
     def service_config(self):
@@ -123,10 +122,9 @@ class AdminIndexView(admin.AdminIndexView):
             config.save_config(self.app_config)
             return jsonify({'success': True})
 
-        services = find_and_load_services(self.app_config, None)
 
         return render_template('admin/configuration/services.html', admin_view=self,
-                               services=services)
+                               services=self.services)
 
     @expose('/configuration/inspector', ['GET', 'POST'])
     def inspector_config(self):
