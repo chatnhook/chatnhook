@@ -122,7 +122,6 @@ class AdminIndexView(admin.AdminIndexView):
             config.save_config(self.app_config)
             return jsonify({'success': True})
 
-
         return render_template('admin/configuration/services.html', admin_view=self,
                                services=self.services)
 
@@ -167,11 +166,18 @@ class AdminIndexView(admin.AdminIndexView):
                 'label': 'Allowed methods',
                 'type': 'array_checkbox',
                 'values': [
+                    {'label': 'GET', 'value': 'GET'},
                     {'label': 'POST', 'value': 'POST'},
                     {'label': 'PUT', 'value': 'PUT'},
                     {'label': 'PATCH', 'value': 'PATCH'},
-                    {'label': 'GET', 'value': 'GET'},
                     {'label': 'DELETE', 'value': 'DELETE'},
+                    {'label': 'COPY', 'value': 'COPY'},
+                    {'label': 'HEAD', 'value': 'HEAD'},
+                    {'label': 'OPTIONS', 'value': 'OPTIONS'},
+                    {'label': 'LINK', 'value': 'LINK'},
+                    {'label': 'UNLINK', 'value': 'UNLINK'},
+                    {'label': 'PURGE', 'value': 'PURGE'},
+                    {'label': 'LOCK', 'value': 'LOCK'},
                 ],
                 'description': ''
             },

@@ -102,7 +102,7 @@ def receive_webhook(service='', project=''):
                                                                    service,
                                                                    project)
     if result:
-        return result
+        return jsonify({'success': True})
     else:
         return 'Error during processing. See log for more info'
 
@@ -142,7 +142,6 @@ def inspect(path=''):
     print(request.method)
     if request.method not in config.get('inspector', {}).get('allowed_methods'):
         abort(405)
-
 
     path = '/' + path
     inspector.inspect(path, request)

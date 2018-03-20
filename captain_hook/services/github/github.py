@@ -17,8 +17,15 @@ class GithubService(BaseService):
             header_signature = request.headers.get('X-Hub-Signature', '')
             if header_signature is None:
                 abort(403)
-            sha_name, signature = header_signature.split('=')
-            if sha_name != 'sha1':
+
+            sha_name = None
+            signature = None
+            try:
+                sha_name, signature = header_signature.split('=')
+            except ValueError:
+                abort(403)
+
+            if sha_name and sha_name != 'sha1':
                 abort(501)
             # HMAC requires the key to be bytes, but data is string
             mac = hmac.new(

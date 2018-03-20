@@ -90,7 +90,7 @@ class BaseService:
                     comm_result['total'] -= 1
                     comm_result['services'][name]['error'] = message
             hook_log.log_hook(project, service, event, comm_result)
-            return "ok"
+            return True
         else:
             hook_log.log_hook(project, service, event, comm_result)
             return False
