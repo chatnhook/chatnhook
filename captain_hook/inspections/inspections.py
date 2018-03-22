@@ -18,7 +18,7 @@ class WebhookInspector():
         try:
             body = json.loads(req.data)
         except ValueError:
-            body = req.form
+            body = req.form.to_dict()
 
         guid = uuid.uuid4()
         request = {

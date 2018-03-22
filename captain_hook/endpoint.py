@@ -139,8 +139,8 @@ def inspect(verification_key='', path=''):
     if key:
         if key != verification_key:
             return 'Invalid verification key', 403
-
-    print(request.method)
+    else:
+        path = key + '/' + path
     if request.method not in config.get('inspector', {}).get('allowed_methods'):
         abort(405)
 
