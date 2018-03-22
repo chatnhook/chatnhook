@@ -6,7 +6,7 @@
         <div class="col-xs-12">
             <form method="POST" class="inspector_config_form">
 
-                    {% with fields=form, config=admin_view.app_config.get('inspector'), wide=false, field_prefix='inspector' %}
+                    {% with fields=form, config=admin_view.app_config.get('inspector', {}), wide=false, field_prefix='inspector' %}
                         {% include "admin/helper/form/form.html" %}
                     {% endwith %}
 
