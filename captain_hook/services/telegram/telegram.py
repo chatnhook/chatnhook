@@ -51,7 +51,12 @@ class TelegramService(BaseService):
         log.info('Found custom commands: ' + ', '.join(custom_command_list))
 
     def setup(self):
-        log.info('init telegram service')
+        if not self.config.get('enable_bot', False):
+            log.info('Telegram bot is disabled. '
+                     'Set services.telegram.enable_bot to true to enable it')
+            return
+        else:
+            log.info('Init telegram bot...')
 
         self.cert = False
         if self.config['server_cert']:

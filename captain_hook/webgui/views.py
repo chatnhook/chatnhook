@@ -83,6 +83,91 @@ class AdminIndexView(admin.AdminIndexView):
         return render_template('admin/pages/dashboard.html', admin_view=self,
                                parseTime=self.parseTime)
 
+    @expose('/log/inspector')
+    def webhook_inspector(self):
+        try:
+            if not Authorization.is_authorized(self.app_config, 'github'):
+                return redirect(url_for('.login_view'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
+        self.set_user_data()
+
+        self.header = 'Webhook inspector'
+        self.db_inspections = self.inspector.get_inspections()
+        return render_template('admin/inspections/list.html', admin_view=self,
+                               parseTime=self.parseTime)
+
+    @expose('/log/webhook-log')
+    def webhook_log(self):
+        try:
+            if not Authorization.is_authorized(self.app_config, 'github'):
+                return redirect(url_for('.login_view'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
+        self.set_user_data()
+
+        self.header = 'Recently processed webhooks'
+        self.recent_hooks = self.hook_log.get_logged_hooks()
+        return render_template('admin/webhooks/list.html', admin_view=self,
+                               parseTime=self.parseTime)
+
+    @expose('/inspector/show/<string:guid>')
+    def webhook_inspector_show(self, guid):
+        try:
+            if not Authorization.is_authorized(self.app_config, 'github'):
+                return redirect(url_for('.login_view'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
+        self.set_user_data()
+
+        self.header = 'Inspecting webhook'
+        inspection = self.inspector.get_inspection(guid)
+        return render_template('admin/inspections/show.html', admin_view=self,
+                               inspection=inspection, parseTime=self.parseTime)
+
+    @expose('/inspector/clear')
+    def webhook_inspector_clear(self):
+        try:
+            if not Authorization.is_authorized(self.app_config, 'github'):
+                return redirect(url_for('.login_view'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
+        self.set_user_data()
+
+        self.inspector.clear_inspections()
+
+        return redirect(url_for('.webhook_inspector'))
+
+    @expose('/webhook-log/clear')
+    def webhook_processed_clear(self):
+        try:
+            if not Authorization.is_authorized(self.app_config, 'github'):
+                return redirect(url_for('.login_view'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
+        self.set_user_data()
+
+        self.hook_log.clear_logged_hooks()
+
+        return redirect(url_for('.webhook_log'))
+
+    @expose('/configuration/telegram')
+    def telegram_bot_config(self):
+        try:
+            if not Authorization.is_authorized(self.app_config, 'github'):
+                return redirect(url_for('.login_view'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
+        self.set_user_data()
+
+        self.header = 'Telegram bot configuration'
+
+        if request.method == 'POST':
+            pass
+
+        return render_template('admin/configuration/telegram.html', admin_view=self,
+                               bot_config=self.app_config.get('services', {}).get('telegram'))
+
     @expose('/configuration/comms', ['GET', 'POST'])
     def comm_config(self):
         try:
@@ -349,74 +434,6 @@ class AdminIndexView(admin.AdminIndexView):
             return jsonify({'success': True})
 
         return jsonify({'success': False})
-
-    @expose('/inspector')
-    def webhook_inspector(self):
-        try:
-            if not Authorization.is_authorized(self.app_config, 'github'):
-                return redirect(url_for('.login_view'))
-        except UserNotFoundError:
-            return redirect(url_for('.login_view', error='denied'))
-        self.set_user_data()
-
-        self.header = 'Webhook inspector'
-        self.db_inspections = self.inspector.get_inspections()
-        return render_template('admin/inspections/list.html', admin_view=self,
-                               parseTime=self.parseTime)
-
-    @expose('/webhook-log')
-    def webhook_log(self):
-        try:
-            if not Authorization.is_authorized(self.app_config, 'github'):
-                return redirect(url_for('.login_view'))
-        except UserNotFoundError:
-            return redirect(url_for('.login_view', error='denied'))
-        self.set_user_data()
-
-        self.header = 'Recently processed webhooks'
-        self.recent_hooks = self.hook_log.get_logged_hooks()
-        return render_template('admin/webhooks/list.html', admin_view=self,
-                               parseTime=self.parseTime)
-
-    @expose('/inspector/show/<string:guid>')
-    def webhook_inspector_show(self, guid):
-        try:
-            if not Authorization.is_authorized(self.app_config, 'github'):
-                return redirect(url_for('.login_view'))
-        except UserNotFoundError:
-            return redirect(url_for('.login_view', error='denied'))
-        self.set_user_data()
-
-        self.header = 'Inspecting webhook'
-        inspection = self.inspector.get_inspection(guid)
-        return render_template('admin/inspections/show.html', admin_view=self,
-                               inspection=inspection, parseTime=self.parseTime)
-
-    @expose('/inspector/clear')
-    def webhook_inspector_clear(self):
-        try:
-            if not Authorization.is_authorized(self.app_config, 'github'):
-                return redirect(url_for('.login_view'))
-        except UserNotFoundError:
-            return redirect(url_for('.login_view', error='denied'))
-        self.set_user_data()
-
-        self.inspector.clear_inspections()
-
-        return redirect(url_for('.webhook_inspector'))
-
-    @expose('/webhook-log/clear')
-    def webhook_processed_clear(self):
-        try:
-            if not Authorization.is_authorized(self.app_config, 'github'):
-                return redirect(url_for('.login_view'))
-        except UserNotFoundError:
-            return redirect(url_for('.login_view', error='denied'))
-        self.set_user_data()
-
-        self.hook_log.clear_logged_hooks()
-
-        return redirect(url_for('.webhook_log'))
 
     @expose('/login/<string:error>')
     @expose('/login/')
