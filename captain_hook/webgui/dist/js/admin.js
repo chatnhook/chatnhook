@@ -1,7 +1,5 @@
 $(function () {
-
     $('#side-menu').metisMenu();
-
 });
 
 function notify(text, type) {
