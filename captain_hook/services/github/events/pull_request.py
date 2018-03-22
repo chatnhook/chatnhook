@@ -45,7 +45,7 @@ class PullRequestEvent(GithubEvent):
                       "[#{pull_request_number} {pull_request_title}]({pull_request_link})" \
                       " in [{repository_name}]({repository_link})"
 
-        if body['action'] == 'updated':
+        if body['action'] == 'synchronize':
             message = "[⛓]({pull_request_link}) [{username}]({user_link}) updated" \
                       " pull request " \
                       "[#{pull_request_number} {pull_request_title}]({pull_request_link})" \
