@@ -592,3 +592,6 @@ table.dataTable thead .sorting:after {
 .space-30 {
   margin: 30px 0;
 }
+.inline-block{
+    display: inline-block !important;
+}

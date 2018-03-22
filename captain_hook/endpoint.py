@@ -159,7 +159,7 @@ def favIcon():
 
 @application.route('/', methods=['GET'])
 def index():
-    return ''
+    return render_template('index.html')
 
 
 @application.route('/stats', methods=['GET'])
