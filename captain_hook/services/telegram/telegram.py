@@ -35,7 +35,7 @@ class TelegramService(BaseService):
             sleep(e.retry_after)
             self.register_webhook()
 
-    def register_commands(self):
+    def register_commands(self, return_commands=False):
         dir_path = os.path.dirname(os.path.realpath(__file__)) + '/commands/core'
         command_list = os.walk(dir_path).next()[1]
         dir_path = os.path.dirname(os.path.realpath(__file__)) + '/commands/custom'
@@ -49,6 +49,9 @@ class TelegramService(BaseService):
         # self.telegram_webhook.
         log.info('Found commands: ' + ', '.join(command_list))
         log.info('Found custom commands: ' + ', '.join(custom_command_list))
+
+        if return_commands:
+            return command_list + custom_command_list
 
     def setup(self):
         if not self.config.get('enable_bot', False):

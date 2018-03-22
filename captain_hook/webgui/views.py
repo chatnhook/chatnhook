@@ -8,7 +8,6 @@ from flask import redirect, url_for, request, render_template, jsonify, session,
 from datetime import datetime
 
 from flask_dance.contrib.github import make_github_blueprint
-
 from services import find_and_load_services
 from comms import find_and_load_comms
 from utils import config
@@ -151,7 +150,7 @@ class AdminIndexView(admin.AdminIndexView):
 
         return redirect(url_for('.webhook_log'))
 
-    @expose('/configuration/telegram')
+    @expose('/configuration/telegram-bot', ['GET', 'POST'])
     def telegram_bot_config(self):
         try:
             if not Authorization.is_authorized(self.app_config, 'github'):
@@ -162,11 +161,49 @@ class AdminIndexView(admin.AdminIndexView):
 
         self.header = 'Telegram bot configuration'
 
-        if request.method == 'POST':
-            pass
+        self.telegram_bot_config_form = [
+            {
+                'name': 'enable_bot',
+                'label': 'Enable bot',
+                'type': 'checkbox',
+                'description': ''
+            },
+            {
+                'name': 'token',
+                'label': 'Token',
+                'type': 'text',
+                'description': 'The same token as the telegram service will be used'
+            },
+            {
+                'name': 'hostname',
+                'label': 'Hostname',
+                'type': 'text',
+                'description': 'Hostname to use. Generally this is the same as the bot url'
+            },
+            {
+                'name': 'port',
+                'label': 'Port',
+                'type': 'text',
+                'description': 'Only change if Chat \'n\' Hook is running on a custom https port'
+            },
 
+        ]
+
+        if request.method == 'POST':
+            data = json.loads(request.data)
+            data = data.get('telegram', {})
+            if not data:
+                return jsonify({'success': False})
+
+            self.app_config.get('services', {})['telegram'] = data
+            config.save_config(self.app_config)
+            return jsonify({'success': True})
+        else:
+            commands = self.services['telegram'].register_commands(True)
         return render_template('admin/configuration/telegram.html', admin_view=self,
-                               bot_config=self.app_config.get('services', {}).get('telegram'))
+                               bot_config=self.app_config.get('services', {}).get('telegram'),
+                               bot_commands=commands,
+                               form=self.telegram_bot_config_form)
 
     @expose('/configuration/comms', ['GET', 'POST'])
     def comm_config(self):
@@ -183,6 +220,9 @@ class AdminIndexView(admin.AdminIndexView):
         if request.method == 'POST':
             data = json.loads(request.data)
             data = data.get('comms', {})
+            if not data:
+                return jsonify({'success': False})
+
             self.app_config['comms'] = data
             config.save_config(self.app_config)
             return jsonify({'success': True})
@@ -203,6 +243,9 @@ class AdminIndexView(admin.AdminIndexView):
         if request.method == 'POST':
             data = json.loads(request.data)
             data = data.get('services', {})
+            if not data:
+                return jsonify({'success': False})
+
             self.app_config['services'] = data
             config.save_config(self.app_config)
             return jsonify({'success': True})
@@ -270,6 +313,9 @@ class AdminIndexView(admin.AdminIndexView):
         if request.method == 'POST':
             data = json.loads(request.data)
             data = data.get('inspector', {})
+            if not data:
+                return jsonify({'success': False})
+
             self.app_config['inspector'] = data
             config.save_config(self.app_config)
             return jsonify({'success': True})
@@ -325,6 +371,9 @@ class AdminIndexView(admin.AdminIndexView):
 
         if request.method == 'POST':
             data = json.loads(request.data)
+            if not data:
+                return jsonify({'success': False})
+
             del data['service_name']
             if not self.app_config.get('hooks'):
                 self.app_config['hooks'] = {}
@@ -393,7 +442,8 @@ class AdminIndexView(admin.AdminIndexView):
         self.set_user_data()
         if request.data:
             user_data = json.loads(request.data)
-
+            if not user_data:
+                return jsonify({'success': False})
             if not self.app_config.get('auth', {}).get(user_data.get('auth_provider')):
                 return jsonify({'success': False})
 
@@ -418,7 +468,8 @@ class AdminIndexView(admin.AdminIndexView):
         self.set_user_data()
         if request.data:
             user_data = json.loads(request.data)
-
+            if not user_data:
+                return jsonify({'success': False})
             if not self.app_config.get('auth', {}).get(user_data.get('auth_provider')):
                 return jsonify({'success': False})
 

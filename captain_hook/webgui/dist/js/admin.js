@@ -175,6 +175,20 @@ $(function () {
         });
     });
 
+    $body.on('submit', '.telegram_bot_settings', function (e) {
+        e.preventDefault();
+        if (!confirm('save?')) {
+            return false;
+        }
+        var data = $('.telegram_bot_settings').serializeJSON();
+        var url = '/admin/configuration/telegram-bot';
+        doPost(url, data, function (result) {
+            if (result.hasOwnProperty('success') && result.success) {
+                notify('Configuration saved!');
+            }
+        });
+    });
+
     $('#addServiceModal').on('shown.bs.modal', function (e) {
         var height = 0;
         $('.service_col').each(function () {

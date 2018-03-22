@@ -129,8 +129,10 @@ def redirect(service, event, path):
 
 
 @application.route('/inspect', methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
-@application.route('/inspect/<string:verification_key>', methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
-@application.route('/inspect/<string:verification_key>/<path:path>', methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
+@application.route('/inspect/<string:verification_key>',
+                   methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
+@application.route('/inspect/<string:verification_key>/<path:path>',
+                   methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
 def inspect(verification_key='', path=''):
     if not config.get('inspector', {}).get('enabled', True):
         abort(404)
