@@ -1,7 +1,9 @@
 from __future__ import absolute_import
 from ..base import BaseService
-
-
+from flask import abort
+import hmac
+from hashlib import md5
+from sys import hexversion
 class PatreonService(BaseService):
     def get_event(self, request, body):
 
@@ -14,8 +16,26 @@ class PatreonService(BaseService):
 
         secret = self.project_service_config.get('settings', {}).get('secret', False)
         if secret:
-            if secret != request.header.get('X-Patreon-Signature', False):
-                return False
+            header_signature = request.headers.get('X-Hub-Signature', '')
+            if header_signature is None:
+                abort(403)
+
+            sha_name = None
+            signature = None
+            # HMAC requires the key to be bytes, but data is string
+            mac = hmac.new(
+                str(secret), msg=request.data, digestmod=md5)
+
+            # Python prior to 2.7.7 does not have hmac.compare_digest
+            if hexversion >= 0x020707F0:
+                if not hmac.compare_digest(str(mac.hexdigest()), str(signature)):
+                    abort(403)
+            else:
+                # What compare_digest provides is protection against timing
+                # attacks; we can live without this protection for a web-based
+                # application
+                if not str(mac.hexdigest()) == str(signature):
+                    abort(403)
 
         return request.headers.get('X-Patreon-Event').replace(':', '_')
 
