@@ -16,16 +16,13 @@ class PatreonService(BaseService):
 
         secret = self.project_service_config.get('settings', {}).get('secret', False)
         if secret:
-            header_signature = request.headers.get('X-Hub-Signature', '')
-            if header_signature is None:
+            signature = request.headers.get('X-Patreon-Signature', '')
+            if signature is None:
                 abort(403)
 
-            sha_name = None
-            signature = None
             # HMAC requires the key to be bytes, but data is string
             mac = hmac.new(
                 str(secret), msg=request.data, digestmod=md5)
-
             # Python prior to 2.7.7 does not have hmac.compare_digest
             if hexversion >= 0x020707F0:
                 if not hmac.compare_digest(str(mac.hexdigest()), str(signature)):
