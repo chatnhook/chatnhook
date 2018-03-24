@@ -1,11 +1,16 @@
-<div class="panel panel-default">
+<div class="panel panel-default" id="panel-{{ service }}">
     <div class="panel-heading">
-        <a data-toggle="collapse" data-parent="#project-service-config"
+        <a data-toggle="collapse" class="pull-left" data-parent="#project-service-config"
            href="#collapse{{ service }}">
             <h4 class="panel-title">
                 {{ service | title }}
+
             </h4>
         </a>
+        <a class="delete-service pull-right">
+            <i class="fa fa-trash" data-service="{{ service }}" data-toggle="confirmation" data-copy-attributes="data-service" data-placement="left" data-title="Delete service?" data-btn-ok-class="btn-xs btn-primary delete-service"></i>
+        </a>
+        <div class="clearfix"></div>
     </div>
     <div id="collapse{{ service }}" class="panel-collapse collapse newpanel">
         <div class="panel-body">

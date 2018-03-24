@@ -363,6 +363,31 @@ class AdminIndexView(admin.AdminIndexView):
                                project_name=project_name
                                )
 
+    @expose('/configuration/projects/<string:project>/delete', ['GET'])
+    def delete_project(self, project):
+        try:
+            if not Authorization.is_authorized(self.app_config, 'github'):
+                return redirect(url_for('.login_view'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
+        self.set_user_data()
+
+        del self.app_config.get('hooks', {})[project]
+
+        return redirect(url_for('.project_config_list'))
+
+    @expose('/configuration/projects/<string:project>/service/<string:service>', ['DELETE'])
+    def delete_service_from_project(self, project, service):
+        try:
+            if not Authorization.is_authorized(self.app_config, 'github'):
+                return redirect(url_for('.login_view'))
+        except UserNotFoundError:
+            return redirect(url_for('.login_view', error='denied'))
+        self.set_user_data()
+
+        del self.app_config['hooks'][project][service]
+        return jsonify({'success': True})
+
     @expose('/configuration/projects/<string:project>', ['GET', 'POST'])
     def project_config(self, project):
         try:

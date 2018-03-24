@@ -65,6 +65,18 @@ $(function () {
         });
     }
 
+    function doDelete(url, data, callback, errorCallback) {
+        $.ajax({
+            url: url,
+            type: "DELETE",
+            dataType: 'json',
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            success: callback,
+            error: errorCallback
+        });
+    }
+
     var url = window.location;
     var element = $('ul.nav a').filter(function () {
         return this.href == url;
@@ -144,6 +156,19 @@ $(function () {
         });
     });
 
+    $body.on('click', '.delete-service', function (e) {
+        var service = $(this).find('[data-service]').data('service');
+        var project_name = getProjectName();
+
+        e.preventDefault();
+        doDelete('/admin/configuration/projects/' + project_name + '/service/' + service, null, function (result) {
+            if (result.hasOwnProperty('success') && result.success) {
+                notify('Configuration saved!');
+                $('#panel-' + service).remove();
+            }
+        });
+        // e.cancelBubble();
+    });
 
     $body.on('submit', '.inspector_config_form', function (e) {
         e.preventDefault();
@@ -263,6 +288,13 @@ $(function () {
         });
     });
 
+    $('[data-toggle="confirmation"]').confirmation({
+        rootSelector: '[data-toggle="confirmation"]',
+        singleton: false,
+        btnOkIcon: 'fa fa-check',
+        btnCancelIcon: 'fa fa-times',
+        popout: true
+    });
 
     $('.counter').counterUp({
         delay: 5,
