@@ -30,7 +30,8 @@ class PledgesUpdateEvent(PatreonEvent):
         cents = body.get('data', {}).get('attributes', {}).get('amount_cents', 0)
         pledge_amount = '${:,.2f}'.format(cents / 100)
         message = '{patron} just updated their patreon pledge to ' \
-                  '*{amount}* / month to {creator_name} {campaign}, gaining the *{reward}* reward. '
+                  '*{amount}* / month to {campaign} from {creator_name},' \
+                  ' gaining the *{reward}* reward. '
         message = message.format(
             patron=patron.get('attributes', {}).get('full_name'),
             amount=pledge_amount,

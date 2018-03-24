@@ -24,14 +24,15 @@ class PledgesDeleteEvent(PatreonEvent):
                                            campaign.get('relationships', {}).get('creator').get(
                                                'data', {}).get('id'),
                                            body
-                                          )
+                                           )
         print(creator)
 
         # creator = self.getDataForTypeAndId('user', creator_id.get('data').get('id'), body)
 
         cents = body.get('data', {}).get('attributes', {}).get('amount_cents', 0)
         pledge_amount = '${:,.2f}'.format(cents / 100)
-        message = '{patron} removed their patreon pledge of *{amount}* to {creator_name} {campaign}'
+        message = '{patron} removed their patreon pledge of ' \
+                  '*{amount}* to {campaign} from {creator_name}'
         message = message.format(
             patron=patron.get('attributes', {}).get('full_name'),
             amount=pledge_amount,
