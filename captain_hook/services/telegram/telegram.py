@@ -2,11 +2,11 @@ from __future__ import absolute_import
 from ..base import BaseService
 import telegram
 from telegram.error import RetryAfter, TimedOut
-from flask import g
 from time import sleep
 import os
 import logging
 from .events.message import MessageEvent
+
 log = logging.getLogger('hookbot')
 
 
@@ -52,7 +52,7 @@ class TelegramService(BaseService):
         log.info('Found custom commands: ' + ', '.join(custom_command_list))
 
         if return_commands:
-            return {'core': command_list, 'custom': custom_command_list }
+            return {'core': command_list, 'custom': custom_command_list}
 
     def get_command_modules(self):
         commands = self.register_commands(True)

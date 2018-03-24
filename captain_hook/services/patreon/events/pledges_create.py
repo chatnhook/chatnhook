@@ -18,7 +18,7 @@ class PledgesCreateEvent(PatreonEvent):
                                            campaign.get('relationships', {}).get('creator').get(
                                                'data', {}).get('id'),
                                            body
-                                          )
+                                           )
         cents = body.get('data', {}).get('attributes', {}).get('amount_cents', 0)
         pledge_amount = '${:,.2f}'.format(cents / 100)
         message = '{patron} just pledged *{amount}* / month to {campaign} from {creator_name}, ' \

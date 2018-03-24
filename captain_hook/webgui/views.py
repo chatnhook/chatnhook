@@ -4,7 +4,8 @@ import flask_login as login
 import flask_admin as admin
 import os
 from flask_admin import expose
-from flask import redirect, url_for, request, render_template, jsonify, session, send_from_directory, g
+from flask import redirect, url_for, request, render_template, jsonify, session, \
+    send_from_directory, g
 from datetime import datetime
 
 from flask_dance.contrib.github import make_github_blueprint

@@ -3,7 +3,10 @@ from ..base import BaseService
 from flask import abort
 import hmac
 from hashlib import md5
+
 from sys import hexversion
+
+
 class PatreonService(BaseService):
     def get_event(self, request, body):
 
