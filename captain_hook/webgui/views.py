@@ -373,7 +373,7 @@ class AdminIndexView(admin.AdminIndexView):
         self.set_user_data()
 
         del self.app_config.get('hooks', {})[project]
-
+        config.save_config(self.app_config)
         return redirect(url_for('.project_config_list'))
 
     @expose('/configuration/projects/<string:project>/service/<string:service>', ['DELETE'])
@@ -386,6 +386,7 @@ class AdminIndexView(admin.AdminIndexView):
         self.set_user_data()
 
         del self.app_config['hooks'][project][service]
+        config.save_config(self.app_config)
         return jsonify({'success': True})
 
     @expose('/configuration/projects/<string:project>', ['GET', 'POST'])
