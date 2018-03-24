@@ -12,7 +12,7 @@ class PatreonService(BaseService):
             key = self.config.get('verification_key', False)
         if key:
             if key != request.args.get('verification_key', False):
-                return False
+                abort(403)
 
         secret = self.project_service_config.get('settings', {}).get('secret', False)
         if secret:
