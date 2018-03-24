@@ -12,6 +12,11 @@ class PatreonService(BaseService):
             if key != request.args.get('verification_key', False):
                 return False
 
+        secret = self.project_service_config.get('settings', {}).get('secret', False)
+        if secret:
+            if secret != request.header.get('X-Patreon-Signature', False):
+                return False
+
         return request.headers.get('X-Patreon-Event').replace(':', '_')
 
     def get_service_config_model(self):
@@ -35,6 +40,12 @@ class PatreonService(BaseService):
             {
                 'name': 'verification_key',
                 'label': 'Verification key',
+                'type': 'text',
+                'description': desc
+            },
+            {
+                'name': 'secret',
+                'label': 'Secret',
                 'type': 'text',
                 'description': desc
             }
