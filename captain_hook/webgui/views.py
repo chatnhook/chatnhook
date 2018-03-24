@@ -386,7 +386,6 @@ class AdminIndexView(admin.AdminIndexView):
         self.set_user_data()
 
         del self.app_config['hooks'][project][service]
-        config.save_config(self.app_config)
         return jsonify({'success': True})
 
     @expose('/configuration/projects/<string:project>', ['GET', 'POST'])

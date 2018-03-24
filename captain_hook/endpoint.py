@@ -186,6 +186,16 @@ def getstats():
         abort(404)
 
 
+@application.template_filter('jsonParse')
+def jsonParse(value):
+    return json.loads(value)
+
+
+@application.template_filter('jsonDump')
+def jsonDump(value):
+    return json.dumps(value, indent=4, sort_keys=True)
+
+
 def init_login():
     login_manager = login.LoginManager()
     login_manager.init_app(application)

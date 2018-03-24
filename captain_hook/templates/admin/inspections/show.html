@@ -70,10 +70,12 @@
 
     <div class="tab-content">
         <div class="tab-pane fade in active" id="inspect-body-tabitem1">
-                <pre class="prettyprint linenums">{{ inspection.body_raw }}</pre>
+                {% if True %}
+                <pre class="prettyprint linenums">{{ inspection.body_raw | jsonParse | jsonDump}}</pre>
+                {% endif %}
         </div>
         <div class="tab-pane fade" id="inspect-body-tabitem2">
-                <pre>{{ inspection.body_raw }}</pre>
+                <pre>{{ inspection.body_raw  }}</pre>
         </div>
     </div>
 
