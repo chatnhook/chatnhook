@@ -4,7 +4,7 @@ import flask_login as login
 import flask_admin as admin
 import os
 from flask_admin import expose
-from flask import redirect, url_for, request, render_template, jsonify, session, send_from_directory
+from flask import redirect, url_for, request, render_template, jsonify, session, send_from_directory, g
 from datetime import datetime
 
 from flask_dance.contrib.github import make_github_blueprint
@@ -199,7 +199,10 @@ class AdminIndexView(admin.AdminIndexView):
             config.save_config(self.app_config)
             return jsonify({'success': True})
         else:
-            commands = self.services['telegram'].register_commands(True)
+            commands = getattr(g, "_commands", None)
+            if commands is None:
+                commands = g._commands = self.services['telegram'].get_command_modules()
+
         return render_template('admin/configuration/telegram.html', admin_view=self,
                                bot_config=self.app_config.get('services', {}).get('telegram'),
                                bot_commands=commands,

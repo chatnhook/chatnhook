@@ -64,3 +64,6 @@ class BaseCommand:
             self.telegram_bot.send_document(chat_id=chat_id, document=document, **kwargs)
         except telegram.error.RetryAfter:
             pass
+
+    def command_template(self):
+        return []

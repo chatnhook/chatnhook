@@ -59,18 +59,50 @@
                     </div>
                     <div class="tab-pane fade" id="telegram-commands">
                         <h4>Commands</h4>
-                        <p>
-                            The following commands are registered by the bot
-                        </p>
-                        <ul>
+                        <ul class="nav nav-pills nav-stacked col-md-3">
                             {% for command in bot_commands %}
-                                <li>{{ command }}</li>
+                                {% set inactive="" %}
+                                {% if loop.index == 1 %}
+
+                                    {% set inactive="active" %}
+                                {% endif %}
+                                <li class="{{ inactive }}"><a href="#command-config-{{ command }}"
+                                                              data-toggle="tab">{{ command | title }}</a>
+                                </li>
                             {% endfor %}
                         </ul>
+                        <div class="tab-content col-md-9">
+                            {% for command in bot_commands %}
+                                {% set inactive="" %}
+                                {% if loop.index == 1 %}
+                                    {% set inactive="in active" %}
+                                {% endif %}
+                                <div class="tab-pane fade {{ inactive }}"
+                                     id="command-config-{{ command }}">
+                                    <h4>{{ command | title }}</h4>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <p>
+                                                {{ bot_commands[command].get_description() }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row-striped service-config">
+                                        {% if bot_commands[command].command_template() %}
+                                            {% with fields=bot_commands[command].command_template(), config=admin_view.app_config.get('services', {}).get('telegram', {}).get('plugins',{}).get(command, {}) , field_prefix='telegram.plugins.'+ command %}
+                                                {% include "admin/helper/form/form.html" %}
+                                                <input type="submit" class="btn btn-success"
+                                                       value="Save"/>
+                                            {% endwith %}
+                                        {% else %}
+                                            No config options available!
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </form>
