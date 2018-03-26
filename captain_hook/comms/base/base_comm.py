@@ -11,3 +11,9 @@ class BaseComm:
 
     def communicate(self, message):
         raise NotImplementedError
+
+    def get_comm_config_model(self):
+        return {}
+
+    def get_comm_project_config_model(self):
+        return {}

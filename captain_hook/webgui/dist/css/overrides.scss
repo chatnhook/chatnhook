@@ -1,0 +1,129 @@
+$menuBg: #337ab7;
+$menuLinkColor: #fff;
+$menuLinkHoverColor: #000;
+$menuLinkActiveColor: #5cb85c;
+
+#wrapper {
+    background-color: $menuBg;
+}
+
+#page-wrapper {
+    min-height: calc(100vh - 51px);
+    position: relative;
+    padding-bottom: 25px;
+}
+
+.navbar-default {
+    .navbar-brand {
+        color: $menuLinkColor;
+    }
+    background-color: $menuBg;
+    .nav a {
+        color: $menuLinkColor;
+
+    }
+    .navbar-top-links .dropdown li a {
+        color: $menuLinkHoverColor;
+    }
+    .sidebar-nav {
+        li {
+            border-bottom: none;
+            a {
+                &:hover {
+                    color: $menuLinkHoverColor;
+                }
+                &:focus {
+                    color: $menuLinkHoverColor;
+                }
+                &.active {
+                    background-color: $menuLinkActiveColor;
+                }
+                color: $menuLinkColor;
+            }
+        }
+    }
+}
+
+.tooltip-inner {
+    max-width: 350px;
+}
+
+.row-striped .row:nth-of-type(2n+1) {
+    background-color: #f9f9f9;
+}
+
+.service-config, .comm-config, .project-config {
+    .row .service-label {
+        min-height: 30px;
+        display: block;
+        padding: 10px 0;
+    }
+    .row .form-control {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+.panel-heading {
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+
+.field-array {
+    &.row {
+        .form-control {
+            margin: 0;
+        }
+    }
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.array-input {
+    margin: 0;
+    padding: 0;
+    li {
+        margin: 0;
+        margin-bottom: 10px;
+        padding: 0;
+        list-style: none;
+    }
+}
+
+.login-panel {
+    max-height: 520px;
+    max-width: 400px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.copy {
+    cursor: pointer;
+}
+
+.main-footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.alert-link {
+    //display: none;
+    margin-left: 5px;
+}
+
+#addServiceModal {
+    .service_col{
+        .img-responsive{
+            min-height: 120px;
+        }
+    }
+}

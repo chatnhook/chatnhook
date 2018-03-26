@@ -16,3 +16,15 @@ def test_config(config=None):
     if not config.get('hooks', False):
         raise ValueError('Invalid config detected! Please update your config')
     return True
+
+
+def save_config(config):
+    stream = open('test.yaml', 'w')
+
+    yaml.safe_dump(config, stream, default_flow_style=False)
+    stream.close()
+
+    stream = open('test.yaml', 'r')
+    yaml.load(stream)
+    stream.close()
+    return True

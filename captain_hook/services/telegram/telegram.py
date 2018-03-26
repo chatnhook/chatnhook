@@ -5,6 +5,7 @@ from telegram.error import RetryAfter, TimedOut
 from time import sleep
 import os
 import logging
+from .events.message import MessageEvent
 
 log = logging.getLogger('hookbot')
 
@@ -35,7 +36,7 @@ class TelegramService(BaseService):
             sleep(e.retry_after)
             self.register_webhook()
 
-    def register_commands(self):
+    def register_commands(self, return_commands=False):
         dir_path = os.path.dirname(os.path.realpath(__file__)) + '/commands/core'
         command_list = os.walk(dir_path).next()[1]
         dir_path = os.path.dirname(os.path.realpath(__file__)) + '/commands/custom'
@@ -50,8 +51,27 @@ class TelegramService(BaseService):
         log.info('Found commands: ' + ', '.join(command_list))
         log.info('Found custom commands: ' + ', '.join(custom_command_list))
 
+        if return_commands:
+            return {'core': command_list, 'custom': custom_command_list}
+
+    def get_command_modules(self):
+        commands = self.register_commands(True)
+        me = MessageEvent(self.config, self.config, None)
+        command_modules = {}
+        for type in commands:
+            for command in commands[type]:
+                command_module = me.process_command(command)
+                command_modules[command] = command_module
+
+        return command_modules
+
     def setup(self):
-        log.info('init telegram service')
+        if not self.config.get('enable_bot', False):
+            log.info('Telegram bot is disabled. '
+                     'Set services.telegram.enable_bot to true to enable it')
+            return
+        else:
+            log.info('Init telegram bot...')
 
         self.cert = False
         if self.config['server_cert']:
@@ -80,3 +100,25 @@ class TelegramService(BaseService):
 
     def get_event(self, request, body):
         return next(iter(body))
+
+    def get_service_config_model(self):
+        return [
+            {
+                'name': 'hostname',
+                'label': 'Hostname',
+                'type': 'text',
+                'description': 'Hostname to register at telegram API'
+            },
+            {
+                'name': 'server_cert',
+                'label': 'Server certificate',
+                'type': 'text',
+                'description': ''
+            },
+            {
+                'name': 'token',
+                'label': 'Bot token',
+                'type': 'text',
+                'description': 'Your bot token'
+            },
+        ]

@@ -28,3 +28,43 @@ class TelegramComm(BaseComm):
                 message,
                 parse_mode=telegram.ParseMode.MARKDOWN
             )
+
+    def get_comm_config_model(self):
+        channel_desc = 'If the project doesn\'t has channels configured<br />' \
+                       'it will be send to this channel'
+        return [
+            {
+                'name': 'token',
+                'label': 'Token',
+                'type': 'text',
+                'description': ''
+            },
+            {
+                'name': 'channel',
+                'label': 'Channel',
+                'type': 'text',
+                'description': channel_desc
+            },
+        ]
+
+    def get_comm_project_config_model(self):
+        return [
+            {
+                'name': 'enabled',
+                'label': 'Enabled',
+                'type': 'checkbox',
+                'description': ''
+            },
+            {
+                'name': 'token',
+                'label': 'Token',
+                'type': 'text',
+                'description': ''
+            },
+            {
+                'name': 'channels',
+                'label': 'Channels',
+                'type': 'array',
+                'description': ''
+            },
+        ]

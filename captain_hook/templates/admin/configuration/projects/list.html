@@ -1,0 +1,27 @@
+<!-- extend base layout -->
+{% extends "admin/master.html" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="m-b btn btn-success" href="{{ url_for('.new_project') }}">
+                Add project
+            </a>
+            <table class="table table-responsive table-striped">
+                <tr>
+                    <th>Project name</th>
+                    <th>Number of services</th>
+                    <th></th>
+                </tr>
+                {% for project in projects | reverse %}
+                    <tr>
+                        <td>{{ project }}</td>
+                        <td>{{ projects[project] | length}}</td>
+                        <td> <a href="{{ url_for('.project_config', project=project) }}">Edit</a> | <a  data-toggle="confirmation" data-title="Delete project?" class="text-danger" href="{{ url_for('.delete_project', project=project) }}" >Delete</a> </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

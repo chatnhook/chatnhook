@@ -52,19 +52,24 @@ class IssuesEvent(GithubEvent):
         status_code = 200
         if not api_result:
             status_code = 404
-        s = api_result.get('url').split('/')
-        repo = s[4] + '/' + s[5]
 
-        if api_result['state'] == 'closed':
+        title = ''
+        if not api_result.get('url'):
             status_code = 404
+        else:
+            s = api_result.get('url').split('/')
+            repo = s[4] + '/' + s[5]
+            title = '{issue_title} · Issue #{issue_number} · {repo}'.format(
+                issue_title=api_result.get('title', '').encode('utf-8'),
+                issue_number=str(api_result.get('number', '')),
+                repo=repo)
+            if api_result['state'] == 'closed':
+                status_code = 404
 
         redirect = {
-            'meta_title': '{issue_title} · Issue #{issue_number} · {repo}'.format(
-                issue_title=api_result.get('title').encode('utf-8'),
-                issue_number=str(api_result.get('number')),
-                repo=repo),
-            'meta_summary': api_result.get('body').split("\n")[0][0:100],
-            'poster_image': api_result.get('user', {}).get('avatar_url'),
+            'meta_title': title,
+            'meta_summary': api_result.get('body', '').split("\n")[0][0:100],
+            'poster_image': api_result.get('user', {}).get('avatar_url', ''),
             'redirect': api_result.get('html_url', ''),
             'status_code': status_code,
         }

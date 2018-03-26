@@ -1,0 +1,50 @@
+<!-- extend base layout -->
+{% extends "admin/loginbase.html" %}
+
+{% block body %}
+    <div class="container" id="login_container" style="display: none;">
+        <div class="login-panel">
+            <img class="img-responsive m-b"
+                 src="https://demo.identihub.co/assets/Chat'n'Hook_ICONS_18.svg">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Please Sign In</h3>
+                </div>
+                <div class="panel-body">
+                    {% if error == 'denied' %}
+                            <div class="alert alert-warning" id="denied" style="display: {% if not has_pending_request %}block{% else %}none{% endif %};">
+                                Oops! Seems that you account doesn't has access!<br/>
+                                <div class="btn btn-success" id="deniedBtn"
+                                     data-user-id="{{ github_authenticated_user.id }}"
+                                     data-auth-provider="{{ github_authenticated_user.auth_provider }}">
+                                    Request access
+                                </div>
+                            </div>
+
+                            <div class="alert alert-info" id="request_pending"  style="display: {% if has_pending_request %}block{% else %}none{% endif %};">
+                                    You have an authorization request pending.
+                            </div>
+
+                    {% endif %}
+                    <a class="btn btn-block btn-social btn-github"
+                       href="{{ github_login }}">
+                        <span class="fa fa-github"></span> Sign in with GitHub
+                    </a>
+{#                    <h3>Not working</h3>#}
+{#                    <a class="btn btn-block btn-social btn-google">#}
+{#                        <span class="fa fa-google"></span> Sign in with Google#}
+{#                    </a>#}
+{#                    <a class="btn btn-block btn-social btn-twitter">#}
+{#                        <span class="fa fa-twitter"></span> Sign in with Twitter#}
+{#                    </a>#}
+{#                    <a class="btn btn-block btn-social btn-dropbox">#}
+{#                        <span class="fa fa-dropbox"></span> Sign in with Dropbox#}
+{#                    </a>#}
+{#                    <a class="btn btn-block btn-social btn-microsoft">#}
+{#                        <span class="fa fa-windows"></span> Sign in with Microsoft Azure#}
+{#                    </a>#}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

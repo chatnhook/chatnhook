@@ -1,31 +1,59 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 from __future__ import absolute_import
 
+import SocketServer
 import json
 from os.path import abspath, dirname
-
-from flask import Flask, abort, g, jsonify, render_template, request
+from werkzeug.contrib.fixers import ProxyFix
+from flask import abort, g, jsonify
 from raven.contrib.flask import Sentry
+
+from flask import Flask, render_template, request
+
+import flask_admin as admin
+import flask_login as login
+
+from webgui.views import AdminIndexView
+from webgui.user import User
 
 from comms import find_and_load_comms
 from logger import setup_logger
 from services import find_and_load_services
 from stats import BotStats
 from utils.config import load_config
+from utils.forward_request import forward_request
+from inspections import WebhookInspector
+from hooklog import Hooklog
+from webgui.auth import Authorization
 
 CONFIG_FOLDER = dirname(dirname(abspath(__file__)))
 
 config = load_config(CONFIG_FOLDER)
 application = Flask(__name__)
+application.wsgi_app = ProxyFix(application.wsgi_app)
+
+application.config['SECRET_KEY'] = '123456790'
+
+application.version = '1.0.0'
+
 bot_stats = BotStats()
 log = setup_logger()
-
+hook_log = Hooklog()
+inspector = WebhookInspector()
+application.auth = Authorization()
 dsn = 'https://a3aa56ba615c4085ae8855ab78e4c021:a0f50be103034d9eb71331378e8f1da2@sentry.io/245538'
 isDev = config.get('global', {}).get('debug', False)
 if config.get('global', {}).get('enable_sentry', True) and not isDev:
     log.info('Crash reporting is enabled.')
     log.info('You can disable this by setting global.enable_sentry to false in your config')
+
     sentry = Sentry(application, dsn=dsn)
+    sentry.extra_context(
+        {
+            'version': application.version
+        }
+    )
 
 
 def get_services(project_service_config=None):
@@ -63,9 +91,18 @@ def receive_webhook(service='', project=''):
         log.error('Service {} not found'.format(service))
         return 'Service not found'
 
-    result = get_services(project_service_config)[service].execute(request, body, bot_stats)
+    if config.get('inspector', {}).get('inspect_hooks', False):
+        path = '/' + project + '/' + service
+        inspector.inspect(path, request)
+
+    result = get_services(project_service_config)[service].execute(request,
+                                                                   body,
+                                                                   bot_stats,
+                                                                   hook_log,
+                                                                   service,
+                                                                   project)
     if result:
-        return result
+        return jsonify({'success': True})
     else:
         return 'Error during processing. See log for more info'
 
@@ -91,6 +128,34 @@ def redirect(service, event, path):
     return render_template('redirect.html', **data), result.get('status_code', 200)
 
 
+@application.route('/inspect', methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
+@application.route('/inspect/<string:verification_key>',
+                   methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
+@application.route('/inspect/<string:verification_key>/<path:path>',
+                   methods=['GET', 'POST', 'PATCH', 'DELETE', 'PUT'])
+def inspect(verification_key='', path=''):
+    if not config.get('inspector', {}).get('enabled', True):
+        abort(404)
+
+    key = config.get('inspector', {}).get('verification_key', False)
+    if key:
+        if key != verification_key:
+            return 'Invalid verification key', 403
+    else:
+        path = key + '/' + path
+    if request.method not in config.get('inspector', {}).get('allowed_methods'):
+        abort(405)
+
+    path = '/' + path
+    inspector.inspect(path, request)
+    forward_url = config.get('inspector', {}).get('forward_url', False)
+    if forward_url:
+        response = forward_request(forward_url, request)
+        return response
+    else:
+        return jsonify({'success': True})
+
+
 @application.route('/favicon.ico', methods=['GET'])
 def favIcon():
     return ''
@@ -98,7 +163,7 @@ def favIcon():
 
 @application.route('/', methods=['GET'])
 def index():
-    return ''
+    return render_template('index.html')
 
 
 @application.route('/stats', methods=['GET'])
@@ -121,12 +186,51 @@ def getstats():
         abort(404)
 
 
+@application.template_filter('jsonParse')
+def jsonParse(value):
+    return json.loads(value)
+
+
+@application.template_filter('jsonDump')
+def jsonDump(value):
+    return json.dumps(value, indent=4, sort_keys=True)
+
+
+def init_login():
+    login_manager = login.LoginManager()
+    login_manager.init_app(application)
+
+    # Create user loader function
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.get(user_id)
+
+
 def init_services():
     with application.app_context():
         for service in get_services({}).itervalues():
             service.setup()
 
 
+# Initialize flask-login
+init_login()
+
+# Create admin
+admin = admin.Admin(application,
+                    'Chat \'n\' Hook',
+                    index_view=AdminIndexView(config=config,
+                                              inspector=inspector,
+                                              hook_log=hook_log,
+                                              app=application
+                                              ))
+# admin.add_view(BlankView(name='Blank', url='blank', endpoint='blank'))
+
 if __name__ == '__main__':
     init_services()
-    application.run(debug=False, host='0.0.0.0')
+    try:
+        application.run(debug=False, host='0.0.0.0', threaded=True)
+    except SocketServer.socket.error as ex:
+        if ex.args[0] != 98:
+            raise
+        else:
+            print('Port already in use')

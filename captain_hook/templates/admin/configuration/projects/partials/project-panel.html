@@ -1,0 +1,114 @@
+<div class="panel panel-default" id="panel-{{ service }}">
+    <div class="panel-heading">
+        <a data-toggle="collapse" class="pull-left" data-parent="#project-service-config"
+           href="#collapse{{ service }}">
+            <h4 class="panel-title">
+                {{ service | title }}
+
+            </h4>
+        </a>
+        <a class="delete-service pull-right">
+            <i class="fa fa-trash" data-service="{{ service }}" data-toggle="confirmation" data-copy-attributes="data-service" data-placement="left" data-title="Delete service?" data-btn-ok-class="btn-xs btn-primary delete-service"></i>
+        </a>
+        <div class="clearfix"></div>
+    </div>
+    <div id="collapse{{ service }}" class="panel-collapse collapse newpanel">
+        <div class="panel-body">
+
+            <input type="hidden" name="service_name" value="{{ service }}"/>
+            <div class="row m-b">
+                <div class="col-xs-12">
+                    <label for="webhook_url">Webhook
+                    url:</label>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                     {% set webhook_url =  admin_view.app_config.global.bot_url  +'/'+ project_name+'/'+ service %}
+                    <div class="input-group">
+                        <input class="form-control select-all" id="webhook_url" type="text" value="{{webhook_url }}" name="webhook_url">
+                        <div class="input-group-addon copy" data-copy="{{ webhook_url }}" data-toggle="tooltip" title="Copy">
+                            <i class="fa fa-copy"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <h4>Service config</h4>
+                    {% set field_p = project_name  +'.'+ service+'.' %}
+                    {% if service in project and services[service].get_service_project_config_model() %}
+
+                        {% with fields=services[service].get_service_project_config_model(), config=project.get(service, {}), wide=true, field_prefix=field_p+'settings' %}
+                            {% include "admin/helper/form/form.html" %}
+                        {% endwith %}
+                    {% else %}
+                        No config options available!
+                    {% endif %}
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#services-{{ service }}-comms"
+                                       data-toggle="tab">Comms</a>
+                                </li>
+                                <li class="">
+                                    <a href="#services-{{ service }}-scripts"
+                                       data-toggle="tab">Scripts</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active"
+                                     id="services-{{ service }}-comms">
+                                    <div class="panel-group"
+                                         id="project-comm-config-{{ service }}">
+                                        {% for comm in comms %}
+
+                                            <div class="panel-heading">
+                                                <a data-toggle="collapse"
+                                                   data-parent="#project-comm-config-{{ service }}"
+                                                   href="#collapse-{{ service }}-{{ comm }}">
+                                                    <h4 class="panel-title">
+                                                        {{ comm | title }}
+                                                    </h4>
+                                                </a>
+                                            </div>
+                                            <div id="collapse-{{ service }}-{{ comm }}"
+                                                 class="panel-collapse collapse">
+                                                <div class="panel-body project-config">
+                                                    {% with fields=comms[comm].get_comm_project_config_model(), config=project[service]['send_to'][comm], wide=true, field_prefix=field_p+'send_to.'+comm %}
+                                                        {% include "admin/helper/form/form.html" %}
+                                                    {% endwith %}
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade"
+                                     id="services-{{ service }}-scripts">
+                                    <div class="row-striped service-config">
+
+
+                                        {% for event in admin_view.get_service_events(service) %}
+                                            <h4>{{ event }}</h4>
+                                            {% with name=event, value=project.get(service,{}).get('scripts', {}).get(event, []),field_prefix='scripts' %}
+                                                {% include "admin/helper/form/array.html" %}
+                                            {% endwith %}
+                                        {% endfor %}
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <input type="submit" class="btn btn-success" value="Save"/>
+
+        </div>
+    </div>
+</div>

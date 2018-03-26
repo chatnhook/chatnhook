@@ -1,0 +1,89 @@
+#wrapper {
+  background-color: #337ab7; }
+
+#page-wrapper {
+  min-height: calc(100vh - 51px);
+  position: relative;
+  padding-bottom: 25px; }
+
+.navbar-default {
+  background-color: #337ab7; }
+  .navbar-default .navbar-brand {
+    color: #fff; }
+  .navbar-default .nav a {
+    color: #fff; }
+  .navbar-default .navbar-top-links .dropdown li a {
+    color: #000; }
+  .navbar-default .sidebar-nav li {
+    border-bottom: none; }
+    .navbar-default .sidebar-nav li a {
+      color: #fff; }
+      .navbar-default .sidebar-nav li a:hover {
+        color: #000; }
+      .navbar-default .sidebar-nav li a:focus {
+        color: #000; }
+      .navbar-default .sidebar-nav li a.active {
+        background-color: #5cb85c; }
+
+.tooltip-inner {
+  max-width: 350px; }
+
+.row-striped .row:nth-of-type(2n+1) {
+  background-color: #f9f9f9; }
+
+.service-config .row .service-label, .comm-config .row .service-label, .project-config .row .service-label {
+  min-height: 30px;
+  display: block;
+  padding: 10px 0; }
+.service-config .row .form-control, .comm-config .row .form-control, .project-config .row .form-control {
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
+.panel-heading {
+  color: #333;
+  background-color: #f5f5f5;
+  border-color: #ddd; }
+
+.field-array {
+  margin-top: 10px;
+  margin-bottom: 10px; }
+  .field-array.row .form-control {
+    margin: 0; }
+
+.array-input {
+  margin: 0;
+  padding: 0; }
+  .array-input li {
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    list-style: none; }
+
+.login-panel {
+  max-height: 520px;
+  max-width: 400px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto; }
+
+.copy {
+  cursor: pointer; }
+
+.main-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-left: 30px;
+  padding-right: 30px; }
+
+.alert-link {
+  margin-left: 5px; }
+
+#addServiceModal .service_col .img-responsive {
+  min-height: 120px; }
+
+/*# sourceMappingURL=overrides.css.map */

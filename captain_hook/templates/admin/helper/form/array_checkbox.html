@@ -1,0 +1,15 @@
+{% if field_prefix %}
+    {% set field_name = field_prefix+ '['+name+']' %}
+{% else %}
+    {% set field_name = name %}
+{% endif %}
+
+{% for val in values %}
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="{{field_name }}[]"
+                {% if val.get('value') in value %}
+                   checked="checked" {% endif %} value="{{ val.get('value') }}"/>{{ val.get('label') }}
+        </label>
+    </div>
+{% endfor %}

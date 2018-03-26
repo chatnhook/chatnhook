@@ -1,0 +1,28 @@
+{% from "admin/nav.html" import nav_bar with context %}
+{% extends 'admin/base.html' %}
+
+{% block page_body %}
+
+    <div id="wrapper">
+
+        {{ nav_bar(admin_view.header) }}
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{ admin_view.header }}</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            {% block body %}{% endblock %}
+            <footer class="main-footer">
+                <div class="pull-right hidden-xs hidden-md">
+                    <b>Chat 'n' hook Version </b> <span id="version">{{ admin_view.version }}</span>
+
+                </div>
+            </footer>
+        </div>
+
+    </div>
+
+{% endblock %}

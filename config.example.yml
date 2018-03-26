@@ -1,160 +1,194 @@
 global:
-  bot_url: "https://example.com"
+  bot_url: "https://xxxxxxx.xxxxxxx.com"
   debug: true
+
+auth:
+  github:
+    client_id: xxxxxxx
+    client_secret: xxxxxxx
+    allowed_users:
+      - brantje
+  google:
+    client_id: ''
+    client_secret: ''
+    allowed_users:
+      - my@domain.com
+
+
+
 
 comms:
   telegram:
-    token: "xxxxx:xxxxxx"
-    channel: "-xxxx"
+    enabled: true
+    token: "xxxxxxx:xxxxxxx"
+    channel: "-xxxxxxx"
   slack:
+    enabled: false
     hook_url: "slack_webhook_here"
   mattermost:
-    webhook_url: 'Mattermost_webhook_url'
+    enabled: false
+    hook_url: 'Mattermost_webhook_url'
     channel: 'test'
     bot_name: 'Bot'
   discord:
+    enabled: false
     hook_url: 'https://discordapp.com/api/webhooks/....../......'
     bot_name: 'Bot'
 
 services:
   github:
-    redirect: true
     secret: ''
-    token: 'xxxxxxxx'
+    token: 'xxxxxxx'
   bitbucket:
      token: ''
+     secret: '88888'
+  patreon:
+    verification_key: '123456'
   telegram:
-    hostname: 'xxxx.xxx.com'
+    hostname: 'xxxxxxx.xxxxxxx.com'
     server_cert: ''
     port: 443
     permissions:
         admins:
-            - user1
+            - brantje
         moderators:
-            - user2
-    token: "xxxxxx:xxxxxx"
+            - mrmaestroi
+    token: "xxxxxxx:xxxxxxx"
     plugins:
       giphy:
         apiKey: ''
       shodan:
-        apiKey: 'xxxx'
+        apiKey: 'xxxxxxx'
+
+inspector:
+  enabled: true
+  inspect_hooks: false
+  forward_url: ''
+  allowed_methods:
+    - POST
+    - PUT
+    - GET
+
+  verification_key: '3232'
+
 stats:
   enabled: true
 
+#--------------------------------------------------------------------------------------------------
 hooks:
   a_cool_project:
+    zabbix:
+      send_to:
+        telegram:
+          enabled: true
     github:
       settings:
+        secret: '123'
         notify_branches:
           - master
         disabled_events:
           - ping
+      scripts:
+        push:
+          - python script.py
+          - python script2.py
       send_to:
         telegram:
-          enabled: false
+          enabled: true
           channels:
-            - "-xxxxx"
-          token: "xx:xxx"
+            - "-xxxxxxx"
+          token: "487520611:AAHK0r4ACqZOgUHF4Kkv1wUlRDWMWSGrKuQ"
         discord:
             enabled: false
             bot_name: 'Bot'
             webhooks:
-              - 'https://discordapp.com/api/webhooks/xxxx/xxxxxxx'
+              - 'https://discordapp.com/api/webhooks/xxxxxxx/xxxxxxx-xxxxxxx'
         slack:
-          enabled: false
-          bot_name: 'Bot'
-          webhooks:
-            - 'https://hooks.slack.com/services/xxxx/xxxxx/xxxx'
-        mattermost:
           enabled: true
           bot_name: 'Bot'
           webhooks:
-            - 'https://mattermost.xxxxx.com/hooks/xxxx'
+            - 'https://hooks.slack.com/services/xxxxxxx/xxxxxxx/xxxxxxx'
 
     bitbucket:
+      settings:
+        secret: '13371337'
       send_to:
         telegram:
           enabled: true
           channels:
-            - "-xxx"
+            - "-xxxxxxx"
     codacy:
       send_to:
         telegram:
           enabled: true
           channels:
-            - "-xxx"
+            - "-xxxxxxx"
     patreon:
       send_to:
         telegram:
           enabled: true
           channels:
-            - "-xxxx"
+            - "-xxxxxxx"
     circleci:
       send_to:
         telegram:
           enabled: true
           channels:
-            - "-xxxx"
+            - "-xxxxxxx"
     docker:
       send_to:
         telegram:
           enabled: true
           channels:
-            - "-xxx"
-    gitlab:
-      send_to:
-        telegram:
-          enabled: true
-          channels:
-            - "-xxxx"
+            - "-xxxxxxx"
     pagerduty:
       send_to:
         telegram:
           enabled: true
           channels:
-            - "-xxxx"
+            - "-xxxxxxx"
     scrutinizer:
-      notify_branches:
-        - master
-      events:
-        - inspection.created
-        - inspection.completed
-        - inspection.canceled
-        - inspection.failed
+      settings:
+        notify_branches:
+          - master
+        events:
+          - inspection.created
+          - inspection.completed
+          - inspection.canceled
+          - inspection.failed
       send_to:
         telegram:
           enabled: true
           channels:
-            - "-xxxx"
+            - "-xxxxxxx"
     slack:
-      token: "xxxxxx"
+      token: "xxxxxxx"
       send_to:
         telegram:
           enabled: true
           channels:
-            - "-xxxx"
+            - "-xxxxxx"
     travis:
-      results:
-        - Passed
-        - Fixed
-        - Broken
-        - Failed
-        - Still Failing
-        - Errored
-      notify_branches:
-        - master
-        - some-test-branch
+      settings:
+        results:
+          - Passed
+          - Fixed
+          - Broken
+          - Failed
+          - Still Failing
+          - Errored
+        notify_branches:
+          - master
       send_to:
         telegram:
           enabled: true
           channels:
-            - "-xxxx"
-        slack:
-          enabled: true
-          hooks:
-            - "https://hooks.slack.com/services/xxxxxxx/xxxxxxx/xxxxxxx"
-          token: "xxxxxxx"
-
+            - "-xxxxxxx"
+#        slack:
+#          hooks:
+#            - "https://hooks.slack.com/services/xxxxxxx/xxxxxxx/xxxxxxx"
+#          token: "xxxxxxx"
+#s
 
   another-cool-project:
     github:
@@ -164,7 +198,7 @@ hooks:
       send_to:
         telegram:
           channels:
-            - "-xxxxxx"
+            - "-xxxxxxx"
 #          token: "xxxxxxx:xxxxxxx"
         slack:
           hooks:
@@ -174,7 +208,7 @@ hooks:
       settings:
         notify_branches:
           - master
-          - some-test-branch
+          - brantje-patch-1
         results:
           - Passed
           - Fixed
@@ -185,7 +219,7 @@ hooks:
       send_to:
         telegram:
           channels:
-            - "@passman_dev"
+            - "@xxxxx"
 #          token: "xxxxxxx:xxxxxxx"
         slack:
           hooks:

@@ -10,3 +10,6 @@ hook-bot.log
 hookbot.log
 daemon_config
 captain_hook/services/telegram/commands/custom
+bower_components
+test.yml
+test.yaml

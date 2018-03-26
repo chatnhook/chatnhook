@@ -1,0 +1,46 @@
+{% for field in fields %}
+    <div class="row field-{{ field.type }} m-b-sm">
+        {% if not wide %}
+            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-2">
+        {% else %}
+            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6">
+        {% endif %}
+        <span class="service-label">
+            {{ field.label }}<br/>
+            <small>{{ field.description | safe }}</small>
+        </span>
+
+            </div>
+     {% if not wide %}
+            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-3">
+        {% else %}
+            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        {% endif %}
+                {% if '.' in field_prefix %}
+                    {% set prefix_split = field_prefix.split('.') %}
+                {% else %}
+                    {% set prefix_split = [field_prefix] %}
+                {% endif %}
+                {% set ns = namespace(field_prefix_joined='') %}
+                {% for f in prefix_split %}
+                    {% if loop.index == 1 %}
+                            {% set ns.field_prefix_joined = f %}
+                        {% else %}
+                            {% set ns.field_prefix_joined = ns.field_prefix_joined + '['+ f + ']'  %}
+                    {% endif %}
+                {% endfor %}
+                {% if field_prefix in config %}
+                    {% set value=config.get(field_prefix, {}).get(field.name, '') %}
+                {% elif field.name in config %}
+                    {% set value=config.get(field.name, '') %}
+                    {% else %}
+                    {% set value='' %}
+                {% endif %}
+
+
+                {% with name=field.name, value=value,field_prefix=ns.field_prefix_joined, values=field.get('values', []) %}
+                    {% include "admin/helper/form/"+ field.type +".html" %}
+                {% endwith %}
+            </div>
+        </div>
+{% endfor %}

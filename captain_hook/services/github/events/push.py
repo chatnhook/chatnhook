@@ -18,8 +18,8 @@ class PushEvent(GithubEvent):
     def process(self, request, body):
         plural = 'changesets'
         branch = body.get('ref', '').split('/')[2]
-
-        if branch not in self.config.get('notify_branches'):
+        branches = self.project_service_config.get('settings', {}).get('notify_branches', [])
+        if branches and branch not in branches:
             return False
 
         if len(body.get('commits')) == 1:
@@ -31,6 +31,9 @@ class PushEvent(GithubEvent):
         repo_link = body.get('repository', {}).get('html_url')\
             .replace('https://github.com/', '')
 
+        branch_link = body.get('repository', {}).get('branches_url')\
+            .replace('{/branch}', '/'+branch).replace('https://api.github.com/repos/', '')
+
         params = {
             'username': body.get('sender', {}).get('login', ''),
             'user_link': self.build_redirect_link('github', 'push', user_link),
@@ -38,12 +41,13 @@ class PushEvent(GithubEvent):
             'plural': plural,
             'repository_name': body.get('repository', {}).get('full_name', ''),
             'repository_link': self.build_redirect_link('github', 'push', repo_link),
+            'branch_link': self.build_redirect_link('github', 'push', branch_link),
             'push_link': self.build_redirect_link('github', 'push', push_link),
             'ref': body.get('ref', '').replace('refs/heads/', ''),
         }
 
         message = "[🔨]({push_link}) [{username}]({user_link}) pushed {commit_amount} " \
-                  "{plural} to {ref} at [{repository_name}]({repository_link}): \n"
+                  "{plural} to [{ref}]({branch_link}) at [{repository_name}]({repository_link}): \n"
 
         # message += '```{body}```'
         message = message.format(**params)

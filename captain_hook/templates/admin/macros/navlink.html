@@ -1,0 +1,20 @@
+{% macro nav_link(name, url, active, icon) %}
+<li>
+    {% if name == active %}
+        <a class="active" href="{{ url }}">
+            {% if icon %}
+                <i class="fa fa-{{ icon }}"></i>
+            {% endif %}
+            {{ name }}
+        </a>
+    {% else %}
+
+        <a href="{{ url }}">
+             {% if icon %}
+                <i class="fa fa-{{ icon }}"></i>
+        {% endif %}
+            {{ name }}
+        </a>
+    {% endif %}
+</li>
+{% endmacro %}

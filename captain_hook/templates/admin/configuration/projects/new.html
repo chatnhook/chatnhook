@@ -1,0 +1,12 @@
+<!-- extend base layout -->
+{% extends "admin/master.html" %}
+
+{% block body %}
+    <div class="row">
+    <div class="col-xs-12">
+        <input type="text" id="new_project_name" />
+    </div>
+    </div>
+    {% include "admin/configuration/projects/edit.html" %}
+
+{% endblock %}

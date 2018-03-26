@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}{% if admin_view.header %}{{ admin_view.header }} - {% endif %} {{ admin_view.admin.name }}{% endblock %}</title>
+    {% block head_meta %}
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+    {% endblock %}
+    {% block head_css %}
+        <!-- Bootstrap Core CSS -->
+        <link href="/admin/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+        <!-- MetisMenu CSS -->
+        <link href="/admin/dist/css/metisMenu.min.css" rel="stylesheet" type="text/css">
+    
+        <!-- Custom CSS -->
+        <link href="/admin/dist/css/admin.css" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href="/admin/dist/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/admin/dist/css/overrides.css" rel="stylesheet">
+        <link href="/admin/dist/css/prettify.css" rel="stylesheet" type="text/css">
+
+    {% endblock %}
+    {% block head %}
+    {% endblock %}
+    {% block head_tail %}
+    {% endblock %}
+  </head>
+  <body>
+    {% block page_body %}
+      {% block body %}{% endblock %}
+    {% endblock %}
+
+    {% block tail_js %}
+        <!-- jQuery -->
+        <script src="/admin/dist/js/jquery.min.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="/admin/dist/js/bootstrap.min.js"></script>
+
+        <script src="/admin/dist/js/bootstrap-confirmation.min.js"></script>
+
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="/admin/dist/js/metisMenu.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/admin/dist/js/admin.js"></script>
+        <script src="/admin/dist/js/array-input.js"></script>
+        <script src="/admin/dist/js/jquery.serialize-object.min.js"></script>
+        <script src="/admin/dist/js/bootstrap-notify.min.js"></script>
+        <script src="/admin/dist/js/jquery.waypoints.min.js"></script>
+        <script src="/admin/dist/js/jquery.counterup.min.js"></script>
+        <script src="/admin/dist/js/prettify/run_prettify.js"></script>
+    {% endblock %}
+     {% block extra_js %}
+    {% endblock %}
+    {% block tail %}
+    {% endblock %}
+  </body>
+</html>

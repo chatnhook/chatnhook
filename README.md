@@ -54,18 +54,21 @@ Run with deamon (required for the `/update` telegram command):
 - Discord
 - Mattermost
 
+## Webinterface
+See our [wiki](http://chat-n-hook.readthedocs.io/en/latest/webinterface/index.html)
 
 ## Adding your own service
-See our [wiki](https://github.com/captainhookbot/captain_hook/wiki/Adding-a-service)  
+See our [wiki](http://chat-n-hook.readthedocs.io/en/latest/customization/adding-a-service.html)
 
 ## Adding your own events
-See our [wiki](https://github.com/captainhookbot/captain_hook/wiki/Adding-a-event)   
+See our [wiki](http://chat-n-hook.readthedocs.io/en/latest/customization/adding-a-event.html)
 
 ## Adding your comms
-See our [wiki](https://github.com/captainhookbot/captain_hook/Adding-a-comm)
+See our [wiki](http://chat-n-hook.readthedocs.io/en/latest/customization/adding-a-com.html)
 
 ## Contributors
 - Brantje
+- maestroi
 
 ## Error logging
 We use sentry.io for error logging. This enables us to trackdown issues quickly.

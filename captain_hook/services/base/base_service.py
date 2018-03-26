@@ -4,25 +4,28 @@ import importlib
 import json
 import logging
 import subprocess
-
+import os
+from os.path import abspath, dirname
+import sys
 import utils.config
 from comms import load_comm
 from utils import strings
 
 log = logging.getLogger('hookbot')
+CONFIG_FOLDER = dirname(dirname(dirname(dirname(abspath(__file__)))))
 
 
 class BaseService:
     def __init__(self, config, project_service_config):
         self.config = config
         self.project_service_config = project_service_config
-        self.global_config = utils.config.load_config('.')
+        self.global_config = utils.config.load_config(CONFIG_FOLDER)
         self.log = log
 
     def setup(self):
         pass
 
-    def execute(self, request, body, bot_stats):
+    def execute(self, request, body, bot_stats, hook_log, service, project):
         event = self.get_event(request, body)
         if not event:
             return "Unable to detect event"
@@ -35,8 +38,8 @@ class BaseService:
             if event in self.project_service_config.get('settings', {}).get('disabled_events'):
                 return 'Event disabled'
 
-        if self.project_service_config.get('settings', {}).get('scripts', {}).get(event, False):
-            for script in self.project_service_config.get('settings', {})\
+        if self.project_service_config.get('scripts', {}).get(event, False):
+            for script in self.project_service_config \
                     .get('scripts', {}).get(event, False):
                 command = script.split(' ')
                 command.append(event)
@@ -45,11 +48,24 @@ class BaseService:
 
         message_dict = self._get_event_processor(event)
         bot_stats.count_webhook(request.path[1:], event)
+
+        to_comms = self.project_service_config.get('send_to', {})
+
+        comm_result = {
+            'services': {},
+            'total': len(to_comms),
+            'success': 0
+        }
+
         if message_dict:
             message_dict = message_dict.process(request, body)
 
-            for name, comm in self.project_service_config.get('send_to', {}).items():
-                if self.project_service_config\
+            for name, comm in to_comms.items():
+                comm_result['services'][name] = {
+                    'result': False,
+                    'error': ''
+                }
+                if self.project_service_config \
                         .get('send_to', {}).get(name, {}).get('enabled', True):
                     comm = load_comm(name,
                                      self.global_config.get('comms', {}).get(name, {}),
@@ -58,9 +74,25 @@ class BaseService:
                     message = message_dict.get(name, default_message)
                     if message:
                         bot_stats.count_message(name)
-                        comm.communicate(message)
-            return "ok"
+                        try:
+                            comm.communicate(message)
+                            comm_result['services'][name]['result'] = True
+                            comm_result['success'] += 1
+                        except Exception as ex:
+                            template = "An exception of type {0} occurred."
+                            message = template.format(type(ex).__name__)
+                            comm_result['services'][name]['error'] = message
+                    else:
+                        comm_result['total'] -= 1
+                        comm_result['services'][name]['error'] = 'Not sending empty message'
+                else:
+                    message = "Service is disabled"
+                    comm_result['total'] -= 1
+                    comm_result['services'][name]['error'] = message
+            hook_log.log_hook(project, service, event, comm_result)
+            return True
         else:
+            hook_log.log_hook(project, service, event, comm_result)
             return False
 
     def redirect(self, request, event, params):
@@ -103,3 +135,26 @@ class BaseService:
             ".{}".format(event),
             package=package
         )
+
+    def get_config_template(self):
+        return 'No config options!'
+
+    def get_service_config_model(self):
+        return {}
+
+    def get_service_project_config_model(self):
+        return {}
+
+    def get_events(self):
+        package = "services.{}".format(
+            strings.toSnakeCase(
+                self.__class__.__name__.split('Service')[0]
+            )
+        )
+        path = sys.modules[package].__file__.replace('__init__.pyc', '') + '/events'
+        events = []
+        for f in os.listdir(path):
+
+            if '.pyc' not in f and f is not '__init__.py':
+                events.append(f.replace('.py', ''))
+        return events
