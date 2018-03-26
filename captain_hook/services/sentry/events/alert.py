@@ -16,8 +16,8 @@ class AlertEvent(BaseEvent):
             level = 'Error'
 
         trace = "{level} in *{culprit}*\n".format(culprit=body.get('culprit', ''),
-                                                              level=level,
-                                                              project=body.get('project_name',''))
+                                                  level=level,
+                                                  project=body.get('project_name', ''))
         trace += "{message} \n\n*Stacktrace* (most recent call last)\n".format(
             message=body.get('message', ''))
         for frame in frames:
