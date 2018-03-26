@@ -83,4 +83,7 @@
 .alert-link {
   margin-left: 5px; }
 
+#addServiceModal .service_col .img-responsive {
+  min-height: 120px; }
+
 /*# sourceMappingURL=overrides.css.map */

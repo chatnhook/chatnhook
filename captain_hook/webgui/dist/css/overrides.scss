@@ -101,10 +101,12 @@ $menuLinkActiveColor: #5cb85c;
     right: 0;
     margin: auto;
 }
-.copy{
+
+.copy {
     cursor: pointer;
 }
-.main-footer{
+
+.main-footer {
     position: absolute;
     left: 0;
     right: 0;
@@ -112,7 +114,16 @@ $menuLinkActiveColor: #5cb85c;
     padding-left: 30px;
     padding-right: 30px;
 }
-.alert-link{
+
+.alert-link {
     //display: none;
     margin-left: 5px;
+}
+
+#addServiceModal {
+    .service_col{
+        .img-responsive{
+            min-height: 120px;
+        }
+    }
 }
