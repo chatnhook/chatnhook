@@ -31,6 +31,7 @@ Run with deamon (required for the `/update` telegram command):
 ./daemon.sh install
 /etc/init.d/hook-bot start
 ```
+Acces the WebGui with the following url: https://YOURWEBSERVERADRES:5000/admin/
 
 ## Currently supported services and events
 
@@ -54,18 +55,12 @@ Run with deamon (required for the `/update` telegram command):
 - Discord
 - Mattermost
 
-
-## Adding your own service
-See our [wiki](https://github.com/captainhookbot/captain_hook/wiki/Adding-a-service)  
-
-## Adding your own events
-See our [wiki](https://github.com/captainhookbot/captain_hook/wiki/Adding-a-event)   
-
-## Adding your comms
-See our [wiki](https://github.com/captainhookbot/captain_hook/Adding-a-comm)
+## Documentation
+See our documentation on [Readthedocs](https://chatnhook.readthedocs.io/en/latest/)  
 
 ## Contributors
 - Brantje
+- Maestroi
 
 ## Error logging
 We use sentry.io for error logging. This enables us to trackdown issues quickly.
